@@ -1,0 +1,77 @@
+{
+  "events": [
+    {
+      "id": "1",
+      "title": "JavaScript Meetup",
+      "description": "Встреча frontend-разработчиков: JavaScript, браузер и современные подходы к разработке.",
+      "category": "tech",
+      "date": "2026-10-03T18:30:00",
+      "location": "Tech Hub",
+      "capacity": 30
+    },
+    {
+      "id": "2",
+      "title": "Art Workshop",
+      "description": "Практический мастер-класс по современной живописи.",
+      "category": "art",
+      "date": "2026-10-05T15:00:00",
+      "location": "Art Space",
+      "capacity": 15
+    },
+    {
+      "id": "3",
+      "title": "Rock Night",
+      "description": "Вечер живой музыки с несколькими местными группами.",
+      "category": "music",
+      "date": "2026-10-08T19:00:00",
+      "location": "Music Hall",
+      "capacity": 50
+    },
+    {
+      "id": "4",
+      "title": "Frontend Breakfast",
+      "description": "Неформальная утренняя встреча frontend-разработчиков за кофе.",
+      "category": "tech",
+      "date": "2026-10-10T10:00:00",
+      "location": "Coffee Point",
+      "capacity": 20
+    },
+    {
+      "id": "5",
+      "title": "Photography Walk",
+      "description": "Прогулка по городу для любителей уличной фотографии.",
+      "category": "art",
+      "date": "2026-10-12T12:00:00",
+      "location": "Central Park",
+      "capacity": 25
+    },
+    {
+      "id": "6",
+      "title": "Indie Music Evening",
+      "description": "Небольшой концерт независимых музыкантов.",
+      "category": "music",
+      "date": "2026-10-15T20:00:00",
+      "location": "Loft Stage",
+      "capacity": 40
+    },
+    {
+      "id": "7",
+      "title": "Web Performance Meetup",
+      "description": "Встреча о производительности современных веб-приложений.",
+      "category": "tech",
+      "date": "2026-10-18T18:00:00",
+      "location": "Tech Hub",
+      "capacity": 35
+    },
+    {
+      "id": "8",
+      "title": "Design Weekend",
+      "description": "Лекции и практические занятия по дизайну цифровых продуктов.",
+      "category": "art",
+      "date": "2026-10-24T11:00:00",
+      "location": "Design Center",
+      "capacity": 45
+    }
+  ],
+  "registrations": []
+}

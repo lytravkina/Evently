@@ -1,0 +1,11 @@
+{
+  "name": "evently",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "server": "json-server db.json --port 3000"
+  },
+  "devDependencies": {
+    "json-server": "^1.0.0-beta.15"
+  }
+}
