@@ -3,10 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="./styles.css" />
     <title>Document</title>
   </head>
-  <body>
+  <body class="body">
     <header class="header">
       <div class="logo">Event<span>ly</span></div>
       <nav class="menu">
@@ -24,11 +30,18 @@
       </section>
       <section class="events">
         <div class="events__filters">
-          <form class="search-form">
-            <input type="text" class="search-form__input" />
+          <form class="search-form form">
+            <input
+              type="text"
+              placeholder="Поиск по названию и описанию..."
+              class="search-form__input input"
+            />
           </form>
-          <form class="category-form">
-            <select class="category-form__select"></select>
+          <form class="category-form form">
+            <select class="category-form__select select">
+              <option value="Категория">Категория</option>
+              <option value="Категория2">Категория2</option>
+            </select>
           </form>
         </div>
         <div class="events__cards">
@@ -43,15 +56,101 @@
               </div>
               <div class="event-card__bottom">
                 <div class="event-card__details event-card__date">
-                  <span class="icon">
-                    <span class="icon__image">◷</span>
-                  </span>
+                  <div class="icon">
+                    <img
+                      class="icon__image"
+                      src="./assets/Time Square.svg"
+                      alt="Clock emoji"
+                    />
+                  </div>
                   <span class="date">12 октября, 19:00</span>
                 </div>
                 <div class="event-card__details event-card__location">
-                  <span class="icon">
-                    <span class="icon__image">⌖</span>
-                  </span>
+                  <div class="icon">
+                    <img
+                      class="icon__image"
+                      src="./assets/Location.svg"
+                      alt="Location pin emoji"
+                    />
+                  </div>
+                  <span class="location">Impact Hub</span>
+                </div>
+                <div class="event-card__details event-card__capacity">
+                  <span class="capacity"
+                    ><span class="capacity__number">24</span> мест</span
+                  >
+                </div>
+                <button class="button">Записаться</button>
+              </div>
+            </div>
+          </article>
+          <article class="event-card">
+            <div class="event-card__content">
+              <div class="event-card__top">
+                <div class="event-card__subtitle subtitle">Категория</div>
+                <h2 class="event-card__title title">Заголовок</h2>
+                <p class="event-card__description description">
+                  Описание мероприятия
+                </p>
+              </div>
+              <div class="event-card__bottom">
+                <div class="event-card__details event-card__date">
+                  <div class="icon">
+                    <img
+                      class="icon__image"
+                      src="./assets/Time Square.svg"
+                      alt="Clock emoji"
+                    />
+                  </div>
+                  <span class="date">12 октября, 19:00</span>
+                </div>
+                <div class="event-card__details event-card__location">
+                  <div class="icon">
+                    <img
+                      class="icon__image"
+                      src="./assets/Location.svg"
+                      alt="Location pin emoji"
+                    />
+                  </div>
+                  <span class="location">Impact Hub</span>
+                </div>
+                <div class="event-card__details event-card__capacity">
+                  <span class="capacity"
+                    ><span class="capacity__number">24</span> мест</span
+                  >
+                </div>
+                <button class="button">Записаться</button>
+              </div>
+            </div>
+          </article>
+          <article class="event-card">
+            <div class="event-card__content">
+              <div class="event-card__top">
+                <div class="event-card__subtitle subtitle">Категория</div>
+                <h2 class="event-card__title title">Заголовок</h2>
+                <p class="event-card__description description">
+                  Описание мероприятия
+                </p>
+              </div>
+              <div class="event-card__bottom">
+                <div class="event-card__details event-card__date">
+                  <div class="icon">
+                    <img
+                      class="icon__image"
+                      src="./assets/Time Square.svg"
+                      alt="Clock emoji"
+                    />
+                  </div>
+                  <span class="date">12 октября, 19:00</span>
+                </div>
+                <div class="event-card__details event-card__location">
+                  <div class="icon">
+                    <img
+                      class="icon__image"
+                      src="./assets/Location.svg"
+                      alt="Location pin emoji"
+                    />
+                  </div>
                   <span class="location">Impact Hub</span>
                 </div>
                 <div class="event-card__details event-card__capacity">
@@ -66,7 +165,7 @@
         </div>
       </section>
     </main>
-    <div class="modal">
+    <div class="modal modal_closed">
       <div class="modal__dialog">
         <div class="modal__top">
           <div class="modal__subtitle subtitle">Запись</div>
@@ -75,19 +174,19 @@
           <button class="modal__close">×</button>
         </div>
         <div class="modal__bottom">
-          <form class="modal-form">
-            <label class="modal-form__label modal-form__label_name"
+          <form class="modal-form form">
+            <label class="modal-form__label modal-form__label_name label"
               >Имя
               <input
                 type="text"
-                class="modal-form__input modal-form__input_name"
+                class="modal-form__input modal-form__input_name input"
               />
             </label>
-            <label class="modal-form__label modal-form__label_email"
+            <label class="modal-form__label modal-form__label_email label"
               >Email
               <input
                 type="email"
-                class="modal-form__input modal-form__input_email"
+                class="modal-form__input modal-form__input_email input"
               />
             </label>
           </form>
