@@ -107,7 +107,7 @@ body {
     padding: 2.5rem 0;
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
+    flex-wrap: wrap;    
     gap: var(--cards-gap);
 }
 
@@ -118,6 +118,10 @@ body {
 }
 
 .event-card__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
     padding: 2.5rem;
     border-radius: 1.5rem;
     background-color: var(--white);
@@ -207,6 +211,21 @@ body {
     line-height: 1.5rem;
     font-weight: normal;
     color: var(--medium-dark-grey);
+}
+
+.error-message {
+    display: none;
+    font-size: 1rem;
+    padding: .5rem .75rem;
+    border-radius: .5rem;
+    align-self: flex-start;
+    justify-self: center;
+    background-color: var(--lightest-blue);
+    color: var(--dark-blue);
+
+    &.error-message_active {
+        display: block;
+    }
 }
 
 /* modal */
