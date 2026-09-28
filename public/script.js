@@ -2,6 +2,7 @@
 
 const path = '/events'
 const eventsList = document.querySelector('.events__cards')
+const modal = document.querySelector('.modal')
 
 async function getEvents() {
     try {
@@ -58,7 +59,7 @@ function createEvent(event) {
                     ><span class="capacity__number">${event.capacity}</span> мест</span
                   >
                 </div>
-                <button class="button">Записаться</button>
+                <button class="button button_sign-up">Записаться</button>
               </div>
             </div>`
     eventsList.append(eventElement)
@@ -75,4 +76,31 @@ function formatDate(string) {
     return formattedDate
 }
 
+const handler = {
+    handleEvent(event) {
+        switch (true) {
+            case event.target.matches('.button_sign-up'):
+                this.openModal(event)
+                break;
+            case !(event.target.closest('.modal__dialog') && !event.target.closest('.modal__close')):
+                this.closeModal()
+                break;
+        }
+    },
+
+    openModal(event) {
+        modal.classList.add('modal_open')
+    },
+
+    closeModal() {
+        modal.classList.remove('modal_open')
+    }
+}
+
+function initEventListeners() {
+    eventsList.addEventListener('click', handler)
+    modal.addEventListener('click', handler)
+}
+
 getEvents()
+initEventListeners()

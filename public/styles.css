@@ -19,17 +19,6 @@ body {
 
 /* header */
 
-@keyframes shine {
-    0% {
-        left: -75%;
-    }
-
-    100% {
-        left: 125%;
-        /* Конечная позиция справа за пределами блока */
-    }
-}
-
 .header {
     position: sticky;
     top: 0;
@@ -43,13 +32,45 @@ body {
     z-index: 1;
 }
 
+@keyframes shine {
+    0% {
+        background-position: 0%;
+    }
+
+    100% {
+        background-position: 200%;
+    }
+}
+
 .logo {
+    position: relative;
     font-size: 2rem;
+    line-height: 1em;
     font-weight: 600;
     text-transform: lowercase;
+    background: linear-gradient(-60deg,
+                #111 0%,
+                #111 40%,
+                #fff 50%,
+                #111 60%,
+                #111 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-position: 0%;
+    background-clip: text;
 
     & span {
-        color: var(--dark-blue)
+        background-color: var(--dark-blue);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-position: 0%;
+        background-clip: text;
+    }
+
+    &:hover {
+        animation: shine;
+        animation-duration: 2s;
     }
 }
 
@@ -231,25 +252,29 @@ body {
 /* modal */
 
 .modal {
+    display: none;
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     justify-items: center;
-    align-content: center;
     background-color: rgba(31, 32, 36, 0.85);
+    visibility: hidden;
+    opacity: 0;
     z-index: 1;
 
-    &.modal_closed {
-        display: none;
-        visibility: hidden;
-        opacity: 0;
+    &.modal_open {
+        display: block;
+        visibility: visible;
+        opacity: 1;
     }
 }
 
 .modal__dialog {
-    position: relative;
+    position: sticky;
+    top: 50%;
+    transform: translateY(-50%);
     display: flex;
     flex-direction: column;
     padding: 2.5rem;
