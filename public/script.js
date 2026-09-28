@@ -14,11 +14,32 @@ async function getEvents() {
 
         const events = await response.json()
         events.forEach(event => createEvent(event))
+
+        const categories = events.reduce((categories, event) => {
+            if (!categories.includes(event.category)) {
+                categories.push(event.category)
+            }
+
+            return categories
+        }, [])
+
+        setCategories(categories)
+
     } catch {
         const errorMessage = document.querySelector('.events__error')
         errorMessage.classList.add('error-message_active')
         errorMessage.textContent = 'Не удалось загрузить данные'
     }
+}
+
+function setCategories(categories) {
+    categories.forEach(category => {
+        const option = document.createElement('option')
+        option.classList.add('select-form__option')
+        option.value = category
+        option.textContent = category
+        document.querySelector('.category-form__select').append(option)
+    })
 }
 
 function createEvent(event) {
