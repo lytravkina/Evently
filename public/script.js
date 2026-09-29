@@ -4,7 +4,7 @@ const path = '/events'
 let events;
 const eventsList = document.querySelector('.events__cards')
 const modal = document.querySelector('.modal')
-const select = document.querySelector('.category-select')
+const searchInput = document.querySelector('.search-form__input')
 
 async function getEvents() {
     try {
@@ -85,7 +85,7 @@ function setCategories(events) {
         option.classList.add('category-select__option')
         option.value = category
         option.textContent = category
-        select.append(option)
+        document.querySelector('.category-select').append(option)
     })
 }
 
@@ -102,23 +102,13 @@ function formatDate(string) {
 
 const handler = {
     handleEvent(event) {
-        if (event.type === 'click') {
-            switch (true) {
-                case event.target.matches('.button_sign-up'):
-                    this.openModal(event)
-                    break;
-                case !(event.target.closest('.modal__dialog') && !event.target.closest('.modal__close')):
-                    this.closeModal()
-                    break;
-            }
-        }
-
-        if (event.type === 'change') {
-            switch (true) {
-                case event.target.matches('.category-select'):
-                    this.filterEvents(event)
-                    break;
-            }
+        switch (true) {
+            case event.target.matches('.button_sign-up'):
+                this.openModal(event)
+                break;
+            case !(event.target.closest('.modal__dialog') && !event.target.closest('.modal__close')):
+                this.closeModal()
+                break;
         }
     },
 
@@ -129,25 +119,44 @@ const handler = {
     closeModal() {
         modal.classList.remove('modal_open')
     },
+}
 
-    filterEvents(event) {
-        const category = event.target.value
-        let filteredEvents;
+function filterEvents(event) {
+    const category = event.target.value
+    let filteredEvents;
 
-        if (!category) {
-            filteredEvents = events
-        } else {
-            filteredEvents = events.filter(event => event.category === category)
-        }
-
-        renderEvents(filteredEvents)
+    if (!category) {
+        filteredEvents = events
+    } else {
+        filteredEvents = events.filter(event => event.category === category)
     }
+
+    renderEvents(filteredEvents)
+}
+
+function searchEvents(event) {
+    event.preventDefault()
+
+    const text = searchInput.value.trim().toLowerCase()
+
+    let filteredEvents;
+    if (!text) {
+        searchInput.value = ''
+        filteredEvents = events
+    } else {
+        filteredEvents = events.filter(event => {
+            return event.title.toLowerCase().includes(text) || event.description.toLowerCase().includes(text)
+        })
+    }
+
+    renderEvents(filteredEvents)
 }
 
 function initEventListeners() {
     eventsList.addEventListener('click', handler)
     modal.addEventListener('click', handler)
-    select.addEventListener('change', handler)
+    document.querySelector('.category-select').addEventListener('change', filterEvents)
+    document.querySelector('.search-form').addEventListener('submit', searchEvents)
 }
 
 async function init() {
