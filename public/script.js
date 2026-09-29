@@ -114,6 +114,12 @@ const handler = {
 
     openModal(event) {
         modal.classList.add('modal_open')
+        const cardId = event.target.closest('article').id
+        events.forEach(event => {
+            if (event.id === cardId) {
+                modal.querySelector('.modal__title').textContent = event.title
+            }
+        })
     },
 
     closeModal() {
