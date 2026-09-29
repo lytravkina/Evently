@@ -160,6 +160,10 @@ function initEventListeners() {
         filters.search = searchInput.value
         filterEvents()
     })
+    document.querySelector('.filters-form__input').addEventListener('input', function (event) {
+        filters.search = event.target.value
+        filterEvents()
+    })
 }
 
 async function init() {
