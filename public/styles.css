@@ -118,7 +118,7 @@ body {
     font-size: 4rem;
 }
 
-.events__filters {
+.filters-form {
     display: flex;
     flex-direction: row;
     gap: 1rem;
@@ -313,10 +313,6 @@ body {
 
 /* forms */
 
-.form, .select {
-    flex-grow: 1;
-}
-
 .input {
     appearance: none;
     font-size: 1rem;
@@ -355,6 +351,12 @@ body {
     background-repeat: no-repeat;
     background-size: 1rem;
     background-position: calc(100% - 1rem) 50%;
+}
+
+.filters-form__input,
+.filters-form__select {
+    flex-grow: 1;
+    width: unset;
 }
 
 @media (max-width: 991px) {

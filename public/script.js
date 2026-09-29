@@ -4,7 +4,7 @@ const path = '/events'
 let events;
 const eventsList = document.querySelector('.events__cards')
 const modal = document.querySelector('.modal')
-const searchInput = document.querySelector('.search-form__input')
+const searchInput = document.querySelector('.filters-form__input')
 
 async function getEvents() {
     try {
@@ -82,10 +82,10 @@ function setCategories(events) {
 
     categories.forEach(category => {
         const option = document.createElement('option')
-        option.classList.add('category-select__option')
+        option.classList.add('filters-form__option')
         option.value = category
         option.textContent = category
-        document.querySelector('.category-select').append(option)
+        document.querySelector('.filters-form__select').append(option)
     })
 }
 
@@ -121,33 +121,22 @@ const handler = {
     },
 }
 
-function filterEvents(event) {
-    const category = event.target.value
-    let filteredEvents;
-
-    if (!category) {
-        filteredEvents = events
-    } else {
-        filteredEvents = events.filter(event => event.category === category)
-    }
-
-    renderEvents(filteredEvents)
+const filters = {
+    search: '',
+    category: '',
 }
 
-function searchEvents(event) {
-    event.preventDefault()
+function filterEvents() {
+    const { search, category } = filters
+    let filteredEvents = events.filter(event => {
+        let filteredBySearch =
+            !search || event.title.toLowerCase().includes(search) || event.description.toLowerCase().includes(search)
 
-    const text = searchInput.value.trim().toLowerCase()
+        let filteredByCategory =
+            !category || event.category === category
 
-    let filteredEvents;
-    if (!text) {
-        searchInput.value = ''
-        filteredEvents = events
-    } else {
-        filteredEvents = events.filter(event => {
-            return event.title.toLowerCase().includes(text) || event.description.toLowerCase().includes(text)
-        })
-    }
+        return filteredBySearch && filteredByCategory
+    })
 
     renderEvents(filteredEvents)
 }
@@ -155,8 +144,16 @@ function searchEvents(event) {
 function initEventListeners() {
     eventsList.addEventListener('click', handler)
     modal.addEventListener('click', handler)
-    document.querySelector('.category-select').addEventListener('change', filterEvents)
-    document.querySelector('.search-form').addEventListener('submit', searchEvents)
+    document.querySelector('.filters-form__select').addEventListener('change', function (event) {
+        filters.category = event.target.value
+        filterEvents()
+    })
+    document.querySelector('.filters-form').addEventListener('submit', function (event) {
+        event.preventDefault()
+        const searchInput = document.querySelector('.filters-form__input')
+        filters.search = searchInput.value
+        filterEvents()
+    })
 }
 
 async function init() {

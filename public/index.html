@@ -30,19 +30,18 @@
       </section>
       <section class="events">
         <div class="events__filters">
-          <form class="search-form form">
+          <form class="filters-form form">
             <input
               type="text"
-              name="search"
               placeholder="Поиск по названию и описанию..."
-              class="search-form__input input"
+              class="filters-form__input input"
             />
+            <select class="filters-form__select select">
+              <option class="filters-form__option" value="" selected>
+                Все категории
+              </option>
+            </select>
           </form>
-          <select class="category-select select">
-            <option class="category-select__option" value="" selected>
-              Все категории
-            </option>
-          </select>
         </div>
         <div class="events__cards">
           <p class="events__error error-message"></p>
