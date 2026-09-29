@@ -313,11 +313,11 @@ body {
 
 /* forms */
 
-.form {
+.form, .select {
     flex-grow: 1;
 }
 
-.input, .select {
+.input {
     appearance: none;
     font-size: 1rem;
     padding: .75rem 1rem;
@@ -344,6 +344,13 @@ body {
 }
 
 .select {
+    appearance: none;
+    font-size: 1rem;
+    padding: .75rem 1rem;
+    border: 1.5px solid var(--dark-light-grey);
+    border-radius: .75rem;
+    color: var(--dark-dark-grey);
+    background-color: var(--white);
     background-image: url('./assets/Arrow\ -\ Down\ 2.svg');
     background-repeat: no-repeat;
     background-size: 1rem;
