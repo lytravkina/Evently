@@ -147,6 +147,29 @@ function filterEvents() {
     renderEvents(filteredEvents)
 }
 
+function setRegistration(event) {
+    event.preventDefault()
+
+    const nameInput = event.target.querySelector('.modal-form__input_name')
+    const emailInput = event.target.querySelector('.modal-form__input_email')
+
+    const data = [nameInput.value.trim(), emailInput.value.trim()]
+
+    data.forEach((item, index) => {
+        if (!item) {
+            event.target[index].classList.add('invalid')
+            const errorText = document.createElement('p')
+            errorText.classList.add('modal-form__error', 'error-message')
+            if (event.target[index].type === 'text') {
+                errorText.textContent = 'Пожалуйста, введите ваше имя'
+            } else {
+                errorText.textContent = 'Пожалуйста, введите корректный Email'
+            }
+            event.target[index].closest('label').append(errorText)
+        }
+    })
+}
+
 function initEventListeners() {
     eventsList.addEventListener('click', handler)
     modal.addEventListener('click', handler)
@@ -164,6 +187,7 @@ function initEventListeners() {
         filters.search = event.target.value
         filterEvents()
     })
+    document.querySelector('.modal-form').addEventListener('submit', setRegistration)
 }
 
 async function init() {

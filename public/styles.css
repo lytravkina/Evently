@@ -195,6 +195,7 @@ body {
 
 .button {
     appearance: none;
+    width: 100%;
     font-size: 1rem;
     padding: 1rem;
     margin-top: 1.5rem;
@@ -234,7 +235,7 @@ body {
     color: var(--medium-dark-grey);
 }
 
-.error-message {
+.events__error {
     display: none;
     font-size: 1rem;
     padding: .5rem .75rem;
@@ -247,6 +248,12 @@ body {
     &.error-message_active {
         display: block;
     }
+}
+
+.modal-form__error {
+    font-size: .75rem;
+    line-height: 2em;
+    color: var(--dark-error);
 }
 
 /* modal */
@@ -330,6 +337,11 @@ body {
 
     &:focus {
         border-color: var(--dark-blue);
+    }
+
+    &.invalid {
+        border-color: var(--dark-error);
+        background-color: var(--light-error);
     }
 }
 
