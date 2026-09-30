@@ -132,7 +132,8 @@ const filters = {
     category: '',
 }
 
-function filterEvents() {
+function filterEvents(event) {
+    event.preventDefault()
     const { search, category } = filters
     let filteredEvents = events.filter(event => {
         let filteredBySearch =
@@ -150,44 +151,68 @@ function filterEvents() {
 function setRegistration(event) {
     event.preventDefault()
 
-    const nameInput = event.target.querySelector('.modal-form__input_name')
-    const emailInput = event.target.querySelector('.modal-form__input_email')
+    const targets = [...event.target.querySelectorAll('.modal-form__input')]
 
-    const data = [nameInput.value.trim(), emailInput.value.trim()]
+    let data = {
+        name: '',
+        email: ''
+    }
 
-    data.forEach((item, index) => {
-        if (!item) {
-            event.target[index].classList.add('invalid')
-            const errorText = document.createElement('p')
-            errorText.classList.add('modal-form__error', 'error-message')
-            if (event.target[index].type === 'text') {
-                errorText.textContent = 'Пожалуйста, введите ваше имя'
-            } else {
-                errorText.textContent = 'Пожалуйста, введите корректный Email'
-            }
-            event.target[index].closest('label').append(errorText)
-        }
+    targets.forEach(input => {
+        const value = validateInput(input)
+        data[input.name] = value
     })
+
+    console.log(data)
+}
+
+function validateInput(input) {
+    const value = input.value.trim()
+    const parent = input.closest('label')
+
+    clearError(input)
+
+    if (!value) {
+        input.classList.add('invalid')
+        input.value = ''
+        const errorMessage = document.createElement('p')
+        errorMessage.classList.add('modal-form__error', 'error-message')
+        if (input.name === 'name') {
+            errorMessage.textContent = 'Пожалуйста, введите ваше имя'
+        } else {
+            errorMessage.textContent = 'Пожалуйста, введите корректный Email'
+        }
+
+        parent.append(errorMessage)
+    }
+
+    return value
+}
+
+function clearError(input) {
+    // const input = event.target
+    const parent = input.closest('label')
+    const errorMessage = parent.querySelector('.error-message')
+    if (errorMessage) {
+        errorMessage.remove()
+        input.classList.remove('invalid')
+    }
 }
 
 function initEventListeners() {
     eventsList.addEventListener('click', handler)
     modal.addEventListener('click', handler)
+    document.querySelector('.filters-form').addEventListener('submit', filterEvents)
     document.querySelector('.filters-form__select').addEventListener('change', function (event) {
         filters.category = event.target.value
-        filterEvents()
-    })
-    document.querySelector('.filters-form').addEventListener('submit', function (event) {
-        event.preventDefault()
-        const searchInput = document.querySelector('.filters-form__input')
-        filters.search = searchInput.value
-        filterEvents()
+        filterEvents(event)
     })
     document.querySelector('.filters-form__input').addEventListener('input', function (event) {
         filters.search = event.target.value
-        filterEvents()
+        filterEvents(event)
     })
-    document.querySelector('.modal-form').addEventListener('submit', setRegistration)
+    modal.querySelector('.modal-form').addEventListener('submit', setRegistration)
+    modal.querySelector('.modal-form').addEventListener('input', event => clearError(event.target))
 }
 
 async function init() {
