@@ -152,12 +152,19 @@ function setRegistration(event) {
         email: ''
     }
 
+    let isValid = true
     targets.forEach(input => {
         const value = validateInput(input)
-        data[input.name] = value
+        if (value) {
+            data[input.name] = value
+        } else {
+            isValid = false
+        }
     })
 
-    postRegistration(data)
+    if (isValid) {
+        postRegistration(data)
+    }
 }
 
 async function postRegistration(data) {
