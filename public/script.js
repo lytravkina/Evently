@@ -1,6 +1,7 @@
 'use strict';
 
-const path = '/events'
+const eventsPath = '/events'
+const registrationsPath = '/registrations'
 let events;
 const eventsList = document.querySelector('.events__cards')
 const modal = document.querySelector('.modal')
@@ -8,7 +9,7 @@ const searchInput = document.querySelector('.filters-form__input')
 
 async function getEvents() {
     try {
-        const response = await fetch(path)
+        const response = await fetch(eventsPath)
 
         if (!response.ok) {
             throw new Error()
@@ -106,9 +107,6 @@ const handler = {
             case event.target.matches('.button_sign-up'):
                 this.openModal(event)
                 break;
-            case !(event.target.closest('.modal__dialog') && !event.target.closest('.modal__close')):
-                this.closeModal()
-                break;
         }
     },
 
@@ -120,10 +118,6 @@ const handler = {
                 modal.querySelector('.modal__title').textContent = event.title
             }
         })
-    },
-
-    closeModal() {
-        modal.classList.remove('modal_open')
     },
 }
 
@@ -163,7 +157,20 @@ function setRegistration(event) {
         data[input.name] = value
     })
 
-    console.log(data)
+    postRegistration(data)
+}
+
+async function postRegistration(data) {
+    const response = await fetch(registrationsPath, {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'POST',
+        body: JSON.stringify(data)
+    })
+    if (response.ok) {
+        modal.classList.remove('modal_open')
+    }
 }
 
 function validateInput(input) {
@@ -190,7 +197,6 @@ function validateInput(input) {
 }
 
 function clearError(input) {
-    // const input = event.target
     const parent = input.closest('label')
     const errorMessage = parent.querySelector('.error-message')
     if (errorMessage) {
@@ -201,7 +207,12 @@ function clearError(input) {
 
 function initEventListeners() {
     eventsList.addEventListener('click', handler)
-    modal.addEventListener('click', handler)
+    modal.addEventListener('click', function (event) {
+        if (event.target.closest('.modal__dialog') && !event.target.closest('.modal__close')) {
+            return
+        }
+        modal.classList.remove('modal_open')
+    })
     document.querySelector('.filters-form').addEventListener('submit', filterEvents)
     document.querySelector('.filters-form__select').addEventListener('change', function (event) {
         filters.category = event.target.value

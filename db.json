@@ -73,5 +73,17 @@
       "capacity": 45
     }
   ],
-  "registrations": []
+  "registrations": [
+    {
+      "name": "test",
+      "email": "email@email.com",
+      "id": "MagJI4KVQRY"
+    },
+    {
+      "name": "test2",
+      "email": "lytrvn@gmail.com",
+      "id": "80Iszu9cWx8"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }
