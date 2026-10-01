@@ -75,16 +75,16 @@
   ],
   "registrations": [
     {
-      "name": "Blog",
+      "name": "test",
       "email": "lytrvn@gmail.com",
-      "eventId": "1",
-      "id": "7VFv93a1oeA"
+      "eventId": "3",
+      "id": "Mcg8XAxktg0"
     },
     {
-      "name": "Blog",
+      "name": "test2",
       "email": "lytrvn@gmail.com",
-      "eventId": "6",
-      "id": "xHwftaQ2DNo"
+      "eventId": "1",
+      "id": "YfYUfzZtyPc"
     }
   ]
 }

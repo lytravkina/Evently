@@ -211,6 +211,18 @@ body {
         color: var(--dark-blue);
         transition: background-color .2s, color .2s;
     }
+
+    &.button_sign-out {
+        background-color: var(--white);
+        color: var(--dark-blue);
+        transition: background-color .2s, color .2s;
+
+        &:hover {
+            background-color: var(--dark-blue);
+            color: var(--white);
+            transition: background-color .2s, color .2s;
+        }
+    }
 }
 
 /* text */

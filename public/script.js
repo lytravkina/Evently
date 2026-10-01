@@ -11,6 +11,12 @@ const eventsList = document.querySelector('.events__cards')
 const modal = document.querySelector('.modal')
 const searchInput = document.querySelector('.filters-form__input')
 
+const hero = {
+    subtitle: document.querySelector('.hero__subtitle'),
+    title: document.querySelector('.hero__title'),
+    description: document.querySelector('.hero__description')
+}
+
 const menu = {
     events: document.querySelector('.menu__item_events'),
     registrations: document.querySelector('.menu__item_registrations')
@@ -64,11 +70,11 @@ function getRegisteredEvents(events, registrations) {
 
     currentEvents = registeredEvents
 
-    renderEvents(currentEvents)
+    renderEvents(currentEvents, false)
     setCategories(currentEvents)
 }
 
-function renderEvents(events) {
+function renderEvents(events, signIn = true) {
     eventsList.innerHTML = ''
 
     if (events.length === 0) {
@@ -77,6 +83,13 @@ function renderEvents(events) {
         errorMessage.textContent = 'Нет доступных мероприятий'
         eventsList.append(errorMessage)
         return
+    }
+
+    let button;
+    if (signIn) {
+        button = '<button class="button button_sign-up">Записаться</button>'
+    } else {
+        button = '<button class="button button_sign-out">Отменить запись</button>'
     }
 
     events.forEach(event => {
@@ -117,7 +130,7 @@ function renderEvents(events) {
                     ><span class="capacity__number">${event.capacity}</span> мест</span
                   >
                 </div>
-                <button class="button button_sign-up">Записаться</button>
+                ${button}
               </div>
             </div>`
         eventsList.append(eventElement)
@@ -275,6 +288,21 @@ function closeModal() {
     modal.classList.remove('modal_open')
 }
 
+function updateHero(event) {
+    switch (event.target) {
+        case menu.events:
+            hero.subtitle.textContent = 'Мероприятия'
+            hero.title.textContent = 'Будь в центре событий'
+            hero.description.textContent = 'Выбирай интересное мероприятие и записывайся в пару кликов.'
+            break;
+        case menu.registrations:
+            hero.subtitle.textContent = 'Мои записи'
+            hero.title.textContent = 'Твои планы на ближайшее время'
+            hero.description.textContent = 'Следи за предстоящими событиями и ничего не пропускай.'
+            break;
+    }
+}
+
 function initEventListeners() {
     eventsList.addEventListener('click', handler)
     modal.addEventListener('click', function (event) {
@@ -295,13 +323,15 @@ function initEventListeners() {
     modal.querySelector('.modal-form').addEventListener('submit', setRegistration)
     modal.querySelector('.modal-form').addEventListener('input', event => clearError(event.target))
 
-    menu.events.addEventListener('click', function () {
+    menu.events.addEventListener('click', function (event) {
         currentEvents = events
+        updateHero(event)
         renderEvents(currentEvents)
         setCategories(currentEvents)
     })
 
-    menu.registrations.addEventListener('click', function () {
+    menu.registrations.addEventListener('click', function (event) {
+        updateHero(event)
         getRegisteredEvents(events, registrations)
     })
 }
