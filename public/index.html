@@ -16,8 +16,8 @@
     <header class="header">
       <div class="logo">Event<span>ly</span></div>
       <nav class="menu">
-        <button class="menu__item">Мероприятия</button>
-        <button class="menu__item">Мои записи</button>
+        <button class="menu__item menu__item_events">Мероприятия</button>
+        <button class="menu__item menu__item_registrations">Мои записи</button>
       </nav>
     </header>
     <main class="events-page">
@@ -37,15 +37,13 @@
               class="filters-form__input input"
             />
             <select class="filters-form__select select">
-              <option class="filters-form__option" value="" selected>
+              <option class="filters-form__default" value="" selected>
                 Все категории
               </option>
             </select>
           </form>
         </div>
-        <div class="events__cards">
-          <p class="events__error error-message">aks;aslkdas;</p>
-        </div>
+        <div class="events__cards"></div>
       </section>
     </main>
     <div class="modal">

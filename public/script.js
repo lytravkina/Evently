@@ -2,10 +2,24 @@
 
 const eventsPath = '/events'
 const registrationsPath = '/registrations'
+
 let events;
+let registrations;
+let currentEvents;
+
 const eventsList = document.querySelector('.events__cards')
 const modal = document.querySelector('.modal')
 const searchInput = document.querySelector('.filters-form__input')
+
+const menu = {
+    events: document.querySelector('.menu__item_events'),
+    registrations: document.querySelector('.menu__item_registrations')
+}
+
+let data = {
+    name: '',
+    email: ''
+}
 
 async function getEvents() {
     try {
@@ -18,14 +32,52 @@ async function getEvents() {
         return response.json()
 
     } catch {
-        const errorMessage = document.querySelector('.events__error')
-        errorMessage.classList.add('error-message_active')
+        const errorMessage = document.createElement('p')
+        errorMessage.classList.add('events__error', 'error-message', 'error-message_active')
         errorMessage.textContent = 'Не удалось загрузить данные'
+        eventsList.append(errorMessage)
     }
+}
+
+async function getRegistrations() {
+    try {
+        const response = await fetch(registrationsPath)
+
+        if (!response.ok) {
+            throw new Error()
+        }
+
+        return await response.json()
+
+    } catch {
+        const errorMessage = document.createElement('p')
+        errorMessage.classList.add('events__error', 'error-message', 'error-message_active')
+        errorMessage.textContent = 'Не удалось загрузить данные'
+        eventsList.append(errorMessage)
+    }
+}
+
+function getRegisteredEvents(events, registrations) {
+    const registeredEvents = events.filter(event => {
+        return registrations.some(registration => registration.eventId === event.id)
+    })
+
+    currentEvents = registeredEvents
+
+    renderEvents(currentEvents)
+    setCategories(currentEvents)
 }
 
 function renderEvents(events) {
     eventsList.innerHTML = ''
+
+    if (events.length === 0) {
+        const errorMessage = document.createElement('p')
+        errorMessage.classList.add('events__error', 'error-message', 'error-message_active')
+        errorMessage.textContent = 'Нет доступных мероприятий'
+        eventsList.append(errorMessage)
+        return
+    }
 
     events.forEach(event => {
         const eventElement = document.createElement('article')
@@ -73,13 +125,20 @@ function renderEvents(events) {
 }
 
 function setCategories(events) {
-    const categories = events.reduce((categories, event) => {
+    document.querySelectorAll('.filters-form__option').forEach(option => option.remove())
+    let categories = []
+
+    categories = events.reduce((categories, event) => {
         if (!categories.includes(event.category)) {
             categories.push(event.category)
         }
 
         return categories
     }, [])
+
+    if (categories.length === 0) {
+        return
+    }
 
     categories.forEach(category => {
         const option = document.createElement('option')
@@ -116,6 +175,7 @@ const handler = {
         events.forEach(event => {
             if (event.id === cardId) {
                 modal.querySelector('.modal__title').textContent = event.title
+                data.eventId = cardId
             }
         })
     },
@@ -129,7 +189,7 @@ const filters = {
 function filterEvents(event) {
     event.preventDefault()
     const { search, category } = filters
-    let filteredEvents = events.filter(event => {
+    let filteredEvents = currentEvents.filter(event => {
         let filteredBySearch =
             !search || event.title.toLowerCase().includes(search) || event.description.toLowerCase().includes(search)
 
@@ -146,11 +206,6 @@ function setRegistration(event) {
     event.preventDefault()
 
     const targets = [...event.target.querySelectorAll('.modal-form__input')]
-
-    let data = {
-        name: '',
-        email: ''
-    }
 
     let isValid = true
     targets.forEach(input => {
@@ -176,7 +231,8 @@ async function postRegistration(data) {
         body: JSON.stringify(data)
     })
     if (response.ok) {
-        modal.classList.remove('modal_open')
+        closeModal()
+        registrations = await getRegistrations()
     }
 }
 
@@ -212,13 +268,20 @@ function clearError(input) {
     }
 }
 
+function closeModal() {
+    const inputs = [...modal.querySelectorAll('.modal-form__input')]
+
+    inputs.forEach(input => input.value = '')
+    modal.classList.remove('modal_open')
+}
+
 function initEventListeners() {
     eventsList.addEventListener('click', handler)
     modal.addEventListener('click', function (event) {
         if (event.target.closest('.modal__dialog') && !event.target.closest('.modal__close')) {
             return
         }
-        modal.classList.remove('modal_open')
+        closeModal()
     })
     document.querySelector('.filters-form').addEventListener('submit', filterEvents)
     document.querySelector('.filters-form__select').addEventListener('change', function (event) {
@@ -231,12 +294,24 @@ function initEventListeners() {
     })
     modal.querySelector('.modal-form').addEventListener('submit', setRegistration)
     modal.querySelector('.modal-form').addEventListener('input', event => clearError(event.target))
+
+    menu.events.addEventListener('click', function () {
+        currentEvents = events
+        renderEvents(currentEvents)
+        setCategories(currentEvents)
+    })
+
+    menu.registrations.addEventListener('click', function () {
+        getRegisteredEvents(events, registrations)
+    })
 }
 
 async function init() {
     events = await getEvents()
-    renderEvents(events)
-    setCategories(events)
+    registrations = await getRegistrations()
+    currentEvents = events
+    renderEvents(currentEvents)
+    setCategories(currentEvents)
     initEventListeners()
 }
 

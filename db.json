@@ -75,114 +75,16 @@
   ],
   "registrations": [
     {
-      "name": "test",
-      "email": "email@email.com",
-      "id": "MagJI4KVQRY"
-    },
-    {
-      "name": "test2",
+      "name": "Blog",
       "email": "lytrvn@gmail.com",
-      "id": "80Iszu9cWx8"
+      "eventId": "1",
+      "id": "7VFv93a1oeA"
     },
     {
-      "name": "",
-      "email": "",
-      "id": "NKmnT2r3yNU"
-    },
-    {
-      "name": "",
-      "email": "",
-      "id": "9tMmxBybfEw"
-    },
-    {
-      "name": "",
-      "email": "",
-      "id": "HMgp-KtC62s"
-    },
-    {
-      "name": "",
-      "email": "",
-      "id": "iYXzB1ZTV20"
-    },
-    {
-      "name": "",
-      "email": "",
-      "id": "czr1pm2OaFk"
-    },
-    {
-      "name": "",
-      "email": "",
-      "id": "idJQqEVCGqc"
-    },
-    {
-      "id": "jauqAVAaTes"
-    },
-    {
-      "id": "pMAGeHMnoxI"
-    },
-    {
-      "id": "p4DXmxn9hyk"
-    },
-    {
-      "name": "",
-      "email": "",
-      "id": "33_lgOkWUJo"
-    },
-    {
-      "name": "",
-      "email": "",
-      "id": "-sfrT9V6O1o"
-    },
-    {
-      "name": "",
-      "email": "",
-      "id": "SgkrltCwN-Y"
-    },
-    {
-      "name": "",
-      "email": "",
-      "id": "vjRV_mFC2uM"
-    },
-    {
-      "name": "",
-      "email": "",
-      "id": "_uk8x6VqoUo"
-    },
-    {
-      "name": "",
-      "email": "",
-      "id": "Ot7wqBBoS3E"
-    },
-    {
-      "name": "",
-      "email": "",
-      "id": "BjahyW848E0"
-    },
-    {
-      "name": "l;k",
-      "email": "",
-      "id": "qC63sLqoTrI"
-    },
-    {
-      "name": "kml",
+      "name": "Blog",
       "email": "lytrvn@gmail.com",
-      "id": "iCf_b3KlfZ8"
-    },
-    {
-      "name": "tst final",
-      "email": "lytrvn@gmail.com",
-      "id": "gHxtmMNJ8Hc"
-    },
-    {
-      "name": "klsl;d",
-      "email": "lytrvn@gmail.com",
-      "id": "zSx8ctqOjYQ"
-    },
-    {
-      "name": "лывжфы",
-      "email": "lytrvn@gmail.com",
-      "id": "HKAxKVIyic4"
+      "eventId": "6",
+      "id": "xHwftaQ2DNo"
     }
-  ],
-  "$schema": "./node_modules/json-server/schema.json"
+  ]
 }
