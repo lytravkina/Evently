@@ -75,16 +75,11 @@
   ],
   "registrations": [
     {
-      "name": "test",
-      "email": "lytrvn@gmail.com",
-      "eventId": "3",
-      "id": "Mcg8XAxktg0"
-    },
-    {
-      "name": "test2",
+      "name": "Blog",
       "email": "lytrvn@gmail.com",
       "eventId": "1",
-      "id": "YfYUfzZtyPc"
+      "id": "B2vPazeLVOk"
     }
-  ]
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }

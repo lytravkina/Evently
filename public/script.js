@@ -27,6 +27,13 @@ let data = {
     email: ''
 }
 
+function createError(string) {
+    const errorMessage = document.createElement('p')
+    errorMessage.classList.add('events__error', 'error-message', 'error-message_active')
+    errorMessage.textContent = string
+    return errorMessage
+}
+
 async function getEvents() {
     try {
         const response = await fetch(eventsPath)
@@ -38,10 +45,8 @@ async function getEvents() {
         return response.json()
 
     } catch {
-        const errorMessage = document.createElement('p')
-        errorMessage.classList.add('events__error', 'error-message', 'error-message_active')
-        errorMessage.textContent = 'Не удалось загрузить данные'
-        eventsList.append(errorMessage)
+        const string = 'Не удалось загрузить данные'
+        eventsList.append(createError(string))
     }
 }
 
@@ -56,10 +61,8 @@ async function getRegistrations() {
         return await response.json()
 
     } catch {
-        const errorMessage = document.createElement('p')
-        errorMessage.classList.add('events__error', 'error-message', 'error-message_active')
-        errorMessage.textContent = 'Не удалось загрузить данные'
-        eventsList.append(errorMessage)
+        const string = 'Не удалось загрузить данные'
+        eventsList.append(createError(string))
     }
 }
 
@@ -69,24 +72,23 @@ function getRegisteredEvents(events, registrations) {
     })
 
     currentEvents = registeredEvents
+    eventsList.classList.add('registrations-active')
 
-    renderEvents(currentEvents, false)
+    renderEvents(currentEvents)
     setCategories(currentEvents)
 }
 
-function renderEvents(events, signIn = true) {
+function renderEvents(events) {
     eventsList.innerHTML = ''
 
     if (events.length === 0) {
-        const errorMessage = document.createElement('p')
-        errorMessage.classList.add('events__error', 'error-message', 'error-message_active')
-        errorMessage.textContent = 'Нет доступных мероприятий'
-        eventsList.append(errorMessage)
+        const string = 'Нет доступных мероприятий'
+        eventsList.append(createError(string))
         return
     }
 
     let button;
-    if (signIn) {
+    if (!document.querySelector('.registrations-active')) {
         button = '<button class="button button_sign-up">Записаться</button>'
     } else {
         button = '<button class="button button_sign-out">Отменить запись</button>'
@@ -325,6 +327,7 @@ function initEventListeners() {
 
     menu.events.addEventListener('click', function (event) {
         currentEvents = events
+        eventsList.classList.remove('registrations-active')
         updateHero(event)
         renderEvents(currentEvents)
         setCategories(currentEvents)
