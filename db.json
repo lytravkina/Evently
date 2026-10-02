@@ -73,13 +73,6 @@
       "capacity": 45
     }
   ],
-  "registrations": [
-    {
-      "name": "Blog",
-      "email": "lytrvn@gmail.com",
-      "eventId": "1",
-      "id": "B2vPazeLVOk"
-    }
-  ],
+  "registrations": [],
   "$schema": "./node_modules/json-server/schema.json"
 }

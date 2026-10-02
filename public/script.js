@@ -177,23 +177,53 @@ function formatDate(string) {
 
 const handler = {
     handleEvent(event) {
+        let cardId = event.target.closest('article').id
         switch (true) {
             case event.target.matches('.button_sign-up'):
-                this.openModal(event)
+                this.openModal(cardId)
+                break;
+            case event.target.matches('.button_sign-out'):
+                this.deleteRegistration(cardId)
                 break;
         }
     },
 
-    openModal(event) {
+    openModal(cardId) {
         modal.classList.add('modal_open')
-        const cardId = event.target.closest('article').id
-        events.forEach(event => {
+        currentEvents.forEach(event => {
             if (event.id === cardId) {
                 modal.querySelector('.modal__title').textContent = event.title
                 data.eventId = cardId
             }
         })
     },
+
+    async deleteRegistration(cardId) {
+        const isConfirmed = confirm('Вы действительно хотите отменить запись?')
+
+        if (isConfirmed) {
+            let id;
+            registrations.forEach(registration => {
+                if (registration.eventId === cardId) {
+                    id = registration.id
+                }
+            })
+            const response = await fetch(`${registrationsPath}/${id}`, {
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                method: 'DELETE'
+            })
+
+            if (response.ok) {
+                console.log('удалено')
+
+                registrations = await getRegistrations()
+                getRegisteredEvents(events, registrations)
+                closeModal()
+            }
+        }
+    }
 }
 
 const filters = {
@@ -246,8 +276,8 @@ async function postRegistration(data) {
         body: JSON.stringify(data)
     })
     if (response.ok) {
-        closeModal()
         registrations = await getRegistrations()
+        closeModal()
     }
 }
 
