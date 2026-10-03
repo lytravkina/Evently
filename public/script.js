@@ -5,7 +5,12 @@ const registrationsPath = '/registrations'
 
 let events;
 let registrations;
-let currentEvents;
+
+let page = {
+    state: 'events',
+    currentEvents: [],
+    theme: 'light'
+}
 
 const eventsList = document.querySelector('.events__cards')
 const modal = document.querySelector('.modal')
@@ -19,19 +24,13 @@ const hero = {
 
 const menu = {
     events: document.querySelector('.menu__item_events'),
-    registrations: document.querySelector('.menu__item_registrations')
+    registrations: document.querySelector('.menu__item_registrations'),
+    theme: document.querySelector('.menu__item_theme')
 }
 
-let data = {
+const data = {
     name: '',
     email: ''
-}
-
-function createError(string) {
-    const errorMessage = document.createElement('p')
-    errorMessage.classList.add('events__error', 'error-message', 'error-message_active')
-    errorMessage.textContent = string
-    return errorMessage
 }
 
 async function getEvents() {
@@ -66,16 +65,28 @@ async function getRegistrations() {
     }
 }
 
-function getRegisteredEvents(events, registrations) {
+function getRegisteredEvents() {
     const registeredEvents = events.filter(event => {
         return registrations.some(registration => registration.eventId === event.id)
     })
 
-    currentEvents = registeredEvents
-    eventsList.classList.add('registrations-active')
+    return registeredEvents
+}
 
-    renderEvents(currentEvents)
-    setCategories(currentEvents)
+function updatePageState() {
+    switch (page.state) {
+        case 'events':
+            page.currentEvents = events
+            break;
+        case 'registrations':
+            page.currentEvents = getRegisteredEvents()
+            break;
+    }
+
+    loadData()
+    updateHero()
+    renderEvents(page.currentEvents)
+    setCategories(page.currentEvents)
 }
 
 function renderEvents(events) {
@@ -88,10 +99,12 @@ function renderEvents(events) {
     }
 
     let button;
-    if (!document.querySelector('.registrations-active')) {
-        button = '<button class="button button_sign-up">Записаться</button>'
-    } else {
-        button = '<button class="button button_sign-out">Отменить запись</button>'
+    switch (page.state) {
+        case 'events':
+            button = '<button class="button button_sign-up">Записаться</button>'
+            break;
+        case 'registrations':
+            button = '<button class="button button_sign-out">Отменить запись</button>'
     }
 
     events.forEach(event => {
@@ -139,6 +152,17 @@ function renderEvents(events) {
     })
 }
 
+function formatDate(string) {
+    let [date, time] = string.split('T')
+
+    const [year, month, day] = date.split('-')
+
+    const [hour, minute] = time.split(':')
+
+    const formattedDate = `${day}.${month}.${year} ${hour}:${minute}`
+    return formattedDate
+}
+
 function setCategories(events) {
     document.querySelectorAll('.filters-form__option').forEach(option => option.remove())
     let categories = []
@@ -164,15 +188,35 @@ function setCategories(events) {
     })
 }
 
-function formatDate(string) {
-    let [date, time] = string.split('T')
+const filters = {
+    search: '',
+    category: '',
+}
 
-    const [year, month, day] = date.split('-')
+function filterEvents(event) {
+    event.preventDefault()
 
-    const [hour, minute] = time.split(':')
+    filters.search = event.target.value
 
-    const formattedDate = `${day}.${month}.${year} ${hour}:${minute}`
-    return formattedDate
+    const { search, category } = filters
+    let filteredEvents = page.currentEvents.filter(event => {
+        let filteredBySearch =
+            !search || event.title.toLowerCase().includes(search) || event.description.toLowerCase().includes(search)
+
+        let filteredByCategory =
+            !category || event.category === category
+
+        return filteredBySearch && filteredByCategory
+    })
+
+    renderEvents(filteredEvents)
+}
+
+function createError(string) {
+    const errorMessage = document.createElement('p')
+    errorMessage.classList.add('events__error', 'error-message', 'error-message_active')
+    errorMessage.textContent = string
+    return errorMessage
 }
 
 const handler = {
@@ -190,7 +234,7 @@ const handler = {
 
     openModal(cardId) {
         modal.classList.add('modal_open')
-        currentEvents.forEach(event => {
+        page.currentEvents.forEach(event => {
             if (event.id === cardId) {
                 modal.querySelector('.modal__title').textContent = event.title
                 data.eventId = cardId
@@ -209,42 +253,16 @@ const handler = {
                 }
             })
             const response = await fetch(`${registrationsPath}/${id}`, {
-                headers: {
-                    'Content-Type': 'application/json'
-                },
                 method: 'DELETE'
             })
 
             if (response.ok) {
-                console.log('удалено')
-
                 registrations = await getRegistrations()
-                getRegisteredEvents(events, registrations)
+                updatePageState()
                 closeModal()
             }
         }
     }
-}
-
-const filters = {
-    search: '',
-    category: '',
-}
-
-function filterEvents(event) {
-    event.preventDefault()
-    const { search, category } = filters
-    let filteredEvents = currentEvents.filter(event => {
-        let filteredBySearch =
-            !search || event.title.toLowerCase().includes(search) || event.description.toLowerCase().includes(search)
-
-        let filteredByCategory =
-            !category || event.category === category
-
-        return filteredBySearch && filteredByCategory
-    })
-
-    renderEvents(filteredEvents)
 }
 
 function setRegistration(event) {
@@ -264,20 +282,6 @@ function setRegistration(event) {
 
     if (isValid) {
         postRegistration(data)
-    }
-}
-
-async function postRegistration(data) {
-    const response = await fetch(registrationsPath, {
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        method: 'POST',
-        body: JSON.stringify(data)
-    })
-    if (response.ok) {
-        registrations = await getRegistrations()
-        closeModal()
     }
 }
 
@@ -313,6 +317,20 @@ function clearError(input) {
     }
 }
 
+async function postRegistration(data) {
+    const response = await fetch(registrationsPath, {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'POST',
+        body: JSON.stringify(data)
+    })
+    if (response.ok) {
+        registrations = await getRegistrations()
+        closeModal()
+    }
+}
+
 function closeModal() {
     const inputs = [...modal.querySelectorAll('.modal-form__input')]
 
@@ -320,14 +338,14 @@ function closeModal() {
     modal.classList.remove('modal_open')
 }
 
-function updateHero(event) {
-    switch (event.target) {
-        case menu.events:
+function updateHero() {
+    switch (page.state) {
+        case 'events':
             hero.subtitle.textContent = 'Мероприятия'
             hero.title.textContent = 'Будь в центре событий'
             hero.description.textContent = 'Выбирай интересное мероприятие и записывайся в пару кликов.'
             break;
-        case menu.registrations:
+        case 'registrations':
             hero.subtitle.textContent = 'Мои записи'
             hero.title.textContent = 'Твои планы на ближайшее время'
             hero.description.textContent = 'Следи за предстоящими событиями и ничего не пропускай.'
@@ -335,47 +353,68 @@ function updateHero(event) {
     }
 }
 
+function toggleTheme() {
+    switch (page.theme) {
+        case 'light':
+            page.theme = 'dark'
+            break
+        case 'dark':
+            page.theme = 'light'
+            break;
+    }
+
+    document.documentElement.dataset.theme = page.theme
+    loadData()
+}
+
 function initEventListeners() {
     eventsList.addEventListener('click', handler)
+
     modal.addEventListener('click', function (event) {
         if (event.target.closest('.modal__dialog') && !event.target.closest('.modal__close')) {
             return
         }
         closeModal()
     })
+
     document.querySelector('.filters-form').addEventListener('submit', filterEvents)
-    document.querySelector('.filters-form__select').addEventListener('change', function (event) {
-        filters.category = event.target.value
-        filterEvents(event)
-    })
-    document.querySelector('.filters-form__input').addEventListener('input', function (event) {
-        filters.search = event.target.value
-        filterEvents(event)
-    })
+    document.querySelector('.filters-form__select').addEventListener('change', filterEvents)
+    document.querySelector('.filters-form__input').addEventListener('input', filterEvents)
+
     modal.querySelector('.modal-form').addEventListener('submit', setRegistration)
     modal.querySelector('.modal-form').addEventListener('input', event => clearError(event.target))
 
-    menu.events.addEventListener('click', function (event) {
-        currentEvents = events
-        eventsList.classList.remove('registrations-active')
-        updateHero(event)
-        renderEvents(currentEvents)
-        setCategories(currentEvents)
+    menu.events.addEventListener('click', function () {
+        page.state = 'events'
+        updatePageState()
     })
 
-    menu.registrations.addEventListener('click', function (event) {
-        updateHero(event)
-        getRegisteredEvents(events, registrations)
+    menu.registrations.addEventListener('click', function () {
+        page.state = 'registrations'
+        updatePageState()
     })
+
+    menu.theme.addEventListener('click', toggleTheme)
 }
 
 async function init() {
     events = await getEvents()
     registrations = await getRegistrations()
-    currentEvents = events
-    renderEvents(currentEvents)
-    setCategories(currentEvents)
+    getData()
+    updatePageState()
     initEventListeners()
 }
 
+function getData() {
+    const data = localStorage.getItem('page')
+
+    if (data) {
+        page = JSON.parse(data)
+        document.documentElement.dataset.theme = page.theme
+    }
+}
+
+function loadData() {
+    localStorage.setItem('page', JSON.stringify(page))
+}
 init()
