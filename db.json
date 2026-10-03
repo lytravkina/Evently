@@ -7,7 +7,7 @@
       "category": "tech",
       "date": "2026-10-03T18:30:00",
       "location": "Tech Hub",
-      "capacity": 30
+      "capacity": 29
     },
     {
       "id": "2",
@@ -73,6 +73,13 @@
       "capacity": 45
     }
   ],
-  "registrations": [],
+  "registrations": [
+    {
+      "name": "kljljkj",
+      "email": "lytrvn@gmail.com",
+      "eventId": "1",
+      "id": "5yTWjMPrazc"
+    }
+  ],
   "$schema": "./node_modules/json-server/schema.json"
 }

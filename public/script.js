@@ -259,6 +259,7 @@ const handler = {
             if (response.ok) {
                 registrations = await getRegistrations()
                 updatePageState()
+                updateCapacity(cardId)
                 closeModal()
             }
         }
@@ -318,6 +319,7 @@ function clearError(input) {
 }
 
 async function postRegistration(data) {
+    const eventId = data.eventId
     const response = await fetch(registrationsPath, {
         headers: {
             'Content-Type': 'application/json'
@@ -327,7 +329,41 @@ async function postRegistration(data) {
     })
     if (response.ok) {
         registrations = await getRegistrations()
+        updateCapacity(eventId)
         closeModal()
+    }
+}
+
+async function updateCapacity(eventId) {
+    const eventToUpdate = events.find(event => event.id === eventId)
+
+    let updatedEvent;
+    switch (page.state) {
+        case 'events':
+            updatedEvent = {
+                ...eventToUpdate,
+                capacity: eventToUpdate.capacity - 1
+            }
+            break;
+        case 'registrations':
+            updatedEvent = {
+                ...eventToUpdate,
+                capacity: eventToUpdate.capacity + 1
+            }
+            break;
+    }
+
+    const response = await fetch(`${eventsPath}/${eventId}`, {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'PATCH',
+        body: JSON.stringify(updatedEvent)
+    })
+
+    if (response.ok) {
+        events = await getEvents()
+        updatePageState()
     }
 }
 
