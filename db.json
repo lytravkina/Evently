@@ -16,7 +16,7 @@
       "category": "art",
       "date": "2026-10-05T15:00:00",
       "location": "Art Space",
-      "capacity": 15
+      "capacity": 14
     },
     {
       "id": "3",
@@ -75,10 +75,16 @@
   ],
   "registrations": [
     {
-      "name": "kljljkj",
+      "name": "test",
       "email": "lytrvn@gmail.com",
       "eventId": "1",
-      "id": "5yTWjMPrazc"
+      "id": "_v4hOop-NQc"
+    },
+    {
+      "name": "kljljkj",
+      "email": "lytrvn@gmail.com",
+      "eventId": "2",
+      "id": "d-syfRjpACw"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

@@ -33,6 +33,10 @@ const data = {
     email: ''
 }
 
+// function sleep(ms) {
+//     return new Promise(resolve => setTimeout(resolve, ms));
+// }
+
 async function getEvents() {
     try {
         const response = await fetch(eventsPath)
@@ -40,6 +44,8 @@ async function getEvents() {
         if (!response.ok) {
             throw new Error()
         }
+
+        // await sleep(5000)
 
         return response.json()
 
@@ -281,9 +287,23 @@ function setRegistration(event) {
         }
     })
 
+    let isRegistered;
     if (isValid) {
-        postRegistration(data)
+        isRegistered = checkRegistration()
     }
+
+    if (isRegistered) {
+        alert('Вы уже записаны на данное мероприятие.')
+        return
+    }
+
+    postRegistration(data)
+}
+
+function checkRegistration() {
+    const isRegistered = registrations.some(registration => registration.eventId === data.eventId)
+    console.log(isRegistered)
+    return isRegistered
 }
 
 function validateInput(input) {
