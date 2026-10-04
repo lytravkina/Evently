@@ -16,7 +16,7 @@
       "category": "art",
       "date": "2026-10-05T15:00:00",
       "location": "Art Space",
-      "capacity": 14
+      "capacity": 15
     },
     {
       "id": "3",
@@ -70,21 +70,21 @@
       "category": "art",
       "date": "2026-10-24T11:00:00",
       "location": "Design Center",
-      "capacity": 45
+      "capacity": 44
     }
   ],
   "registrations": [
     {
+      "name": "fedsfsa",
+      "email": "lytrvn@gmail.com",
+      "eventId": "8",
+      "id": "p2NcMhaHVBI"
+    },
+    {
       "name": "test",
       "email": "lytrvn@gmail.com",
       "eventId": "1",
-      "id": "_v4hOop-NQc"
-    },
-    {
-      "name": "kljljkj",
-      "email": "lytrvn@gmail.com",
-      "eventId": "2",
-      "id": "d-syfRjpACw"
+      "id": "NVoiHZjWBO8"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

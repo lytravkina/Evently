@@ -14,7 +14,7 @@ body {
     font-size: 1rem;
     line-height: 1.2em;
     background-color: var(--background-color);
-    min-height: 100%;
+    min-height: 100vh;
 }
 
 /* header */
@@ -231,6 +231,18 @@ body {
             transition: background-color .2s, color .2s;
         }
     }
+
+    &:disabled {
+        background-color: var(--border-color);
+        border-color: var(--border-color);
+        cursor: not-allowed;
+
+        &:hover {
+            background-color: var(--border-color);
+            border-color: var(--border-color);
+            color: white;
+        }
+    }
 }
 
 @keyframes spinner {
@@ -242,7 +254,7 @@ body {
     }
 }
 
-.loading {
+.spinner {
     display: flex;
     flex-direction: row;
     justify-content: center;

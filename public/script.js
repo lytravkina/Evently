@@ -9,7 +9,7 @@ let registrations;
 let page = {
     state: 'events',
     currentEvents: [],
-    theme: 'light'
+    theme: 'light',
 }
 
 const eventsList = document.querySelector('.events__cards')
@@ -45,11 +45,12 @@ async function getEvents() {
             throw new Error()
         }
 
-        // await sleep(5000)
+        // await sleep(2000)
 
-        return response.json()
+        return await response.json()
 
     } catch {
+        eventsList.innerHTML = ''
         const string = 'Не удалось загрузить данные'
         eventsList.append(createError(string))
     }
@@ -63,12 +64,30 @@ async function getRegistrations() {
             throw new Error()
         }
 
+        // await sleep(2000)
+
         return await response.json()
 
     } catch {
+        eventsList.innerHTML = ''
         const string = 'Не удалось загрузить данные'
         eventsList.append(createError(string))
     }
+}
+
+function loader() {
+    eventsList.innerHTML = ''
+
+    const spinner = document.createElement('div')
+    spinner.classList.add('spinner')
+    spinner.innerHTML = '<img class="icon__image" src="./assets/DottedCircle01.svg">'
+
+    if (document.querySelector('.modal_open')) {
+        modal.querySelector('.button_submit').textContent = 'Отправка...'
+        modal.querySelector('.button_submit').disabled = true
+    }
+
+    eventsList.append(spinner)
 }
 
 function getRegisteredEvents() {
@@ -239,6 +258,8 @@ const handler = {
     },
 
     openModal(cardId) {
+        modal.querySelector('.button_submit').textContent = 'Отправить'
+        modal.querySelector('.button_submit').disabled = false
         modal.classList.add('modal_open')
         page.currentEvents.forEach(event => {
             if (event.id === cardId) {
@@ -263,6 +284,7 @@ const handler = {
             })
 
             if (response.ok) {
+                loader()
                 registrations = await getRegistrations()
                 updatePageState()
                 updateCapacity(cardId)
@@ -287,11 +309,11 @@ function setRegistration(event) {
         }
     })
 
-    let isRegistered;
-    if (isValid) {
-        isRegistered = checkRegistration()
+    if (!isValid) {
+        return
     }
 
+    const isRegistered = checkRegistration()
     if (isRegistered) {
         alert('Вы уже записаны на данное мероприятие.')
         return
@@ -348,6 +370,7 @@ async function postRegistration(data) {
         body: JSON.stringify(data)
     })
     if (response.ok) {
+        loader()
         registrations = await getRegistrations()
         updateCapacity(eventId)
         closeModal()
@@ -382,6 +405,7 @@ async function updateCapacity(eventId) {
     })
 
     if (response.ok) {
+        loader()
         events = await getEvents()
         updatePageState()
     }
@@ -459,10 +483,15 @@ function initEventListeners() {
 }
 
 async function init() {
+    loader()
+
+    getData()
+    updateHero()
+
     events = await getEvents()
     registrations = await getRegistrations()
-    getData()
     updatePageState()
+
     initEventListeners()
 }
 
