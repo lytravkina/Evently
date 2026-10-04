@@ -59,6 +59,7 @@ body {
     -webkit-text-fill-color: transparent;
     background-position: 0%;
     background-clip: text;
+    cursor: pointer;
 
     & span {
         background-color: var(--accent-color);

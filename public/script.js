@@ -451,6 +451,11 @@ function initEventListeners() {
     })
 
     menu.theme.addEventListener('click', toggleTheme)
+
+    document.querySelector('.logo').addEventListener('click', function () {
+        page.state = 'events'
+        updatePageState()
+    })
 }
 
 async function init() {
