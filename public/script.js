@@ -115,7 +115,6 @@ function updatePageState() {
 }
 
 function renderEvents(events) {
-    console.log(events)
     eventsList.innerHTML = ''
 
     if (events.length === 0) {
@@ -251,9 +250,6 @@ function filterEvents(event) {
             break;
     }
 
-
-    // filters.search = event.target.value
-
     const { search, category } = filters
 
     let filteredEvents = page.currentEvents.filter(event => {
@@ -278,27 +274,119 @@ function createError(string) {
 
 const handler = {
     handleEvent(event) {
-        let cardId = event.target.closest('article').id
+        let cardId;
         switch (true) {
-            case event.target.matches('.button_sign-up'):
+            case event.target.matches('.button_sign-up') || event.target.matches('.events-add'):
+                if (event.target.closest('article')) {
+                    cardId = event.target.closest('article').id
+                }
                 this.openModal(cardId)
                 break;
             case event.target.matches('.button_sign-out'):
+                cardId = event.target.closest('article').id
                 this.deleteRegistration(cardId)
                 break;
         }
     },
 
     openModal(cardId) {
+        console.log('openModal fn')
+        const modalHead = document.querySelector('.modal__top')
+        const modalForm = document.querySelector('.modal-form')
+        switch (true) {
+            case event.target.matches('.events-add'):
+                modalForm.innerHTML = `<label class="modal-form__label modal-form__label_title label"
+              >Название
+              <input
+                type="text"
+                name="title"
+                class="modal-form__input modal-form__input_title input"
+              />
+            </label>
+            <p class="modal-form__error error-message"></p>
+            <label class="modal-form__label modal-form__label_description label"
+              >Описание
+              <input
+                type="text"
+                name="description"
+                class="modal-form__input modal-form__input_description input"
+              />
+            </label>
+            <label class="modal-form__label modal-form__label_category label"
+              >Категория
+              <select name="category" class="modal-form__select modal-form__select_category select">
+                <option class="modal-form__option" value="tech" selected>tech</option>
+                <option class="modal-form__option" value="art">art</option>
+                <option class="modal-form__option" value="music">music</option>
+              </select>
+            </label>
+            <p class="modal-form__error error-message"></p>
+            <label class="modal-form__label modal-form__label_date label"
+              >Дата и время
+              <input
+                type="datetime-local"
+                name="date"
+                class="modal-form__input modal-form__input_date input"
+              />
+            </label>
+            <label class="modal-form__label modal-form__label_location label"
+              >Место
+              <input
+                type="text"
+                name="location"
+                class="modal-form__input modal-form__input_location input"
+              />
+            </label>
+            <label class="modal-form__label modal-form__label_capacity label"
+              >Количество участников
+              <input
+                type="number"
+                name="capacity"
+                class="modal-form__input modal-form__input_capacity input"
+              />
+            </label>
+            <button class="button button_submit" type="submit">
+              Отправить
+            </button>`
+                modalHead.querySelector('.subtitle').textContent = 'Добавление'
+                modalHead.querySelector('.title').textContent = 'Расскажите о событии'
+                modalHead.querySelector('.description').textContent = 'Заполните данные о мероприятии, чтобы о нем узнало больше людей'
+                break;
+            case event.target.matches('.button_sign-up'):
+                modalForm.innerHTML = `<label class="modal-form__label modal-form__label_name label"
+              >Имя
+              <input
+                type="text"
+                name="name"
+                class="modal-form__input modal-form__input_name input"
+              />
+            </label>
+            <p class="modal-form__error error-message"></p>
+            <label class="modal-form__label modal-form__label_email label"
+              >Email
+              <input
+                type="email"
+                name="email"
+                class="modal-form__input modal-form__input_email input"
+              />
+            </label>
+            <button class="button button_submit" type="submit">
+              Отправить
+            </button>`
+                modalHead.querySelector('.subtitle').textContent = 'Запись'
+                modalHead.querySelector('.description').textContent = 'Оставь контакты, чтобы подтвердить участие'
+                page.currentEvents.forEach(event => {
+                    if (event.id === cardId) {
+                        modalHead.querySelector('.title').textContent = event.title
+                        data.eventId = cardId
+                    }
+                })
+                break;
+        }
+
         modal.querySelector('.button_submit').textContent = 'Отправить'
         modal.querySelector('.button_submit').disabled = false
         modal.classList.add('modal_open')
-        page.currentEvents.forEach(event => {
-            if (event.id === cardId) {
-                modal.querySelector('.modal__title').textContent = event.title
-                data.eventId = cardId
-            }
-        })
     },
 
     async deleteRegistration(cardId) {

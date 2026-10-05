@@ -7,7 +7,7 @@
       "category": "tech",
       "date": "2026-10-03T18:30:00",
       "location": "Tech Hub",
-      "capacity": 29
+      "capacity": 30
     },
     {
       "id": "2",
@@ -79,12 +79,6 @@
       "email": "lytrvn@gmail.com",
       "eventId": "8",
       "id": "p2NcMhaHVBI"
-    },
-    {
-      "name": "test",
-      "email": "lytrvn@gmail.com",
-      "eventId": "1",
-      "id": "NVoiHZjWBO8"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

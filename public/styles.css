@@ -191,7 +191,7 @@ body {
 .events-add__icon {
     height: 1rem;
     width: auto;
-    
+
     & path {
         stroke-width: 1.5;
         stroke: var(--accent-color-background-dark)
@@ -439,7 +439,8 @@ body {
 }
 
 .label {
-    display: block;
+    display: flex;
+    flex-direction: column;
     font-size: 1rem;
     margin-bottom: 1rem;
 }
