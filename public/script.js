@@ -440,7 +440,12 @@ function setFormData(event) {
         data.category = event.target.querySelector('.select').value
         const isExisting = events.some(event => event.title === data.title)
         if (isExisting) {
-            alert('Мероприятие с таким именем уже существует')
+            alert('Мероприятие с таким именем уже существует.')
+            return
+        }
+        const isPast = new Date(data.date).getTime() < Date.now()
+        if (isPast) {
+            alert('Указанная дата уже прошла. Пожалуйста, выберите другую дату.')
             return
         }
         data.capacity = Number(data.capacity)
