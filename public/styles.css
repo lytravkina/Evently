@@ -142,6 +142,11 @@ body {
 
 .event-card {
     flex: 0 0 calc((100% - var(--cards-gap)) / 2);
+
+    &[disabled="true"] {
+        opacity: .5;
+        pointer-events: none;
+    }
 }
 
 .event-card__content {

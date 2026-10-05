@@ -7,7 +7,7 @@
       "category": "tech",
       "date": "2026-10-03T18:30:00",
       "location": "Tech Hub",
-      "capacity": 30
+      "capacity": 29
     },
     {
       "id": "2",
@@ -84,13 +84,20 @@
     {
       "title": "Пир во время чумы",
       "description": "Медсестра разбила колбу, и весь город встал на уши",
-      "date": "2026-10-07T03:00",
+      "date": "2026-10-01T03:00",
       "location": "г. Иркутск",
       "capacity": 1000,
       "category": "art",
       "id": "WYRuRuZGnMg"
     }
   ],
-  "registrations": [],
+  "registrations": [
+    {
+      "eventId": "1",
+      "name": "fedsfsa",
+      "email": "lytrvn@gmail.com",
+      "id": "GGB_jEyp2JA"
+    }
+  ],
   "$schema": "./node_modules/json-server/schema.json"
 }

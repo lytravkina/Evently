@@ -184,6 +184,8 @@ function renderEvents(events) {
             </div>`
         eventsList.append(eventElement)
     })
+
+    filterPastEvents()
 }
 
 function formatDate(string) {
@@ -608,6 +610,21 @@ function toggleTheme() {
 
     document.documentElement.dataset.theme = page.theme
     loadData()
+}
+
+function filterPastEvents() {
+    const pastEvents = events.filter(event => new Date(event.date).getTime() < Date.now())
+    pastEvents.forEach(event => {
+        for (let child of eventsList.children) {
+            if (child.id === event.id) {
+                console.log(child.id)
+                child.setAttribute('disabled', true)
+                child.querySelector('.button').textContent = 'Мероприятие завершилось'
+                child.querySelector('.date').style.color = 'var(--dark-error)'
+                child.style.order = '1'
+            }
+        }
+    })
 }
 
 function initEventListeners() {
