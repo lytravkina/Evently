@@ -28,9 +28,9 @@ const menu = {
     theme: document.querySelector('.menu__item_theme')
 }
 
-const data = {
-    name: '',
-    email: ''
+let data = {
+    // name: '',
+    // email: ''
 }
 
 // function sleep(ms) {
@@ -290,7 +290,6 @@ const handler = {
     },
 
     openModal(cardId) {
-        console.log('openModal fn')
         const modalHead = document.querySelector('.modal__top')
         const modalForm = document.querySelector('.modal-form')
         switch (true) {
@@ -351,6 +350,7 @@ const handler = {
                 modalHead.querySelector('.subtitle').textContent = 'Добавление'
                 modalHead.querySelector('.title').textContent = 'Расскажите о событии'
                 modalHead.querySelector('.description').textContent = 'Заполните данные о мероприятии, чтобы о нем узнало больше людей'
+                data = {}
                 break;
             case event.target.matches('.button_sign-up'):
                 modalForm.innerHTML = `<label class="modal-form__label modal-form__label_name label"
@@ -375,6 +375,7 @@ const handler = {
             </button>`
                 modalHead.querySelector('.subtitle').textContent = 'Запись'
                 modalHead.querySelector('.description').textContent = 'Оставь контакты, чтобы подтвердить участие'
+                data = {}
                 page.currentEvents.forEach(event => {
                     if (event.id === cardId) {
                         modalHead.querySelector('.title').textContent = event.title
@@ -414,7 +415,7 @@ const handler = {
     }
 }
 
-function setRegistration(event) {
+function setFormData(event) {
     event.preventDefault()
 
     const targets = [...event.target.querySelectorAll('.modal-form__input')]
@@ -433,19 +434,23 @@ function setRegistration(event) {
         return
     }
 
-    const isRegistered = checkRegistration()
-    if (isRegistered) {
-        alert('Вы уже записаны на данное мероприятие.')
-        return
+    if (event.target.querySelector('.select')) {
+        data.category = event.target.querySelector('.select').value
+        const isExisting = events.some(event => event.title === data.title)
+        if (isExisting) {
+            alert('Мероприятие с таким именем уже существует')
+            return
+        }
+        data.capacity = Number(data.capacity)
+        postEvent(data)
+    } else {
+        const isRegistered = registrations.some(registration => registration.eventId === data.eventId)
+        if (isRegistered) {
+            alert('Вы уже записаны на данное мероприятие.')
+            return
+        }
+        postRegistration(data)
     }
-
-    postRegistration(data)
-}
-
-function checkRegistration() {
-    const isRegistered = registrations.some(registration => registration.eventId === data.eventId)
-    console.log(isRegistered)
-    return isRegistered
 }
 
 function validateInput(input) {
@@ -517,7 +522,25 @@ async function postRegistration(data) {
     }
 }
 
+async function postEvent(data) {
+    const response = await fetch(eventsPath, {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'POST',
+        body: JSON.stringify(data)
+    })
+
+    if (response.ok) {
+        loader()
+        events = await getEvents()
+        updatePageState()
+        closeModal()
+    }
+}
+
 async function updateCapacity(eventId) {
+    console.log(events)
     const eventToUpdate = events.find(event => event.id === eventId)
 
     let updatedEvent;
@@ -601,7 +624,7 @@ function initEventListeners() {
     document.querySelector('.filters-form__select').addEventListener('change', filterEvents)
     document.querySelector('.filters-form__input').addEventListener('input', filterEvents)
 
-    modal.querySelector('.modal-form').addEventListener('submit', setRegistration)
+    modal.querySelector('.modal-form').addEventListener('submit', setFormData)
     modal.querySelector('.modal-form').addEventListener('input', event => clearError(event.target))
 
     menu.events.addEventListener('click', function () {
