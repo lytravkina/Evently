@@ -130,9 +130,9 @@ body {
 
 .events__cards {
     padding: 2.5rem 0;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-auto-rows: 1fr;
+    display: flex;
+    /* grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 1fr; */
     flex-direction: row;
     flex-wrap: wrap;    
     gap: var(--cards-gap);
@@ -140,9 +140,9 @@ body {
 
 /* cards */
 
-/* .event-card, .events-add {
+.event-card {
     flex: 0 0 calc((100% - var(--cards-gap)) / 2);
-} */
+}
 
 .event-card__content {
     display: flex;
@@ -165,12 +165,16 @@ body {
 
 .events-add {
     display: flex;
-    flex-direction: column;
+    width: 100%;
+    flex-direction: row;
+    gap: .5rem;
     justify-content: center;
     align-items: center;
     height: 100%;
-    padding: 2.5rem;
+    padding: 1rem;
     border-radius: 1.5rem;
+    font-size: 1rem;
+    color: var(--accent-color-background-dark);
     background-color: transparent;
     border: 1.5px solid var(--accent-color-background-dark);
     transform: translateY(0);
@@ -185,11 +189,11 @@ body {
 }
 
 .events-add__icon {
-    height: 25%;
+    height: 1rem;
     width: auto;
-
+    
     & path {
-        stroke-width: .5;
+        stroke-width: 1.5;
         stroke: var(--accent-color-background-dark)
     }
 }
@@ -465,13 +469,13 @@ body {
         font-size: 12px
     }
 
-    /* .event-card {
+    .event-card {
         flex: 1 0 100%;
-    } */
-
-    .events__cards {
-        grid-template-columns: 1fr;
     }
+
+    /* .events__cards {
+        grid-template-columns: 1fr;
+    } */
 }
 
 @media (max-width: 480px) {
