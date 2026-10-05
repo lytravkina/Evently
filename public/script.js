@@ -115,6 +115,7 @@ function updatePageState() {
 }
 
 function renderEvents(events) {
+    console.log(events)
     eventsList.innerHTML = ''
 
     if (events.length === 0) {
@@ -135,7 +136,6 @@ function renderEvents(events) {
                                         <path fill-rule="evenodd" clip-rule="evenodd" d="M12.5578 1.35883V1.35883C11.2138 0.350828 9.30779 0.622828 8.29979 1.96583C8.29979 1.96583 3.28679 8.64383 1.54779 10.9608C-0.191209 13.2788 1.45379 16.1508 1.45379 16.1508C1.45379 16.1508 4.69779 16.8968 6.41179 14.6118C8.12679 12.3278 13.1638 5.61683 13.1638 5.61683C14.1718 4.27383 13.9008 2.36683 12.5578 1.35883Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                         <path d="M7.00415 3.7113L11.8682 7.3623" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                     </svg>`
-            // createEventElement.textContent = 'Создать событие'
             eventsList.append(createEventElement)
             break;
         case 'registrations':
@@ -231,9 +231,31 @@ const filters = {
 function filterEvents(event) {
     event.preventDefault()
 
-    filters.search = event.target.value
+    switch (event.type) {
+        case 'submit':
+            for (let element of event.target.elements) {
+                switch (element.type) {
+                    case 'text':
+                        filters.search = element.value
+                        break;
+                    case 'select-one':
+                        filters.category = element.value
+                }
+            }
+            break;
+        case 'input':
+            filters.search = event.target.value
+            break;
+        case 'change':
+            filters.category = event.target.value
+            break;
+    }
+
+
+    // filters.search = event.target.value
 
     const { search, category } = filters
+
     let filteredEvents = page.currentEvents.filter(event => {
         let filteredBySearch =
             !search || event.title.toLowerCase().includes(search) || event.description.toLowerCase().includes(search)
