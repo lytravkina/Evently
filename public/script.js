@@ -459,11 +459,31 @@ function validateInput(input) {
         input.value = ''
         const errorMessage = document.createElement('p')
         errorMessage.classList.add('modal-form__error', 'error-message')
-        if (input.name === 'name') {
-            errorMessage.textContent = 'Пожалуйста, введите ваше имя'
-        } else {
-            errorMessage.textContent = 'Пожалуйста, введите корректный Email'
+        let string;
+        switch (input.name) {
+            case 'name':
+                string = 'Пожалуйста, введите ваше имя'
+                break;
+            case 'email':
+                string = 'Пожалуйста, введите корректный Email'
+                break;
+            case 'title':
+                string = 'Пожалуйста, введите название'
+                break;
+            case 'description':
+                string = 'Пожалуйста, введите описание'
+                break;
+            case 'date':
+                string = 'Пожалуйста, укажите дату и время'
+                break;
+            case 'location':
+                string = 'Пожалуйста, укажите место проведения'
+                break;
+            case 'capacity':
+                string = 'Пожалуйста, укажите количество участников'
+                break;
         }
+        errorMessage.textContent = string
 
         parent.append(errorMessage)
     }
