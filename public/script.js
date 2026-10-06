@@ -477,6 +477,18 @@ function setFormData(event) {
             alert('Вы уже записаны на данное мероприятие.')
             return
         }
+
+        let isFull = false;
+        events.forEach(event => {
+            if (event.id === data.eventId && event.capacity === 0) {
+                isFull = true
+            }
+        })
+        if (isFull) {
+            alert('Лимит участников достигнут. Пожалуйста, выберите другое мероприятие.')
+            return;
+        }
+
         postRegistration(data)
     }
 }
