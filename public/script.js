@@ -278,7 +278,6 @@ function createError(string) {
 
 const handler = {
     handleEvent(event) {
-        console.log(event.target.closest('.event-card__delete'))
         let cardId;
         if (event.target.closest('article')) {
             cardId = event.target.closest('article').id

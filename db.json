@@ -61,7 +61,7 @@
       "category": "tech",
       "date": "2026-10-18T18:00:00",
       "location": "Tech Hub",
-      "capacity": 35
+      "capacity": 34
     },
     {
       "id": "8",
@@ -89,15 +89,6 @@
       "capacity": 1000,
       "category": "art",
       "id": "WYRuRuZGnMg"
-    },
-    {
-      "title": "lkjk",
-      "description": "pl;'plkp",
-      "date": "2027-08-17T15:30",
-      "location": "opipo",
-      "capacity": 0,
-      "category": "tech",
-      "id": "hG-HS_sQDzU"
     }
   ],
   "registrations": [
@@ -112,6 +103,12 @@
       "name": "fedsfsa",
       "email": "lytrvn@gmail.com",
       "id": "83G-EcSFOtc"
+    },
+    {
+      "eventId": "7",
+      "name": "fedsfsa",
+      "email": "lytrvn@gmail.com",
+      "id": "gBYP9WwNbGU"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
