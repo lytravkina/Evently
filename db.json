@@ -89,15 +89,6 @@
       "capacity": 1000,
       "category": "art",
       "id": "WYRuRuZGnMg"
-    },
-    {
-      "title": ";lsk;lfas",
-      "description": "s;dofkaspof",
-      "date": "2027-08-17T15:30",
-      "location": "s;fk;ws",
-      "capacity": 2,
-      "category": "tech",
-      "id": "Lbc5V22KmVI"
     }
   ],
   "registrations": [
@@ -106,6 +97,12 @@
       "name": "fedsfsa",
       "email": "lytrvn@gmail.com",
       "id": "GGB_jEyp2JA"
+    },
+    {
+      "eventId": null,
+      "name": "fedsfsa",
+      "email": "lytrvn@gmail.com",
+      "id": "83G-EcSFOtc"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

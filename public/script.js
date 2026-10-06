@@ -33,9 +33,9 @@ let data = {
     // email: ''
 }
 
-// function sleep(ms) {
-//     return new Promise(resolve => setTimeout(resolve, ms));
-// }
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 async function getEvents() {
     try {
@@ -45,7 +45,7 @@ async function getEvents() {
             throw new Error()
         }
 
-        // await sleep(2000)
+        // await sleep(1000)
 
         return await response.json()
 
@@ -64,7 +64,7 @@ async function getRegistrations() {
             throw new Error()
         }
 
-        // await sleep(2000)
+        // await sleep(1000)
 
         return await response.json()
 
@@ -124,6 +124,7 @@ function renderEvents(events) {
     }
 
     let button;
+    const deleteButton = '<button class="event-card__delete"><img class="icon__image" src = "./assets/Delete.svg"/></button >'
     switch (page.state) {
         case 'events':
             button = '<button class="button button_sign-up">Записаться</button>'
@@ -152,6 +153,7 @@ function renderEvents(events) {
                 <p class="event-card__description description">
                   ${event.description}
                 </p>
+                ${page.state === 'events' ? deleteButton : ''}
               </div>
               <div class="event-card__bottom">
                 <div class="event-card__details event-card__date">
@@ -276,17 +278,20 @@ function createError(string) {
 
 const handler = {
     handleEvent(event) {
+        console.log(event.target.closest('.event-card__delete'))
         let cardId;
+        if (event.target.closest('article')) {
+            cardId = event.target.closest('article').id
+        }
         switch (true) {
             case event.target.matches('.button_sign-up') || event.target.matches('.events-add'):
-                if (event.target.closest('article')) {
-                    cardId = event.target.closest('article').id
-                }
                 this.openModal(cardId)
                 break;
             case event.target.matches('.button_sign-out'):
-                cardId = event.target.closest('article').id
                 this.deleteRegistration(cardId)
+                break;
+            case !!event.target.closest('.event-card__delete'):
+                this.deleteEvent(cardId)
                 break;
         }
     },
@@ -321,7 +326,6 @@ const handler = {
                 <option class="modal-form__option" value="music">music</option>
               </select>
             </label>
-            <p class="modal-form__error error-message"></p>
             <label class="modal-form__label modal-form__label_date label"
               >Дата и время
               <input
@@ -412,6 +416,23 @@ const handler = {
                 updatePageState()
                 updateCapacity(cardId)
                 closeModal()
+            }
+        }
+    },
+
+    async deleteEvent(cardId) {
+        console.log('fn')
+        const isConfirmed = confirm('Вы действительно хотите удалить мероприятие?')
+
+        if (isConfirmed) {
+            const response = await fetch(`${eventsPath}/${cardId}`, {
+                method: 'DELETE'
+            })
+
+            if (response.ok) {
+                loader()
+                events = await getEvents()
+                updatePageState()
             }
         }
     }
@@ -547,7 +568,6 @@ async function postEvent(data) {
 }
 
 async function updateCapacity(eventId) {
-    console.log(events)
     const eventToUpdate = events.find(event => event.id === eventId)
 
     let updatedEvent;
@@ -622,7 +642,6 @@ function filterPastEvents() {
     pastEvents.forEach(event => {
         for (let child of eventsList.children) {
             if (child.id === event.id) {
-                console.log(child.id)
                 child.setAttribute('disabled', true)
                 child.querySelector('.button').textContent = 'Мероприятие завершилось'
                 child.querySelector('.date').style.color = 'var(--dark-error)'
