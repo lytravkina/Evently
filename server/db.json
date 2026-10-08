@@ -25,7 +25,7 @@
       "category": "music",
       "date": "2026-10-08T19:00:00",
       "location": "Music Hall",
-      "capacity": 50
+      "capacity": 48
     },
     {
       "id": "4",
@@ -34,7 +34,7 @@
       "category": "tech",
       "date": "2026-10-10T10:00:00",
       "location": "Coffee Point",
-      "capacity": 20
+      "capacity": 19
     },
     {
       "id": "5",
@@ -43,7 +43,7 @@
       "category": "art",
       "date": "2026-10-12T12:00:00",
       "location": "Central Park",
-      "capacity": 25
+      "capacity": 24
     },
     {
       "id": "6",
@@ -52,7 +52,7 @@
       "category": "music",
       "date": "2026-10-15T20:00:00",
       "location": "Loft Stage",
-      "capacity": 40
+      "capacity": 39
     },
     {
       "id": "7",
@@ -61,7 +61,7 @@
       "category": "tech",
       "date": "2026-10-18T18:00:00",
       "location": "Tech Hub",
-      "capacity": 34
+      "capacity": 36
     },
     {
       "id": "8",
@@ -91,25 +91,6 @@
       "id": "WYRuRuZGnMg"
     }
   ],
-  "registrations": [
-    {
-      "eventId": "1",
-      "name": "fedsfsa",
-      "email": "lytrvn@gmail.com",
-      "id": "GGB_jEyp2JA"
-    },
-    {
-      "eventId": null,
-      "name": "fedsfsa",
-      "email": "lytrvn@gmail.com",
-      "id": "83G-EcSFOtc"
-    },
-    {
-      "eventId": "7",
-      "name": "fedsfsa",
-      "email": "lytrvn@gmail.com",
-      "id": "gBYP9WwNbGU"
-    }
-  ],
+  "registrations": [],
   "$schema": "./node_modules/json-server/schema.json"
 }
