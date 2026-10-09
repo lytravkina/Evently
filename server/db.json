@@ -14,27 +14,18 @@
       "title": "Art Workshop",
       "description": "Практический мастер-класс по современной живописи.",
       "category": "art",
-      "date": "2026-10-05T15:00:00",
+      "date": "2026-10-31T15:00",
       "location": "Art Space",
-      "capacity": 15
-    },
-    {
-      "id": "3",
-      "title": "Rock Night",
-      "description": "Вечер живой музыки с несколькими местными группами.",
-      "category": "music",
-      "date": "2026-10-08T19:00:00",
-      "location": "Music Hall",
-      "capacity": 48
+      "capacity": "15"
     },
     {
       "id": "4",
-      "title": "Frontend Breakfast",
+      "title": "Frontend Breakfast 2",
       "description": "Неформальная утренняя встреча frontend-разработчиков за кофе.",
       "category": "tech",
-      "date": "2026-10-10T10:00:00",
+      "date": "2026-10-28T22:50",
       "location": "Coffee Point",
-      "capacity": 19
+      "capacity": "18"
     },
     {
       "id": "5",
@@ -75,7 +66,7 @@
     {
       "title": "Началось в колхозе утро",
       "description": "Все собираемся на детские мероприятия в хуторе Бакланики",
-      "date": "2026-10-06T08:00",
+      "date": "2026-10-31T08:00",
       "location": "хутор Бакланики",
       "capacity": 12,
       "category": "music",
@@ -84,13 +75,20 @@
     {
       "title": "Пир во время чумы",
       "description": "Медсестра разбила колбу, и весь город встал на уши",
-      "date": "2026-10-01T03:00",
+      "date": "2026-10-30T22:50",
       "location": "г. Иркутск",
       "capacity": 1000,
       "category": "art",
       "id": "WYRuRuZGnMg"
     }
   ],
-  "registrations": [],
+  "registrations": [
+    {
+      "eventId": "4",
+      "name": "fedsfsa",
+      "email": "lytrvn@gmail.com",
+      "id": "YzbpCCRgT1M"
+    }
+  ],
   "$schema": "./node_modules/json-server/schema.json"
 }

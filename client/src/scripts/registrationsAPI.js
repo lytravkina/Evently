@@ -11,7 +11,6 @@ async function getRegistrations() {
 }
 
 async function postRegistration(data) {
-    // const eventId = data.eventId
     const response = await fetch(path, {
         headers: {
             'Content-Type': 'application/json'
@@ -20,7 +19,7 @@ async function postRegistration(data) {
         body: JSON.stringify(data)
     })
     if (!response.ok) {
-        throw new Error('Не удалось записаться')
+        throw new Error('Не удалось записаться на мероприятие')
     }
 }
 

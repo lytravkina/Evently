@@ -1,64 +1,15 @@
 'use strict';
 
-import { eventForm, registrationForm, eventCard, createEventButton, errorMessage } from "./components.js";
 import { validateInput, validateRegistration, validateEvent } from "./validation.js";
 import { state } from "./state.js";
 import { getData, loadData } from "./storage.js";
 import { getEvents, postEvent, updateEvent, deleteEventRequest } from "./eventsAPI.js";
 import { getRegistrations, postRegistration, deleteRegistrationRequest } from "./registrationsAPI.js";
+import { loader, renderEvents, renderEventModal, renderRegistrationModal, renderHero, renderEditPage } from "./render.js";
+import { errorMessage } from "./components.js";
 
 const eventsList = document.querySelector('.events__cards')
 const modal = document.querySelector('.modal')
-
-function loader() {
-    eventsList.innerHTML = ''
-
-    const spinner = document.createElement('div')
-    spinner.classList.add('spinner')
-    spinner.innerHTML = '<img class="icon__image" src="./assets/DottedCircle01.svg">'
-
-    if (document.querySelector('.modal_open')) {
-        modal.querySelector('.button_submit').textContent = 'Отправка...'
-        modal.querySelector('.button_submit').disabled = true
-    }
-
-    eventsList.append(spinner)
-}
-
-function renderEvents(events) {
-    eventsList.innerHTML = ''
-
-    if (events.length === 0) {
-        const string = 'Нет доступных мероприятий'
-        eventsList.append(errorMessage(string))
-        return
-    }
-
-    if (state.page.state === 'events') {
-        eventsList.innerHTML = createEventButton()
-    }
-
-    events.forEach(event => {
-        const eventElement = document.createElement('article')
-        eventElement.classList.add('event-card')
-        eventElement.id = event.id
-        eventElement.innerHTML = eventCard(event, state.page.state, formatDate)
-        eventsList.append(eventElement)
-    })
-
-    filterPastEvents()
-}
-
-function formatDate(string) {
-    let [date, time] = string.split('T')
-
-    const [year, month, day] = date.split('-')
-
-    const [hour, minute] = time.split(':')
-
-    const formattedDate = `${day}.${month}.${year} ${hour}:${minute}`
-    return formattedDate
-}
 
 function setCategories(events) {
     document.querySelectorAll('.filters-form__option').forEach(option => option.remove())
@@ -116,7 +67,7 @@ function filterEvents(event) {
         return filteredBySearch && filteredByCategory
     })
 
-    renderEvents(filteredEvents)
+    renderEvents(filteredEvents, state.page.state)
 }
 
 const handler = {
@@ -135,32 +86,28 @@ const handler = {
             case !!event.target.closest('.event-card__delete'):
                 this.deleteEvent(cardId)
                 break;
+            case !!event.target.closest('.event-card__edit'):
+                const card = event.target.closest('article')
+                this.editEvent(cardId)
+                break;
+            case !!event.target.closest('.event-card__close'):
+                renderEvents(state.getCurrentEvents(), state.page.state)
+                break;
         }
     },
 
     openModal(cardId) {
-        const modalForm = document.querySelector('.modal-form')
-        const modalHeader = document.querySelector('.modal__top')
         switch (true) {
             case event.target.matches('.events-add'):
-                modalForm.innerHTML = eventForm()
-
-                modalHeader.querySelector('.subtitle').textContent = 'Добавление'
-                modalHeader.querySelector('.title').textContent = 'Расскажите о событии'
-                modalHeader.querySelector('.description').textContent = 'Заполните данные о мероприятии, чтобы о нем узнало больше людей'
+                renderEventModal()
                 break;
             case event.target.matches('.button_sign-up'):
-                modalForm.innerHTML = registrationForm()
-
                 state.getCurrentEvents().forEach(event => {
                     if (event.id === cardId) {
-                        modalHeader.querySelector('.subtitle').textContent = 'Запись'
-                        modalHeader.querySelector('.title').textContent = event.title
-                        modalHeader.querySelector('.description').textContent = 'Оставь контакты, чтобы подтвердить участие'
-
-                        state.data.eventId = cardId
+                        renderRegistrationModal(event)
                     }
                 })
+                state.data.eventId = cardId
                 break;
         }
 
@@ -181,7 +128,7 @@ const handler = {
 
             try {
                 await deleteRegistrationRequest(registrationId)
-                await updateEvent(cardId, state)
+                await updateCapacity(cardId)
                 await updatePage()
             } catch (error) {
                 alert(error.message)
@@ -199,6 +146,58 @@ const handler = {
                 alert(error.message)
             }
         }
+    },
+
+    editEvent(id) {
+        const eventToUpdate = state.events.find(event => event.id === id)
+        renderEditPage(eventToUpdate)
+        document.querySelector('.event-card__edit_form').addEventListener('submit', (event) => setUpdatedEvent(event, eventToUpdate))
+    }
+}
+
+async function setUpdatedEvent(event, eventToUpdate) {
+    event.preventDefault()
+
+    let inputs = [...document.querySelectorAll('.event-card__edit_input')]
+
+    let updatedEvent = { ...eventToUpdate }
+    inputs.forEach(input => {
+        if (input.value.trim()) {
+            updatedEvent[input.name] = input.value
+        }
+    })
+
+    try {
+        await updateEvent(updatedEvent)
+        await updatePage()
+    } catch (error) {
+        alert(error.message)
+    }
+}
+
+async function updateCapacity(id) {
+    const eventToUpdate = state.events.find(event => event.id === id)
+
+    let updatedEvent;
+    switch (state.page.state) {
+        case 'events':
+            updatedEvent = {
+                ...eventToUpdate,
+                capacity: eventToUpdate.capacity - 1
+            }
+            break;
+        case 'registrations':
+            updatedEvent = {
+                ...eventToUpdate,
+                capacity: eventToUpdate.capacity + 1
+            }
+            break;
+    }
+
+    try {
+        await updateEvent(updatedEvent)
+    } catch (error) {
+        alert(error.message)
     }
 }
 
@@ -248,7 +247,6 @@ async function setFormData(event) {
             closeModal()
         } catch (error) {
             alert(error.message)
-            return
         }
 
     } else {
@@ -261,12 +259,11 @@ async function setFormData(event) {
 
         try {
             await postRegistration(state.data)
-            await updateEvent(state.data.eventId, state)
+            await updateCapacity(state.data.eventId)
             await updatePage()
             closeModal()
         } catch (error) {
             alert(error.message)
-            return
         }
     }
 }
@@ -280,33 +277,12 @@ function clearError(input) {
     }
 }
 
-function closeModal(event) {
+function closeModal() {
     const inputs = [...modal.querySelectorAll('.modal-form__input')]
 
     inputs.forEach(input => input.value = '')
     modal.classList.remove('modal_open')
     resetFormData()
-}
-
-function renderHero() {
-    const hero = {
-        subtitle: document.querySelector('.hero__subtitle'),
-        title: document.querySelector('.hero__title'),
-        description: document.querySelector('.hero__description')
-    }
-
-    switch (state.page.state) {
-        case 'events':
-            hero.subtitle.textContent = 'Мероприятия'
-            hero.title.textContent = 'Будь в центре событий'
-            hero.description.textContent = 'Выбирай интересное мероприятие и записывайся в пару кликов.'
-            break;
-        case 'registrations':
-            hero.subtitle.textContent = 'Мои записи'
-            hero.title.textContent = 'Твои планы на ближайшее время'
-            hero.description.textContent = 'Следи за предстоящими событиями и ничего не пропускай.'
-            break;
-    }
 }
 
 function toggleTheme() {
@@ -320,24 +296,10 @@ function toggleTheme() {
     }
 
     document.documentElement.dataset.theme = state.page.theme
-    loadData(state)
+    loadData(state.page)
 }
 
-function filterPastEvents() {
-    const pastEvents = state.events.filter(event => new Date(event.date).getTime() < Date.now())
-    pastEvents.forEach(event => {
-        for (let child of eventsList.children) {
-            if (child.id === event.id) {
-                child.setAttribute('disabled', true)
-                child.querySelector('.button').textContent = 'Мероприятие завершилось'
-                child.querySelector('.date').style.color = 'var(--dark-error)'
-                child.style.order = '1'
-            }
-        }
-    })
-}
-
-function setPageState(event) {
+async function setPageState(event) {
     switch (true) {
         case event.target.matches('.menu__item_events') || event.target.matches('.logo'):
             state.page.state = 'events'
@@ -350,20 +312,18 @@ function setPageState(event) {
             break;
     }
 
-    loadData(state)
-    renderHero()
-    renderEvents(state.getCurrentEvents())
-    setCategories(state.getCurrentEvents())
+    loadData(state.page)
+    await updatePage()
 }
 
 async function updatePage() {
-    renderHero()
+    renderHero(state.page.state)
     loader()
     try {
         state.events = await getEvents()
         state.registrations = await getRegistrations()
 
-        renderEvents(state.getCurrentEvents())
+        renderEvents(state.getCurrentEvents(), state.page.state)
         setCategories(state.getCurrentEvents())
 
     } catch (error) {
@@ -390,7 +350,7 @@ function initEventListeners() {
 }
 
 async function init() {
-    getData(state)
+    getData(state.page)
     await updatePage()
     initEventListeners()
 }

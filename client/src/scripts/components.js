@@ -37,7 +37,7 @@ function registrationForm() {
             </button>`
 }
 
-function eventCard(event, state, fn) {
+function eventCard(event, state) {
   return `<div class="event-card__content">
               <div class="event-card__top">
                 <div class="event-card__subtitle subtitle">${event.category}</div>
@@ -45,25 +45,25 @@ function eventCard(event, state, fn) {
                 <p class="event-card__description description">
                   ${event.description}
                 </p>
-                ${state === 'events' ? '<button class="event-card__delete"><img class="icon__image" src = "./assets/Delete.svg"/></button>' : ''}
+                ${state === 'events'
+      ? '<button class="event-card__edit"><img class="icon__image" src="./assets/icons/edit-button.svg"/></button><button class="event-card__delete"><img class="icon__image" src="./assets/icons/delete-button.svg"/></button>'
+      : ''}
               </div>
               <div class="event-card__bottom">
                 <div class="event-card__details event-card__date">
                   <div class="icon">
                     <img
                       class="icon__image"
-                      src="./assets/Time Square.svg"
-                      alt="Clock emoji"
+                      src="./assets/icons/icon-date.svg"
                     />
                   </div>
-                  <span class="date">${fn(event.date)}</span>
+                  <span class="date">${formatDate(event.date)}</span>
                 </div>
                 <div class="event-card__details event-card__location">
                   <div class="icon">
                     <img
                       class="icon__image"
-                      src="./assets/Location.svg"
-                      alt="Location pin emoji"
+                      src="./assets/icons/icon-location.svg"
                     />
                   </div>
                   <span class="location">${event.location}</span>
@@ -80,6 +80,57 @@ function eventCard(event, state, fn) {
                 </button>
               </div>
             </div>`
+}
+
+function eventCardEdit(event) {
+  return `<div class="event-card__content">
+            <form class="event-card__edit_form form">
+              <div class="event-card__top">
+                <div class="event-card__subtitle subtitle">${event.category}</div>
+                <input class="event-card__edit_input input" type="text" name="title" value="${event.title}"></input>
+                <input class="event-card__edit_input input" type="text" name="description" value="${event.description}"></input>
+                <button class="event-card__close" type="button"><img class="icon__image" src="./assets/Logout.svg"/></button>
+                <button class="event-card__delete" type="button" style="pointer-events: none"><img class="icon__image" src="./assets/Delete.svg"/></button>
+              </div>
+              <div class="event-card__bottom">
+                <div class="event-card__details event-card__date">
+                  <div class="icon">
+                    <img
+                      class="icon__image"
+                      src="./assets/icons/icon-date.svg"
+                      alt="Clock emoji"
+                    />
+                  </div>
+                  <input class="event-card__edit_input input" type="datetime-local" name="date" value="${event.date}"></input>
+                </div>
+                <div class="event-card__details event-card__location">
+                  <div class="icon">
+                    <img
+                      class="icon__image"
+                      src="./assets/icons/icon-location.svg"
+                      alt="Location pin emoji"
+                    />
+                  </div>
+                  <input class="event-card__edit_input input" type="text" name="location" value="${event.location}"></input>
+                </div>
+                <div class="event-card__details event-card__capacity">
+                  <input class="event-card__edit_input input" type="number" name="capacity" value="${event.capacity}"></input>
+                </div>
+                <button class="event-card__edit_button button" type="submit">Завершить редактирование</button>
+              </div>
+            </form>
+          </div>`
+}
+
+function formatDate(string) {
+  let [date, time] = string.split('T')
+
+  const [year, month, day] = date.split('-')
+
+  const [hour, minute] = time.split(':')
+
+  const formattedDate = `${day}.${month}.${year} ${hour}:${minute}`
+  return formattedDate
 }
 
 function createEventButton() {
@@ -99,4 +150,4 @@ function errorMessage(string) {
   return error
 }
 
-export { eventForm, registrationForm, eventCard, createEventButton, errorMessage }
+export { eventForm, registrationForm, eventCard, createEventButton, errorMessage, eventCardEdit }

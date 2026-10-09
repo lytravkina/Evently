@@ -20,32 +20,14 @@ async function postEvent(data) {
     })
 
     if (!response.ok) {
-        throw new Error()
+        throw new Error('Не удалось создать мероприятие')
     }
 
     return await response.json()
 }
 
-async function updateEvent(id, state) {
-    const eventToUpdate = state.events.find(event => event.id === id)
-
-    let updatedEvent;
-    switch (state.page.state) {
-        case 'events':
-            updatedEvent = {
-                ...eventToUpdate,
-                capacity: eventToUpdate.capacity - 1
-            }
-            break;
-        case 'registrations':
-            updatedEvent = {
-                ...eventToUpdate,
-                capacity: eventToUpdate.capacity + 1
-            }
-            break;
-    }
-
-    const response = await fetch(`${path}/${id}`, {
+async function updateEvent(updatedEvent) {
+    const response = await fetch(`${path}/${updatedEvent.id}`, {
         headers: {
             'Content-Type': 'application/json'
         },
@@ -66,7 +48,7 @@ async function deleteEventRequest(eventId) {
     })
 
     if (!response.ok) {
-        throw new Error()
+        throw new Error('Не удалось удалить мероприятие')
     }
 
     return await response.json()
