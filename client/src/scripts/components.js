@@ -89,8 +89,8 @@ function eventCardEdit(event) {
                 <div class="event-card__subtitle subtitle">${event.category}</div>
                 <input class="event-card__edit_input input" type="text" name="title" value="${event.title}"></input>
                 <input class="event-card__edit_input input" type="text" name="description" value="${event.description}"></input>
-                <button class="event-card__close" type="button"><img class="icon__image" src="./assets/Logout.svg"/></button>
-                <button class="event-card__delete" type="button" style="pointer-events: none"><img class="icon__image" src="./assets/Delete.svg"/></button>
+                <button class="event-card__close" type="button"><img class="icon__image" src="./assets/icons/quit-button.svg"/></button>
+                <button class="event-card__delete" type="button" style="pointer-events: none"><img class="icon__image" src="./assets/icons/delete-button.svg"/></button>
               </div>
               <div class="event-card__bottom">
                 <div class="event-card__details event-card__date">
