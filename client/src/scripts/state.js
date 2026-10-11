@@ -1,6 +1,6 @@
 export const state = {
     events: [],
-    registartions: [],
+    registrations: [],
 
     page: {
         state: 'events',

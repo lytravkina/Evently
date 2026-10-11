@@ -16,7 +16,7 @@
       "category": "art",
       "date": "2026-10-31T15:00",
       "location": "Art Space",
-      "capacity": "15"
+      "capacity": 14
     },
     {
       "id": "4",
@@ -34,7 +34,7 @@
       "category": "art",
       "date": "2026-10-12T12:00:00",
       "location": "Central Park",
-      "capacity": 24
+      "capacity": 23
     },
     {
       "id": "6",
@@ -61,7 +61,7 @@
       "category": "art",
       "date": "2026-10-24T11:00:00",
       "location": "Design Center",
-      "capacity": 44
+      "capacity": 43
     },
     {
       "title": "Началось в колхозе утро",
@@ -88,6 +88,24 @@
       "name": "fedsfsa",
       "email": "lytrvn@gmail.com",
       "id": "YzbpCCRgT1M"
+    },
+    {
+      "eventId": "2",
+      "name": "kljljkj",
+      "email": "lytrvn@gmail.com",
+      "id": "h9gWIq5uLnc"
+    },
+    {
+      "eventId": "5",
+      "name": "fedsfsa",
+      "email": "lytrvn@gmail.com",
+      "id": "P-NpPhbIR-Q"
+    },
+    {
+      "eventId": "8",
+      "name": "fedsfsa",
+      "email": "lytrvn@gmail.com",
+      "id": "7dq6acDV5g8"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

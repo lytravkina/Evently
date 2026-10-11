@@ -317,6 +317,7 @@ async function setPageState(event) {
 }
 
 async function updatePage() {
+    console.log(state)
     renderHero(state.page.state)
     loader()
     try {
@@ -350,7 +351,7 @@ function initEventListeners() {
 }
 
 async function init() {
-    getData(state.page)
+    getData()
     await updatePage()
     initEventListeners()
 }
