@@ -49,23 +49,6 @@ body {
   height: 100%;
 }
 
-@media (max-width: 1024px) {
-  html {
-    font-size: 12px;
-  }
-}
-@media (max-width: 767px) {
-  html {
-    font-size: 10px;
-  }
-}
-
-@media (max-width: 767px) {
-  .event-card {
-    flex: 1 0 100%;
-  }
-}
-
 @keyframes spinner {
   0% {
     transform: rotate(0deg);
@@ -504,4 +487,21 @@ body {
   color: var(--dark-error);
 }
 
-/*# sourceMappingURL=test.css.map */
+@media (max-width: 1024px) {
+  html {
+    font-size: 12px;
+  }
+}
+@media (max-width: 767px) {
+  html {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 767px) {
+  .event-card {
+    flex: 1 0 100%;
+  }
+}
+
+/*# sourceMappingURL=main.css.map */
