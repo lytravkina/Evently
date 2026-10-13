@@ -1,0 +1,134 @@
+@use "../variables" as *;
+@use "../templates" as *;
+
+.event-card {
+    flex: 0 0 calc((100% - $cards-gap) / 2);
+
+    &[disabled="true"] {
+        opacity: .5;
+    }
+}
+
+.event-card__content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    justify-content: space-between;
+    height: 100%;
+    padding: 2.5rem;
+    border-radius: 1.5rem;
+    background-color: var(--white);
+    border: 1.5px solid var(--white);
+    transform: translateY(0);
+    transition: border-color .3s, transform .3s;
+
+    &:hover {
+        border-color: var(--accent-color-background);
+        transform: translateY(-.25rem);
+        transition: border-color .3s, transform .3s;
+    }
+}
+
+.event-card__top {
+    position: relative;
+    margin-bottom: 1.5rem;
+    @extend %flex-column-with-gap;
+
+    .event-card__title {
+        @extend %title;
+        font-size: 2.5rem;
+    }
+
+    .event-card__subtitle {
+        @extend %subtitle-with-background;
+        font-size: .75rem;
+    }
+    
+    .event-card__description {
+        @extend %description;
+    }
+}
+
+.event-card__bottom {
+    @extend %flex-column-with-gap;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-color-light);
+}
+
+.event-card__details {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    gap: .5rem;
+    align-items: center;
+    color: var(--text-color);
+
+    .icon__image {
+        max-height: 1.2rem;
+    }
+}
+
+@mixin blue-to-transparent {
+    background-color: var(--accent-color);
+    color: white;
+    transition: background-color .2s, color .2s;
+}
+
+@mixin transparent-to-blue {
+    background-color: transparent;
+    color: var(--accent-color);
+    transition: background-color .2s, color .2s;
+}
+
+.button {
+    appearance: none;
+    width: 100%;
+    font-size: 1rem;
+    padding: 1rem;
+    margin-top: 1.5rem;
+    border: 1.5px solid var(--accent-color);
+    border-radius: .75rem;
+    cursor: pointer;
+    @include blue-to-transparent;
+
+    &:hover {
+        @include transparent-to-blue;
+    }
+
+    &.button_sign-out {
+        @include transparent-to-blue;
+
+        &:hover {
+            @include blue-to-transparent;
+        }
+    }
+}
+
+.event-card__delete {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    appearance: none;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    opacity: 1;
+    transition: opacity .2s;
+
+    &:hover {
+        opacity: .5;
+        transition: opacity .2s;
+    }
+
+    .icon__image {
+        height: 1.3rem;
+        width: auto;
+    }
+}
+
+.event-card__edit,
+.event-card__close {
+    transform: translateX(calc(-100% - 1.5rem));
+    @extend .event-card__delete
+}

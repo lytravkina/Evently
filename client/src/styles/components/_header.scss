@@ -1,0 +1,81 @@
+@keyframes shine {
+    0% {
+        background-position: 0%;
+    }
+
+    100% {
+        background-position: 200%;
+    }
+}
+
+.header {
+    position: sticky;
+    top: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 2.5rem;
+    background-color: var(--background-color);
+    border-bottom: 1px solid var(--border-color-light);
+    z-index: 1;
+
+    .logo {
+        position: relative;
+        font-size: 2rem;
+        line-height: 1em;
+        font-weight: 600;
+        text-transform: lowercase;
+        background: linear-gradient(-60deg,
+                    var(--title-color) 0%,
+                    var(--title-color) 40%,
+                    #fff 50%,
+                    var(--title-color) 60%,
+                    var(--title-color) 100%);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-size: 200% auto;
+        background-position: 0%;
+        cursor: pointer;
+    
+        & span {
+            background-color: var(--accent-color);
+            background-clip: text;
+            -webkit-background-clip: text;
+        }
+    
+        &:hover {
+            animation: shine;
+            animation-duration: 2s;
+        }
+    }
+}
+
+.menu {
+    display: flex;
+    flex-direction: row;
+    gap: .5rem;
+
+    .menu__item {
+        appearance: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1rem;
+        font-weight: normal;
+        line-height: 1.5rem;
+        padding: .5rem 1rem;
+        border: none;
+        border-radius: .5rem;
+        background-color: var(--border-color-light);
+        cursor: pointer;
+        transition: background-color .1s;
+    
+        &:hover,
+        &:active {
+            background-color: var(--border-color);
+            transition: background-color .1s;
+        }
+    }
+}

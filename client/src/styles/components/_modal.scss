@@ -1,0 +1,72 @@
+@use "../templates" as *;
+
+.modal {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    justify-items: center;
+    background-color: rgba(31, 32, 36, 0.85);
+    visibility: hidden;
+    opacity: 0;
+    z-index: 1;
+
+    &.modal_open {
+        display: block;
+        visibility: visible;
+        opacity: 1;
+    }
+}
+
+.modal__dialog {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 2.5rem;
+    width: 95%;
+    max-width: 720px;
+    border-radius: 1.5rem;
+    background-color: var(--white);
+
+    .modal__top {
+        @extend %flex-column-with-gap;
+
+        .modal__title {
+            @extend %title;
+            font-size: 2.5rem;
+        }
+
+        .modal__subtitle {
+            @extend %subtitle;
+        }
+
+        .modal__description {
+            @extend %description;
+        }
+    }
+}
+
+.modal__close {
+    appearance: none;
+    position: absolute;
+    top: 2.5rem;
+    right: 2.5rem;
+    font-size: 2rem;
+    line-height: 1em;
+    width: 1em;
+    background-color: transparent;
+    color: var(--text-color);
+    border: none;
+    border-radius: .5rem;
+    cursor: pointer;
+    transition: background-color .2s;
+
+    &:hover {
+        background-color: var(--border-color-light);
+    }
+}
