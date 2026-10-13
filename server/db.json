@@ -7,7 +7,7 @@
       "category": "tech",
       "date": "2026-10-24T18:30",
       "location": "Tech Hub",
-      "capacity": 30
+      "capacity": 29
     },
     {
       "id": "2",
@@ -73,6 +73,13 @@
       "capacity": 45
     }
   ],
-  "registrations": [],
+  "registrations": [
+    {
+      "eventId": "1",
+      "name": "fedsfsa",
+      "email": "lytrvn@gmail.com",
+      "id": "fvqvB2RUGV8"
+    }
+  ],
   "$schema": "./node_modules/json-server/schema.json"
 }

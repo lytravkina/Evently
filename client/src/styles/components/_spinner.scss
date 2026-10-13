@@ -1,0 +1,24 @@
+@keyframes spinner {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.spinner {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    max-height: 3rem;
+
+    & .icon__image {
+        animation-name: spinner;
+        animation-duration: 5s;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+    }
+}

@@ -1,0 +1,52 @@
+@use "../templates" as *;
+
+.input {
+    @extend %input;
+    color: var(--border-color-light);
+
+    .filters-form__input {
+        flex-grow: 1;
+        width: unset;
+    }
+
+    &:focus,
+    &:not(:placeholder-shown) {
+        color: var(--input-text-color);
+    }
+
+    &:focus {
+        border-color: var(--accent-color);
+    }
+
+    &.invalid {
+        border-color: var(--dark-error);
+        background-color: var(--light-error);
+    }
+}
+
+.label {
+    display: flex;
+    flex-direction: column;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    color: var(--text-color);
+}
+
+.select {
+    @extend %input;
+    color: var(--input-text-color);
+    background-image: url('../../assets/icons/icon-arrow-down.svg');
+    background-repeat: no-repeat;
+    background-size: 1rem;
+    background-position: calc(100% - 1rem) 50%;
+
+    .filters-form__select {
+        @extend .filters-form__input;
+    }
+}
+
+.modal-form__error {
+    font-size: .75rem;
+    line-height: 2em;
+    color: var(--dark-error);
+}
