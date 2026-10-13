@@ -5,7 +5,7 @@ import { state } from "./state.js";
 import { getData, loadData } from "./storage.js";
 import { getEvents, postEvent, updateEvent, deleteEventRequest } from "./eventsAPI.js";
 import { getRegistrations, postRegistration, deleteRegistrationRequest } from "./registrationsAPI.js";
-import { loader, renderEvents, renderEventModal, renderRegistrationModal, renderHero, renderEditPage } from "./render.js";
+import { loader, renderEvents, renderEventModal, renderRegistrationModal, renderHero, renderEditPage, removeSingleEvent, renderSingleEvent } from "./render.js";
 import { errorMessage } from "./components.js";
 
 const eventsList = document.querySelector('.events__cards')
@@ -59,7 +59,7 @@ function filterEvents(event) {
 
     let filteredEvents = state.getCurrentEvents().filter(event => {
         let filteredBySearch =
-            !search || event.title.toLowerCase().includes(search) || event.description.toLowerCase().includes(search)
+            !search || event.title.toLowerCase().includes(search.toLowerCase()) || event.description.toLowerCase().includes(search.toLowerCase())
 
         let filteredByCategory =
             !category || event.category === category
@@ -77,7 +77,7 @@ const handler = {
             cardId = event.target.closest('article').id
         }
         switch (true) {
-            case event.target.matches('.button_sign-up') || event.target.matches('.events-add'):
+            case event.target.matches('.button_sign-up') || !!event.target.closest('.events-add'):
                 this.openModal(cardId)
                 break;
             case event.target.matches('.button_sign-out'):
@@ -87,18 +87,20 @@ const handler = {
                 this.deleteEvent(cardId)
                 break;
             case !!event.target.closest('.event-card__edit'):
-                const card = event.target.closest('article')
                 this.editEvent(cardId)
                 break;
             case !!event.target.closest('.event-card__close'):
-                renderEvents(state.getCurrentEvents(), state.page.state)
+                renderSingleEvent(state.events.find(event => event.id === cardId), state.page.state)
+                break;
+            case !!event.target.closest('.events-delete-all__button'):
+                this.deleteAllEvents()
                 break;
         }
     },
 
     openModal(cardId) {
         switch (true) {
-            case event.target.matches('.events-add'):
+            case !!event.target.closest('.events-add'):
                 renderEventModal()
                 break;
             case event.target.matches('.button_sign-up'):
@@ -129,7 +131,8 @@ const handler = {
             try {
                 await deleteRegistrationRequest(registrationId)
                 await updateCapacity(cardId)
-                await updatePage()
+                state.registrations = await getRegistrations()
+                removeSingleEvent(cardId)
             } catch (error) {
                 alert(error.message)
             }
@@ -141,10 +144,28 @@ const handler = {
         if (isConfirmed) {
             try {
                 await deleteEventRequest(cardId)
-                await updatePage()
+                state.events = await getEvents(cardId)
+                removeSingleEvent(cardId)
             } catch (error) {
                 alert(error.message)
             }
+        }
+    },
+
+    async deleteAllEvents() {
+        const isConfirmed = confirm('Вы действительно хотите удалить все мероприятия?')
+        if (isConfirmed) {
+            try {
+                if (state.page.state === 'events') {
+                    state.events.forEach(async (event) => await deleteEventRequest(event.id))
+                } else {
+                    state.registrations.forEach(async (registration) => await deleteRegistrationRequest(registration.id))
+                }
+            } catch (error) {
+                alert(error.message)
+            }
+
+            await updatePage()
         }
     },
 
@@ -162,14 +183,22 @@ async function setUpdatedEvent(event, eventToUpdate) {
 
     let updatedEvent = { ...eventToUpdate }
     inputs.forEach(input => {
-        if (input.value.trim()) {
-            updatedEvent[input.name] = input.value
+        const value = String(input.value.trim())
+        if (value) {
+            isFinite(value) ? updatedEvent[input.name] = Number(value) : updatedEvent[input.name] = value
         }
     })
 
+    const error = validateEvent(updatedEvent, state.events)
+    if (error) {
+        alert(error)
+        return
+    }
+
     try {
         await updateEvent(updatedEvent)
-        await updatePage()
+        state.events = await getEvents()
+        renderSingleEvent(updatedEvent, state.page.state)
     } catch (error) {
         alert(error.message)
     }
@@ -222,7 +251,7 @@ async function setFormData(event) {
         if (!value) {
             isValid = false
         } else {
-            state.data[input.name] = value
+            isFinite(value) ? state.data[input.name] = Number(value) : state.data[input.name] = value
         }
     }
 
@@ -243,7 +272,8 @@ async function setFormData(event) {
 
         try {
             await postEvent(state.data)
-            await updatePage()
+            state.events = await getEvents()
+            renderSingleEvent(state.events.find(event => event.title === state.data.title), state.page.state)
             closeModal()
         } catch (error) {
             alert(error.message)
@@ -260,7 +290,9 @@ async function setFormData(event) {
         try {
             await postRegistration(state.data)
             await updateCapacity(state.data.eventId)
-            await updatePage()
+            state.registrations = await getRegistrations()
+            state.events = await getEvents()
+            renderSingleEvent(state.events.find(event => event.id === state.data.eventId), state.page.state)
             closeModal()
         } catch (error) {
             alert(error.message)
@@ -282,6 +314,7 @@ function closeModal() {
 
     inputs.forEach(input => input.value = '')
     modal.classList.remove('modal_open')
+    modal.querySelector('.modal-form').innerHTML = ''
     resetFormData()
 }
 
@@ -331,6 +364,8 @@ async function updatePage() {
         eventsList.append(errorMessage(error.message))
     }
 }
+
+
 
 function initEventListeners() {
     eventsList.addEventListener('click', handler)

@@ -1,9 +1,9 @@
 function validateInput(input) {
-    const value = input.value.trim()
+    const value = String(input.value.trim())
     const parent = input.closest('label')
 
     if (value) {
-        return value.isFinite ? Number(value) : value
+        return value
     } else {
         input.classList.add('invalid')
         input.value = ''
@@ -57,8 +57,9 @@ function validateRegistration(data, events, registrations) {
 }
 
 function validateEvent(data, events) {
-    const isExisting = events.some(event => event.title === data.title)
+    const isExisting = events.filter(event => event.id !== data.id).some(event => event.title === data.title)
     const isPast = new Date(data.date).getTime() < Date.now()
+    const isNull = Number(data.capacity) <= 0;
 
     if (isExisting) {
         return 'Мероприятие с таким именем уже существует.'
@@ -66,6 +67,10 @@ function validateEvent(data, events) {
 
     if (isPast) {
         return 'Указанная дата уже прошла. Пожалуйста, выберите другую дату.'
+    }
+
+    if (isNull) {
+        return 'Количество участников должно быть больше 0.'
     }
 
     return null

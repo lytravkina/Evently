@@ -15,6 +15,7 @@ body {
     line-height: 1.2em;
     background-color: var(--background-color);
     min-height: 100vh;
+    height: 100%;
 }
 
 /* header */
@@ -189,6 +190,46 @@ body {
         border-color: var(--accent-color-background-dark);
         transform: translateY(-.25rem);
         transition: border-color .3s, transform .3s;
+    }
+}
+
+.events-delete-all {
+    display: flex;
+    flex: 1 0 100%;
+    justify-content: flex-end;
+
+    .events-delete-all__button {
+        margin: 0;
+        padding: 0;
+        background: none;
+        border: none;
+        display: flex;
+        flex-direction: row-reverse;
+        gap: .5rem;
+        align-items: center;
+        width: auto;
+        color: var(--title-color);
+        transition: color .2s;
+
+        .icon__image {
+            height: 1rem;
+            width: auto;
+
+            path {
+                stroke: var(--title-color);
+                transition: stroke .2s;
+            }
+        }
+
+        &:hover {
+            color: var(--accent-color);
+            transition: color .2s;
+
+            path {
+                stroke: var(--accent-color);
+                transition: stroke .2s;
+            }
+        }
     }
 }
 
@@ -405,14 +446,14 @@ body {
 }
 
 .modal__dialog {
-    position: sticky;
+    position: fixed;
     top: 50%;
     transform: translateY(-50%);
     display: flex;
     flex-direction: column;
     padding: 2.5rem;
     width: 95%;
-    max-width: 600px;
+    max-width: 720px;
     border-radius: 1.5rem;
     background-color: var(--white);
 }
