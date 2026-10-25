@@ -4,20 +4,20 @@ import { state } from "./state.js"
 const eventsList = document.querySelector('.events__cards')
 const modal = document.querySelector('.modal')
 
-function loader() {
-    eventsList.innerHTML = ''
+// function loader() {
+//     eventsList.innerHTML = ''
 
-    const spinner = document.createElement('div')
-    spinner.classList.add('spinner')
-    spinner.innerHTML = '<img class="icon__image" src="./assets/icons/icon-spinner.svg">'
+//     const spinner = document.createElement('div')
+//     spinner.classList.add('spinner')
+//     spinner.innerHTML = '<img class="icon__image" src="./assets/icons/icon-spinner.svg">'
 
-    if (document.querySelector('.modal_open')) {
-        modal.querySelector('.button_submit').textContent = 'Отправка...'
-        modal.querySelector('.button_submit').disabled = true
-    }
+//     if (document.querySelector('.modal_open')) {
+//         modal.querySelector('.button_submit').textContent = 'Отправка...'
+//         modal.querySelector('.button_submit').disabled = true
+//     }
 
-    eventsList.append(spinner)
-}
+//     eventsList.append(spinner)
+// }
 
 function renderEvents(events, state) {
     eventsList.innerHTML = ''
@@ -154,4 +154,4 @@ function renderEditPage(event) {
     })
 }
 
-export { loader, renderEvents, renderEventModal, renderRegistrationModal, renderEditPage, removeSingleEvent, renderSingleEvent }
+export { renderEvents, renderEventModal, renderRegistrationModal, renderEditPage, removeSingleEvent, renderSingleEvent }

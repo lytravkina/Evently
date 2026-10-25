@@ -21,7 +21,10 @@ function Header({ onTabChange }) {
           Мои записи
         </button>
         <button className={`${style.menuItem}`}>
-          <img className="icon__image" src="../assets/icons/theme-button.svg" />
+          <img
+            className="icon__image"
+            src="./src/assets/icons/theme-button.svg"
+          />
         </button>
       </nav>
     </header>

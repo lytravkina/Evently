@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Header from "./Header/Header";
 import Hero from "./Hero/Hero";
+import CardList from "./CardList/CardList";
 
 function App() {
   const [activeTab, setActiveTab] = useState("events");
@@ -26,7 +27,7 @@ function App() {
               </select>
             </form>
           </div>
-          <div className="events__cards"></div>
+          <CardList tab={activeTab} />
         </section>
       </main>
     </>

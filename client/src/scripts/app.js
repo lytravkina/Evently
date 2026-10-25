@@ -5,7 +5,7 @@ import { state } from "./state.js";
 import { getData, loadData } from "./storage.js";
 import { getEvents, postEvent, updateEvent, deleteEventRequest } from "./eventsAPI.js";
 import { getRegistrations, postRegistration, deleteRegistrationRequest } from "./registrationsAPI.js";
-import { loader, renderEvents, renderEventModal, renderRegistrationModal, renderEditPage, removeSingleEvent, renderSingleEvent } from "./render.js";
+import { renderEvents, renderEventModal, renderRegistrationModal, renderEditPage, removeSingleEvent, renderSingleEvent } from "./render.js";
 import { errorMessage } from "./components.js";
 
 const eventsList = document.querySelector('.events__cards')
@@ -360,12 +360,13 @@ async function setPageState(event) {
 }
 
 async function updatePage() {
-    console.log(state)
     // renderHero(state.page.state)
-    loader()
+    // loader()
     try {
         state.events = await getEvents()
         state.registrations = await getRegistrations()
+
+        console.log(state.events)
 
         renderEvents(state.getCurrentEvents(), state.page.state)
         setCategories(state.getCurrentEvents())
