@@ -1,16 +1,9 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import Header from "./Header/Header.jsx";
-import Hero from "./Hero/Hero.jsx";
+import App from "./App";
 
-createRoot(document.getElementById("header")).render(
+createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <Header />
-  </StrictMode>,
-);
-
-createRoot(document.getElementById("hero")).render(
-  <StrictMode>
-    <Hero />
+    <App />
   </StrictMode>,
 );

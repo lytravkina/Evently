@@ -121,26 +121,26 @@ function renderRegistrationModal(event) {
     modalHeader.querySelector('.description').textContent = 'Оставь контакты, чтобы подтвердить участие'
 }
 
-function renderHero(state) {
-    const hero = {
-        subtitle: document.querySelector('.hero__subtitle'),
-        title: document.querySelector('.hero__title'),
-        description: document.querySelector('.hero__description')
-    }
+// function renderHero(state) {
+//     const hero = {
+//         subtitle: document.querySelector('.hero__subtitle'),
+//         title: document.querySelector('.hero__title'),
+//         description: document.querySelector('.hero__description')
+//     }
 
-    switch (state) {
-        case 'events':
-            hero.subtitle.textContent = 'Мероприятия'
-            hero.title.textContent = 'Будь в центре событий'
-            hero.description.textContent = 'Выбирай интересное мероприятие и записывайся в пару кликов.'
-            break;
-        case 'registrations':
-            hero.subtitle.textContent = 'Мои записи'
-            hero.title.textContent = 'Твои планы на ближайшее время'
-            hero.description.textContent = 'Следи за предстоящими событиями и ничего не пропускай.'
-            break;
-    }
-}
+//     switch (state) {
+//         case 'events':
+//             hero.subtitle.textContent = 'Мероприятия'
+//             hero.title.textContent = 'Будь в центре событий'
+//             hero.description.textContent = 'Выбирай интересное мероприятие и записывайся в пару кликов.'
+//             break;
+//         case 'registrations':
+//             hero.subtitle.textContent = 'Мои записи'
+//             hero.title.textContent = 'Твои планы на ближайшее время'
+//             hero.description.textContent = 'Следи за предстоящими событиями и ничего не пропускай.'
+//             break;
+//     }
+// }
 
 function renderEditPage(event) {
     [...eventsList.querySelectorAll('article')].forEach(card => {
@@ -154,4 +154,4 @@ function renderEditPage(event) {
     })
 }
 
-export { loader, renderEvents, renderEventModal, renderRegistrationModal, renderHero, renderEditPage, removeSingleEvent, renderSingleEvent }
+export { loader, renderEvents, renderEventModal, renderRegistrationModal, renderEditPage, removeSingleEvent, renderSingleEvent }

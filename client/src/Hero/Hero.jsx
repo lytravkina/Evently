@@ -1,17 +1,21 @@
 import shared from "../styles/shared.module.css";
 import style from "./hero.module.css";
 
-function Hero() {
+function Hero({ tab }) {
   return (
-    <section className={`hero ${shared.flexColumn}`}>
-      <div className={`hero__subtitle subtitle ${shared.subtitle}`}>
-        Мероприятия
+    <section className={`${shared.flexColumn}`}>
+      <div className={`${shared.subtitle}`}>
+        {tab === "events" ? "Мероприятия" : "Мои записи"}
       </div>
-      <h1 className={`hero__title title ${shared.title} ${style.heroTitle}`}>
-        Будь в центре событий
+      <h1 className={`${shared.title} ${style.heroTitle}`}>
+        {tab === "events"
+          ? "Будь в центре событий"
+          : "Твои планы на ближайшее время"}
       </h1>
-      <p className={`hero__description description ${shared.description}`}>
-        Выбирай интересное мероприятие и записывайся в пару кликов.
+      <p className={`${shared.description}`}>
+        {tab === "events"
+          ? "Выбирай интересное мероприятие и записывайся в пару кликов."
+          : "Следи за предстоящими событиями и ничего не пропускай."}
       </p>
     </section>
   );

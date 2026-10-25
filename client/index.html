@@ -8,29 +8,7 @@
     <title>client-react</title>
   </head>
   <body>
-    <div id="header"></div>
-
-    <main class="events-page">
-      <div id="hero"></div>
-
-      <section class="events">
-        <div class="events__filters">
-          <form class="filters-form form">
-            <input
-              type="text"
-              placeholder="Поиск по названию и описанию..."
-              class="filters-form__input input"
-            />
-            <select class="filters-form__select select">
-              <option class="filters-form__default" value="" selected>
-                Все категории
-              </option>
-            </select>
-          </form>
-        </div>
-        <div class="events__cards"></div>
-      </section>
-    </main>
+    <div id="root"></div>
 
     <div class="modal">
       <div class="modal__dialog">
@@ -48,7 +26,7 @@
       </div>
     </div>
 
-    <script type="module" src="./src/scripts/app.js"></script>
     <script type="module" src="./src/main.jsx"></script>
+    <script type="module" src="./src/scripts/app.js"></script>
   </body>
 </html>
