@@ -16,9 +16,6 @@
       "category": "art",
       "date": "2026-10-29T15:00",
       "location": "Art Space",
-<<<<<<< HEAD
-      "capacity": 14
-=======
       "capacity": 15
     },
     {
@@ -29,7 +26,6 @@
       "date": "2026-10-31T19:00",
       "location": "Music Hall",
       "capacity": 50
->>>>>>> fixes
     },
     {
       "id": "4",
@@ -47,11 +43,7 @@
       "category": "art",
       "date": "2026-10-31T12:00",
       "location": "Central Park",
-<<<<<<< HEAD
-      "capacity": 23
-=======
       "capacity": 25
->>>>>>> fixes
     },
     {
       "id": "6",
@@ -78,55 +70,7 @@
       "category": "art",
       "date": "2026-10-24T11:00:00",
       "location": "Design Center",
-<<<<<<< HEAD
-      "capacity": 43
-    },
-    {
-      "title": "Началось в колхозе утро",
-      "description": "Все собираемся на детские мероприятия в хуторе Бакланики",
-      "date": "2026-10-31T08:00",
-      "location": "хутор Бакланики",
-      "capacity": 12,
-      "category": "music",
-      "id": "ksiPnSMsy0o"
-    },
-    {
-      "title": "Пир во время чумы",
-      "description": "Медсестра разбила колбу, и весь город встал на уши",
-      "date": "2026-10-30T22:50",
-      "location": "г. Иркутск",
-      "capacity": 1000,
-      "category": "art",
-      "id": "WYRuRuZGnMg"
-    }
-  ],
-  "registrations": [
-    {
-      "eventId": "4",
-      "name": "fedsfsa",
-      "email": "lytrvn@gmail.com",
-      "id": "YzbpCCRgT1M"
-    },
-    {
-      "eventId": "2",
-      "name": "kljljkj",
-      "email": "lytrvn@gmail.com",
-      "id": "h9gWIq5uLnc"
-    },
-    {
-      "eventId": "5",
-      "name": "fedsfsa",
-      "email": "lytrvn@gmail.com",
-      "id": "P-NpPhbIR-Q"
-    },
-    {
-      "eventId": "8",
-      "name": "fedsfsa",
-      "email": "lytrvn@gmail.com",
-      "id": "7dq6acDV5g8"
-=======
       "capacity": 45
->>>>>>> fixes
     }
   ],
   "registrations": [],
