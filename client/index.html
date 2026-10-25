@@ -8,54 +8,45 @@
     <title>client-react</title>
   </head>
   <body>
-  <div id="header">
+    <div id="header"></div>
 
-  </div>
+    <main class="events-page">
+      <div id="hero"></div>
 
-  <main class="events-page">
-    <section class="hero">
-      <div class="hero__subtitle subtitle">Мероприятия</div>
-      <h1 class="hero__title title">Будь в центре событий</h1>
-      <p class="hero__description description">
-        Выбирай интересное мероприятие и записывайся в пару кликов.
-      </p>
-    </section>
+      <section class="events">
+        <div class="events__filters">
+          <form class="filters-form form">
+            <input
+              type="text"
+              placeholder="Поиск по названию и описанию..."
+              class="filters-form__input input"
+            />
+            <select class="filters-form__select select">
+              <option class="filters-form__default" value="" selected>
+                Все категории
+              </option>
+            </select>
+          </form>
+        </div>
+        <div class="events__cards"></div>
+      </section>
+    </main>
 
-    <section class="events">
-      <div class="events__filters">
-        <form class="filters-form form">
-          <input
-                  type="text"
-                  placeholder="Поиск по названию и описанию..."
-                  class="filters-form__input input"
-          />
-          <select class="filters-form__select select">
-            <option class="filters-form__default" value="" selected>
-              Все категории
-            </option>
-          </select>
-        </form>
-      </div>
-      <div class="events__cards"></div>
-    </section>
-  </main>
-
-  <div class="modal">
-    <div class="modal__dialog">
-      <div class="modal__top">
-        <div class="modal__subtitle subtitle">Запись</div>
-        <h2 class="modal__title title">Заголовок</h2>
-        <p class="modal__description description">
-          Оставь контакты, чтобы подтвердить участие
-        </p>
-        <button class="modal__close">×</button>
-      </div>
-      <div class="modal__bottom">
-        <form class="modal-form form"></form>
+    <div class="modal">
+      <div class="modal__dialog">
+        <div class="modal__top">
+          <div class="modal__subtitle subtitle">Запись</div>
+          <h2 class="modal__title title">Заголовок</h2>
+          <p class="modal__description description">
+            Оставь контакты, чтобы подтвердить участие
+          </p>
+          <button class="modal__close">×</button>
+        </div>
+        <div class="modal__bottom">
+          <form class="modal-form form"></form>
+        </div>
       </div>
     </div>
-  </div>
-
 
     <script type="module" src="./src/scripts/app.js"></script>
     <script type="module" src="./src/main.jsx"></script>
