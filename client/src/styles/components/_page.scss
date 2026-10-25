@@ -1,0 +1,130 @@
+@use "../variables" as *;
+@use "../templates" as *;
+
+.events-page {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+    padding: 2.5rem;
+
+    .hero {
+        @extend %flex-column-with-gap;
+
+        .hero__title {
+            @extend %title;
+            font-size: 4rem;
+        }
+
+        .hero__subtitle {
+            @extend %subtitle
+        }
+
+        .hero__description {
+            @extend %description
+        }
+    }
+
+    .events {
+        @extend %flex-column-with-gap;
+
+        .events__cards {
+            padding: 2.5rem 0;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: $cards-gap;
+        }
+    }
+}
+
+.filters-form {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+.events__error {
+    font-size: 1rem;
+    display: none;
+    @extend %subtitle-with-background;
+
+    &.error-message_active {
+        display: block;
+    }
+}
+
+.events-add {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    gap: .5rem;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    padding: 1rem;
+    border-radius: 1.5rem;
+    font-size: 1rem;
+    color: var(--accent-color-background-dark);
+    background-color: transparent;
+    border: 1.5px solid var(--accent-color-background-dark);
+    transform: translateY(0);
+    cursor: pointer;
+    transition: border-color .3s, transform .3s;
+
+    .events-add__icon {
+        height: 1rem;
+        width: auto;
+    
+        path {
+            stroke-width: 1.5;
+            stroke: var(--accent-color-background-dark)
+        }
+    }
+
+    &:hover {
+        border-color: var(--accent-color-background-dark);
+        transform: translateY(-.25rem);
+        transition: border-color .3s, transform .3s;
+    }
+}
+
+.events-delete-all {
+    display: flex;
+    flex: 1 0 100%;
+    justify-content: flex-end;
+
+    .events-delete-all__button {
+        margin: 0;
+        padding: 0;
+        background: none;
+        border: none;
+        display: flex;
+        flex-direction: row-reverse;
+        gap: .5rem;
+        align-items: center;
+        width: auto;
+        color: var(--title-color);
+        transition: color .2s;
+
+        .icon__image {
+            height: 1rem;
+            width: auto;
+
+            path {
+                stroke: var(--title-color);
+                transition: stroke .2s;
+            }
+        }
+
+        &:hover {
+            color: var(--accent-color);
+            transition: color .2s;
+
+            path {
+                stroke: var(--accent-color);
+                transition: stroke .2s;
+            }
+        }
+    }
+}

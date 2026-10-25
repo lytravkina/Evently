@@ -1,0 +1,19 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 16px;
+}
+
+body {
+    position: relative;
+    font-family: "Inter", sans-serif;
+    font-size: 1rem;
+    line-height: 1.2em;
+    background-color: var(--background-color);
+    min-height: 100vh;
+    height: 100%;
+}

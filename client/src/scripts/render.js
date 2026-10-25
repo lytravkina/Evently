@@ -57,6 +57,10 @@ function renderSingleEvent(event, state) {
     if (existing) {
         existing.replaceWith(newCard)
     } else {
+        if (eventsList.querySelectorAll('article').length === 0) {
+            eventsList.querySelector('.events__error').remove()
+            eventsList.append(deleteAllButton())
+        }
         eventsList.append(newCard)
     }
 
@@ -72,6 +76,10 @@ function removeSingleEvent(id) {
     const existing = [...eventsList.querySelectorAll('article')].find(card => card.id === id)
 
     existing.remove()
+
+    if (eventsList.querySelectorAll('article').length === 0) {
+        renderEvents(state.events, state.page.state)
+    }
 }
 
 

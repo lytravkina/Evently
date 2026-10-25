@@ -153,13 +153,21 @@ const handler = {
     },
 
     async deleteAllEvents() {
-        const isConfirmed = confirm('Вы действительно хотите удалить все мероприятия?')
+        let message;
+        state.page.state === 'events' ? message = 'Вы действительно хотите удалить все мероприятия?' : message = 'Вы действительно хотите отменить все записи?'
+        const isConfirmed = confirm(message)
         if (isConfirmed) {
             try {
                 if (state.page.state === 'events') {
-                    state.events.forEach(async (event) => await deleteEventRequest(event.id))
+                    await Promise.all(state.events.map(event => deleteEventRequest(event.id)))
+                    // state.events.forEach(async (event) => await deleteEventRequest(event.id))
                 } else {
-                    state.registrations.forEach(async (registration) => await deleteRegistrationRequest(registration.id))
+                    await Promise.all(state.registrations.map(registration => {
+                        deleteRegistrationRequest(registration.id)
+                        updateCapacity(registration.eventId)
+                    }))
+                    // await Promise.all(state.events.map(event => updateCapacity(events.id)))
+                    // state.registrations.forEach(async (registration) => await deleteRegistrationRequest(registration.id))
                 }
             } catch (error) {
                 alert(error.message)
@@ -185,7 +193,8 @@ async function setUpdatedEvent(event, eventToUpdate) {
     inputs.forEach(input => {
         const value = String(input.value.trim())
         if (value) {
-            isFinite(value) ? updatedEvent[input.name] = Number(value) : updatedEvent[input.name] = value
+            updatedEvent[input.name] = input.name === 'capacity' ? Number(value) : value
+            // isFinite(value) ? updatedEvent[input.name] = Number(value) : updatedEvent[input.name] = value
         }
     })
 
@@ -251,7 +260,8 @@ async function setFormData(event) {
         if (!value) {
             isValid = false
         } else {
-            isFinite(value) ? state.data[input.name] = Number(value) : state.data[input.name] = value
+            state.data[input.name] = input.name === 'capacity' ? Number(value) : value
+            // isFinite(value) ? state.data[input.name] = Number(value) : state.data[input.name] = value
         }
     }
 
