@@ -38,13 +38,12 @@ function registrationForm() {
 }
 
 function eventCard(event, state) {
-  return `<div class="event-card__content">
-              <div class="event-card__top">
+  const wrapper = document.createElement('div')
+  wrapper.classList.add('event-card__content')
+  wrapper.innerHTML = `<div class="event-card__top">
                 <div class="event-card__subtitle subtitle">${event.category}</div>
-                <h2 class="event-card__title title">${event.title}</h2>
-                <p class="event-card__description description">
-                  ${event.description}
-                </p>
+                <h2 class="event-card__title title"></h2>
+                <p class="event-card__description description"></p>
                 ${state === 'events'
       ? '<button class="event-card__edit"><img class="icon__image" src="./assets/icons/edit-button.svg"/></button><button class="event-card__delete"><img class="icon__image" src="./assets/icons/delete-button.svg"/></button>'
       : ''}
@@ -57,7 +56,7 @@ function eventCard(event, state) {
                       src="./assets/icons/icon-date.svg"
                     />
                   </div>
-                  <span class="date">${formatDate(event.date)}</span>
+                  <span class="date"></span>
                 </div>
                 <div class="event-card__details event-card__location">
                   <div class="icon">
@@ -66,11 +65,11 @@ function eventCard(event, state) {
                       src="./assets/icons/icon-location.svg"
                     />
                   </div>
-                  <span class="location">${event.location}</span>
+                  <span class="location"></span>
                 </div>
                 <div class="event-card__details event-card__capacity">
                   <span class="capacity"
-                    ><span class="capacity__number">${event.capacity}</span> мест</span
+                    ><span class="capacity__number"></span> мест</span
                   >
                 </div>
                 <button class="button ${state === 'events' ? 'button_sign-up' : 'button_sign-out'}">
@@ -78,17 +77,34 @@ function eventCard(event, state) {
       ? 'Записаться'
       : 'Отменить запись'}
                 </button>
-              </div>
-            </div>`
+              </div>`
+
+  wrapper.querySelector('.event-card__title').textContent = String(event.title)
+  wrapper.querySelector('.event-card__description').textContent = String(event.description)
+  wrapper.querySelector('.event-card__title').textContent = String(event.title)
+  wrapper.querySelector('.date').textContent = String(formatDate(event.date))
+  wrapper.querySelector('.location').textContent = String(event.location)
+  wrapper.querySelector('.capacity__number').textContent = String(event.capacity)
+
+  return wrapper
+}
+
+function cardInput(name, value, type = 'text') {
+  const inputElement = document.createElement('input')
+  inputElement.classList.add('event-card__edit_input', 'input')
+  inputElement.value = value
+  inputElement.type = type
+  inputElement.name = name
+
+  return inputElement
 }
 
 function eventCardEdit(event) {
-  return `<div class="event-card__content">
-            <form class="event-card__edit_form form">
+  const wrapper = document.createElement('div')
+  wrapper.classList.add('event-card__content')
+  wrapper.innerHTML = `<form class="event-card__edit_form form">
               <div class="event-card__top">
                 <div class="event-card__subtitle subtitle">${event.category}</div>
-                <input class="event-card__edit_input input" type="text" name="title" value="${event.title}"></input>
-                <input class="event-card__edit_input input" type="text" name="description" value="${event.description}"></input>
                 <button class="event-card__close" type="button"><img class="icon__image" src="./assets/icons/quit-button.svg"/></button>
                 <button class="event-card__delete" type="button" style="pointer-events: none"><img class="icon__image" src="./assets/icons/delete-button.svg"/></button>
               </div>
@@ -101,7 +117,6 @@ function eventCardEdit(event) {
                       alt="Clock emoji"
                     />
                   </div>
-                  <input class="event-card__edit_input input" type="datetime-local" name="date" value="${event.date}"></input>
                 </div>
                 <div class="event-card__details event-card__location">
                   <div class="icon">
@@ -111,15 +126,20 @@ function eventCardEdit(event) {
                       alt="Location pin emoji"
                     />
                   </div>
-                  <input class="event-card__edit_input input" type="text" name="location" value="${event.location}"></input>
                 </div>
-                <div class="event-card__details event-card__capacity">
-                  <input class="event-card__edit_input input" type="number" name="capacity" value="${event.capacity}"></input>
-                </div>
+                <div class="event-card__details event-card__capacity"></div>
                 <button class="event-card__edit_button button" type="submit">Завершить редактирование</button>
               </div>
-            </form>
-          </div>`
+            </form>`
+
+  wrapper.querySelector('.event-card__top').append(cardInput('title', event.title))
+  wrapper.querySelector('.event-card__top').append(cardInput('description', event.description))
+
+  wrapper.querySelector('.event-card__date').append(cardInput('date', event.date, 'datetime-local'))
+  wrapper.querySelector('.event-card__location').append(cardInput('location', event.location))
+  wrapper.querySelector('.event-card__capacity').append(cardInput('capacity', event.capacity, 'number'))
+
+  return wrapper
 }
 
 function formatDate(string) {
@@ -150,4 +170,20 @@ function errorMessage(string) {
   return error
 }
 
-export { eventForm, registrationForm, eventCard, createEventButton, errorMessage, eventCardEdit }
+function deleteAllButton() {
+  const deleteAll = document.createElement('div')
+  deleteAll.classList.add('events-delete-all')
+  const deleteAllButton = document.createElement('button')
+  deleteAllButton.classList.add('events-delete-all__button', 'button')
+  deleteAllButton.innerHTML = `Очистить все
+                              <svg class="icon__image" xmlns="http://www.w3.org/2000/svg" width="18" height="20" viewBox="0 0 18 20" fill="none">
+                                <path d="M15.4245 7.59003C15.4245 15.6091 16.5788 19.2338 8.81495 19.2338C1.05018 19.2338 2.22828 15.6091 2.22828 7.59003" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M16.9005 4.51574H0.75" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M12.2502 4.51571C12.2502 4.51571 12.7788 0.75 8.82451 0.75C4.87118 0.75 5.39975 4.51571 5.39975 4.51571" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                              </svg>`
+  deleteAll.append(deleteAllButton)
+
+  return deleteAll
+}
+
+export { eventForm, registrationForm, eventCard, createEventButton, errorMessage, eventCardEdit, deleteAllButton }

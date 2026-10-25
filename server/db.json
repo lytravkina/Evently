@@ -5,9 +5,9 @@
       "title": "JavaScript Meetup",
       "description": "Встреча frontend-разработчиков: JavaScript, браузер и современные подходы к разработке.",
       "category": "tech",
-      "date": "2026-10-03T18:30:00",
+      "date": "2026-10-24T18:30",
       "location": "Tech Hub",
-      "capacity": 29
+      "capacity": 30
     },
     {
       "id": "2",
@@ -16,16 +16,29 @@
       "category": "art",
       "date": "2026-10-31T15:00",
       "location": "Art Space",
+<<<<<<< HEAD
       "capacity": 14
+=======
+      "capacity": 15
+    },
+    {
+      "id": "3",
+      "title": "Rock Night",
+      "description": "Вечер живой музыки с несколькими местными группами.",
+      "category": "music",
+      "date": "2026-10-08T19:00:00",
+      "location": "Music Hall",
+      "capacity": 50
+>>>>>>> fixes
     },
     {
       "id": "4",
-      "title": "Frontend Breakfast 2",
+      "title": "Frontend Breakfast",
       "description": "Неформальная утренняя встреча frontend-разработчиков за кофе.",
       "category": "tech",
-      "date": "2026-10-28T22:50",
+      "date": "2026-10-10T10:00:00",
       "location": "Coffee Point",
-      "capacity": "18"
+      "capacity": 20
     },
     {
       "id": "5",
@@ -34,7 +47,11 @@
       "category": "art",
       "date": "2026-10-12T12:00:00",
       "location": "Central Park",
+<<<<<<< HEAD
       "capacity": 23
+=======
+      "capacity": 25
+>>>>>>> fixes
     },
     {
       "id": "6",
@@ -43,7 +60,7 @@
       "category": "music",
       "date": "2026-10-15T20:00:00",
       "location": "Loft Stage",
-      "capacity": 39
+      "capacity": 40
     },
     {
       "id": "7",
@@ -52,7 +69,7 @@
       "category": "tech",
       "date": "2026-10-18T18:00:00",
       "location": "Tech Hub",
-      "capacity": 36
+      "capacity": 35
     },
     {
       "id": "8",
@@ -61,6 +78,7 @@
       "category": "art",
       "date": "2026-10-24T11:00:00",
       "location": "Design Center",
+<<<<<<< HEAD
       "capacity": 43
     },
     {
@@ -106,7 +124,11 @@
       "name": "fedsfsa",
       "email": "lytrvn@gmail.com",
       "id": "7dq6acDV5g8"
+=======
+      "capacity": 45
+>>>>>>> fixes
     }
   ],
+  "registrations": [],
   "$schema": "./node_modules/json-server/schema.json"
 }

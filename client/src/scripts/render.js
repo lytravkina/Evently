@@ -1,4 +1,5 @@
-import { eventCard, eventForm, registrationForm, createEventButton, errorMessage, eventCardEdit } from "./components.js"
+import { eventCard, eventForm, registrationForm, createEventButton, errorMessage, eventCardEdit, deleteAllButton } from "./components.js"
+import { state } from "./state.js"
 
 const eventsList = document.querySelector('.events__cards')
 const modal = document.querySelector('.modal')
@@ -21,41 +22,74 @@ function loader() {
 function renderEvents(events, state) {
     eventsList.innerHTML = ''
 
+    if (state === 'events') {
+        eventsList.innerHTML = createEventButton()
+    }
+
     if (events.length === 0) {
         const string = 'Нет доступных мероприятий'
         eventsList.append(errorMessage(string))
         return
     }
 
-    if (state === 'events') {
-        eventsList.innerHTML = createEventButton()
-    }
+    eventsList.append(deleteAllButton())
 
     events.forEach(event => {
-        const eventElement = document.createElement('article')
-        eventElement.classList.add('event-card')
-        eventElement.id = event.id
-        eventElement.innerHTML = eventCard(event, state)
-        eventsList.append(eventElement)
+        eventsList.append(createEventCard(event, state))
     })
 
-    filterPastEvents(events)
+    filterPastEvents()
 }
 
-function filterPastEvents(events) {
-    const pastEvents = events.filter(event => new Date(event.date).getTime() < Date.now())
+function createEventCard(event, state) {
+    const eventElement = document.createElement('article')
+    eventElement.classList.add('event-card')
+    eventElement.id = event.id
+    eventElement.append(eventCard(event, state))
+
+    return eventElement
+}
+
+function renderSingleEvent(event, state) {
+    const existing = [...eventsList.querySelectorAll('article')].find(card => card.id === event.id)
+
+    const newCard = createEventCard(event, state)
+    if (existing) {
+        existing.replaceWith(newCard)
+    } else {
+        eventsList.append(newCard)
+    }
+
+    [...eventsList.querySelectorAll('article')].forEach(card => {
+        card.removeAttribute('disabled')
+        card.style = ''
+    })
+
+    filterPastEvents()
+}
+
+function removeSingleEvent(id) {
+    const existing = [...eventsList.querySelectorAll('article')].find(card => card.id === id)
+
+    existing.remove()
+}
+
+
+function filterPastEvents() {
+    const pastEvents = state.events.filter(event => new Date(event.date).getTime() < Date.now())
     pastEvents.forEach(event => {
-        for (let child of eventsList.children) {
-            if (child.id === event.id) {
-                child.setAttribute('disabled', true)
-                child.querySelector('.button').textContent = 'Мероприятие завершилось'
-                child.querySelector('.button').style.pointerEvents = 'none'
-                child.querySelector('.date').style.color = 'var(--dark-error)'
-                child.style.order = '1'
+        [...eventsList.querySelectorAll('article')].forEach(card => {
+            if (card.id === event.id) {
+                card.setAttribute('disabled', true)
+                card.querySelector('.date').style.color = 'var(--dark-error)'
+                card.querySelector('.button').textContent = 'Мероприятие завершилось'
+                card.querySelector('.button').style.pointerEvents = 'none'
+                card.style.order = '1'
             }
-        }
+        })
     })
 }
+
 
 function renderEventModal() {
     const modalForm = document.querySelector('.modal-form')
@@ -101,14 +135,15 @@ function renderHero(state) {
 }
 
 function renderEditPage(event) {
-    for (let card of eventsList.querySelectorAll('article')) {
+    [...eventsList.querySelectorAll('article')].forEach(card => {
         if (card.id === event.id) {
-            card.innerHTML = eventCardEdit(event)
+            card.innerHTML = ''
+            card.append(eventCardEdit(event))
         } else {
             card.setAttribute('disabled', true)
             card.style.pointerEvents = 'none'
         }
-    }
+    })
 }
 
-export { loader, renderEvents, renderEventModal, renderRegistrationModal, renderHero, renderEditPage }
+export { loader, renderEvents, renderEventModal, renderRegistrationModal, renderHero, renderEditPage, removeSingleEvent, renderSingleEvent }
