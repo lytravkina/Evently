@@ -1,0 +1,48 @@
+.flexColumn {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+}
+
+.title {
+    font-weight: 700;
+    line-height: 1.2em;
+    color: var(--title-color);
+}
+
+.subtitle {
+    font-weight: 600;
+    line-height: 1em;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--accent-color);
+
+    &.subtitleBackground {
+        padding: .5rem .75rem;
+        border-radius: .5rem;
+        background-color: var(--accent-color-background);
+        align-self: flex-start;
+        justify-self: flex-start;
+    }
+}
+
+.description {
+    font-weight: normal;
+    line-height: 1.5rem;
+    color: var(--text-color);
+}
+
+.input {
+    appearance: none;
+    font-size: 1rem;
+    padding: .75rem 1rem;
+    border: 1.5px solid var(--border-color-light);
+    border-radius: .75rem;
+    background-color: var(--white);
+    width: 100%;
+}
+
+.icon {
+    height: 1.2rem;
+    width: auto;
+}
