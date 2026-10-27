@@ -40,7 +40,7 @@
     background-position: 0%;
     cursor: pointer;
 
-    & span {
+    span {
         background-color: var(--accent-color);
         background-clip: text;
         -webkit-background-clip: text;

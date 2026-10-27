@@ -4,6 +4,12 @@
     gap: .5rem;
 }
 
+.flexRow {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+
 .title {
     font-weight: 700;
     line-height: 1.2em;
@@ -32,6 +38,14 @@
     color: var(--text-color);
 }
 
+.label {
+    display: flex;
+    flex-direction: column;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    color: var(--text-color);
+}
+
 .input {
     appearance: none;
     font-size: 1rem;
@@ -40,9 +54,65 @@
     border-radius: .75rem;
     background-color: var(--white);
     width: 100%;
+
+    &:focus,
+    &:not(:placeholder-shown) {
+        color: var(--input-text-color);
+    }
+    
+    &:focus {
+        border-color: var(--accent-color);
+    }
+    
+    &.invalid {
+        border-color: var(--dark-error);
+        background-color: var(--light-error);
+    }
 }
 
-.icon {
-    height: 1.2rem;
-    width: auto;
+.select {
+    appearance: none;
+    font-size: 1rem;
+    padding: .75rem 1rem;
+    border: 1.5px solid var(--border-color-light);
+    border-radius: .75rem;
+    background-color: var(--white);
+    width: 100%;
+    color: var(--input-text-color);
+    background-image: url('./src/assets/icons/icon-arrow-down.svg');
+    background-repeat: no-repeat;
+    background-size: 1rem;
+    background-position: calc(100% - 1rem) 50%;
+}
+
+.button {
+    appearance: none;
+    width: 100%;
+    font-size: 1rem;
+    padding: 1rem;
+    margin-top: 1.5rem;
+    border: 1.5px solid var(--accent-color);
+    border-radius: .75rem;
+    cursor: pointer;
+    background-color: var(--accent-color);
+    color: white;
+    transition: background-color .2s, color .2s;
+
+    &:hover {
+        background-color: transparent;
+        color: var(--accent-color);
+        transition: background-color .2s, color .2s;
+    }
+
+    &.buttonTransparent {
+        background-color: transparent;
+        color: var(--accent-color);
+        transition: background-color .2s, color .2s;
+
+        &:hover {
+            background-color: var(--accent-color);
+            color: white;
+            transition: background-color .2s, color .2s;
+        }
+    }
 }

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import style from "./header.module.css";
 
 function Header({ onTabChange }) {
@@ -16,15 +15,12 @@ function Header({ onTabChange }) {
         </button>
         <button
           className={`${style.menuItem}`}
-          onClick={() => onTabChange("registartions")}
+          onClick={() => onTabChange("registrations")}
         >
           Мои записи
         </button>
         <button className={`${style.menuItem}`}>
-          <img
-            className="icon__image"
-            src="./src/assets/icons/theme-button.svg"
-          />
+          <img src="./src/assets/icons/theme-button.svg" />
         </button>
       </nav>
     </header>
