@@ -101,6 +101,7 @@ function CardList({ tab, events, error, onButtonClick }) {
               capacity={event.capacity}
               onButtonClick={onButtonClick}
               isEditting={edittingId === event.id}
+              anyEditting={!!edittingId}
               onEdit={setEdittingId}
               onQuit={() => setEdittingId(null)}
             />

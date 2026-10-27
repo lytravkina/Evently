@@ -3,7 +3,7 @@ import RegistrationForm from "../Forms/RegistrationForm";
 import shared from "../styles/shared.module.css";
 import style from "./modal.module.css";
 
-function Modal({ onClose, cardId, events }) {
+function Modal({ onClose, cardId, events, registrations }) {
   return (
     <div className={style.modal} onClick={(e) => onClose(e)}>
       <div className={style.dialog}>
@@ -25,7 +25,15 @@ function Modal({ onClose, cardId, events }) {
             ×
           </button>
         </div>
-        {cardId ? <RegistrationForm /> : <EventForm />}
+        {cardId ? (
+          <RegistrationForm
+            events={events}
+            registrations={registrations}
+            eventId={cardId}
+          />
+        ) : (
+          <EventForm events={events} />
+        )}
       </div>
     </div>
   );

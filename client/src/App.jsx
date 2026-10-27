@@ -65,6 +65,7 @@ function App() {
           onClose={handleModalClose}
           cardId={cardId.current}
           events={currentEvents}
+          registrations={registrations}
         />
       )}
     </>

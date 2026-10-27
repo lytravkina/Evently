@@ -2,9 +2,12 @@ import Button from "../Button/Button";
 import shared from "../styles/shared.module.css";
 import style from "./card.module.css";
 
-function Card({ id, isEditting, ...props }) {
+function Card({ id, isEditting, anyEditting, ...props }) {
   return (
-    <article className={style.card} id={id}>
+    <article
+      className={`${style.card} ${anyEditting && !isEditting ? style.disabled : ""}`}
+      id={id}
+    >
       <div className={style.cardWrapper}>
         {isEditting ? (
           <EditForm id={id} props={props} />
@@ -40,8 +43,6 @@ function CardContent({ id, props }) {
     onEdit,
     ...rest
   } = props;
-
-  console.log(onEdit);
 
   return (
     <>
