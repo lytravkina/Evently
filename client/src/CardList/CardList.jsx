@@ -104,6 +104,7 @@ function CardList({ tab, events, error, onButtonClick }) {
               anyEditting={!!edittingId}
               onEdit={setEdittingId}
               onQuit={() => setEdittingId(null)}
+              events={events}
             />
           );
         })
