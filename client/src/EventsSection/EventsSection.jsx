@@ -34,7 +34,7 @@ function EventsSection({ tab, events, error, onButtonClick }) {
           onInput={(e) => setSearch(e.target.value)}
         />
         <select
-          className={shared.input}
+          className={shared.select}
           onChange={(e) => setCategory(e.target.value)}
         >
           <option value="" defaultValue>

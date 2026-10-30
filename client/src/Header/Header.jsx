@@ -1,6 +1,6 @@
 import style from "./header.module.css";
 
-function Header({ onTabChange }) {
+function Header({ onTabChange, onThemeChange, theme }) {
   return (
     <header className={`${style.header}`}>
       <div className={`${style.logo}`} onClick={() => onTabChange("events")}>
@@ -19,7 +19,10 @@ function Header({ onTabChange }) {
         >
           Мои записи
         </button>
-        <button className={`${style.menuItem}`}>
+        <button
+          className={`${style.menuItem}`}
+          onClick={() => onThemeChange(!theme)}
+        >
           <img src="./src/assets/icons/theme-button.svg" />
         </button>
       </nav>

@@ -89,7 +89,7 @@ function CardContent({ id, props }) {
         </div>
 
         {tab === "events" ? (
-          <Button onClick={() => onButtonClick(id)}>Отправить</Button>
+          <Button onClick={() => onButtonClick(id)}>Записаться</Button>
         ) : (
           <Button className={shared.buttonTransparent}>Отменить запись</Button>
         )}

@@ -11,6 +11,7 @@ function App() {
   const [events, setEvents] = useState([]);
   const [registrations, setRegistrations] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
+  const [themeIsDark, setTheme] = useState(false);
 
   const cardId = useRef(null);
 
@@ -46,9 +47,17 @@ function App() {
       .catch((e) => (error = e.message));
   }, []);
 
+  useEffect(() => {
+    document.documentElement.dataset.theme = themeIsDark ? "dark" : "light";
+  }, [themeIsDark]);
+
   return (
     <>
-      <Header onTabChange={setActiveTab} />
+      <Header
+        onTabChange={setActiveTab}
+        onThemeChange={setTheme}
+        theme={themeIsDark}
+      />
 
       <main className="events-page">
         <Hero tab={activeTab} />
