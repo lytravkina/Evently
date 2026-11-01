@@ -1,6 +1,10 @@
 .card {
     flex: 0 0 calc((100% - 1.5rem) / 2);
 
+    @media(max-width: 767px) {
+        flex: 1 0 100%;
+    }
+
     &.disabled {
         opacity: .5;
         pointer-events: none;

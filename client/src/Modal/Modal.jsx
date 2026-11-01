@@ -1,11 +1,23 @@
+import { useContext } from "react";
 import EventForm from "../Forms/EventForm";
 import RegistrationForm from "../Forms/RegistrationForm";
 import shared from "../styles/shared.module.css";
 import style from "./modal.module.css";
+import { EventsContext } from "../Context/EventsContext";
 
-function Modal({ onClose, cardId, events, registrations }) {
+function Modal({ cardId, onClose }) {
+  const { events } = useContext(EventsContext);
+
+  function handleClick(e) {
+    if (e.target !== e.currentTarget) {
+      return;
+    }
+
+    onClose();
+  }
+
   return (
-    <div className={style.modal} onClick={(e) => onClose(e)}>
+    <div className={style.modal} onClick={(e) => handleClick(e)}>
       <div className={style.dialog}>
         <div className={shared.flexColumn}>
           <div className={shared.subtitle}>
@@ -21,18 +33,18 @@ function Modal({ onClose, cardId, events, registrations }) {
               ? "Оставь контакты, чтобы подтвердить участие"
               : "Заполните данные о мероприятии, чтобы о нем узнало больше людей"}
           </p>
-          <button className={style.closeButton} onClick={(e) => onClose(e)}>
+          <button className={style.closeButton} onClick={(e) => handleClick(e)}>
             ×
           </button>
         </div>
         {cardId ? (
           <RegistrationForm
             events={events}
-            registrations={registrations}
             eventId={cardId}
+            onRegistrationPost={onClose}
           />
         ) : (
-          <EventForm events={events} />
+          <EventForm events={events} onEventPost={onClose} />
         )}
       </div>
     </div>

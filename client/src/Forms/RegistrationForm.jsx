@@ -1,8 +1,13 @@
-import { useState } from "react";
-import Input from "../Input/Input";
+import Input from "../Inputs/Input";
 import Button from "../Button/Button";
+import { useState, useContext } from "react";
+import { RegistrationsContext } from "../Context/RegistrationsContext";
+import { EventsContext } from "../Context/EventsContext";
 
-function RegistrationForm({ events, registrations, eventId }) {
+function RegistrationForm({ events, eventId, onRegistrationPost }) {
+  const { registrations, handlePostRegistration } =
+    useContext(RegistrationsContext);
+
   const [registration, setRegistration] = useState({
     name: "",
     email: "",
@@ -19,7 +24,7 @@ function RegistrationForm({ events, registrations, eventId }) {
     }));
   }
 
-  function handleRegistration(e) {
+  function handleSubmit(e) {
     e.preventDefault();
 
     if (!validateForm()) {
@@ -38,7 +43,8 @@ function RegistrationForm({ events, registrations, eventId }) {
       return;
     }
 
-    console.log(registration);
+    handlePostRegistration(registration);
+    onRegistrationPost({ type: "close-modal" });
   }
 
   function validateForm() {
@@ -64,7 +70,7 @@ function RegistrationForm({ events, registrations, eventId }) {
   const isFull = events.find((event) => event.id === eventId).capacity === 0;
 
   return (
-    <form onSubmit={handleRegistration}>
+    <form onSubmit={handleSubmit}>
       <Input
         title={"Имя"}
         name={"name"}

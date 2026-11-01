@@ -10,6 +10,14 @@
     gap: 1rem;
 }
 
+.mainSection {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+    padding: 2.5rem;
+}
+
 .title {
     font-weight: 700;
     line-height: 1.2em;

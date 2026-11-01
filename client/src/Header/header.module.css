@@ -78,4 +78,9 @@
         background-color: var(--border-color);
         transition: background-color .1s;
     }
+
+    img {
+        height: 1rem;
+        width: auto;
+    }
 }

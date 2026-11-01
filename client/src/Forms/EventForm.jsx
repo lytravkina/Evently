@@ -1,9 +1,10 @@
-import { useState } from "react";
-import Input from "../Input/Input";
+import { useContext, useState } from "react";
+import Input from "../Inputs/Input";
 import Button from "../Button/Button";
 import shared from "../styles/shared.module.css";
+import { EventsContext } from "../Context/EventsContext";
 
-function EventForm({ events }) {
+function EventForm({ events, onEventPost }) {
   const [event, setEvent] = useState({
     title: "",
     description: "",
@@ -13,6 +14,8 @@ function EventForm({ events }) {
     capacity: "",
   });
   const [errors, setErrors] = useState({});
+
+  const { handlePostEvent } = useContext(EventsContext);
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -31,7 +34,7 @@ function EventForm({ events }) {
     }));
   }
 
-  function handleEvent(e) {
+  function handleSubmit(e) {
     e.preventDefault();
 
     if (!validateForm()) {
@@ -53,7 +56,8 @@ function EventForm({ events }) {
       return;
     }
 
-    console.log(event);
+    handlePostEvent(event);
+    onEventPost();
   }
 
   function validateForm() {
@@ -94,7 +98,7 @@ function EventForm({ events }) {
   const isNull = event.capacity <= 0;
 
   return (
-    <form onSubmit={handleEvent}>
+    <form onSubmit={handleSubmit}>
       <Input
         title={"Название"}
         name={"title"}

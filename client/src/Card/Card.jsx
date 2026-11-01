@@ -1,16 +1,20 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import Button from "../Button/Button";
 import shared from "../styles/shared.module.css";
 import style from "./card.module.css";
+import EditForm from "../Forms/EditForm";
+import { EventsContext } from "../Context/EventsContext";
+import { RegistrationsContext } from "../Context/RegistrationsContext";
+import { useFormattedDate } from "../hooks/useFormattedDate";
 
-function Card({ id, isEditting, anyEditting, ...props }) {
+export function Card({ id, isEdit, anyEdit, ...props }) {
   return (
     <article
-      className={`${style.card} ${anyEditting && !isEditting ? style.disabled : ""}`}
+      className={`${style.card} ${anyEdit && !isEdit ? style.disabled : ""}`}
       id={id}
     >
       <div className={style.cardWrapper}>
-        {isEditting ? (
+        {isEdit ? (
           <EditForm id={id} props={props} />
         ) : (
           <CardContent id={id} props={props} />
@@ -18,17 +22,6 @@ function Card({ id, isEditting, anyEditting, ...props }) {
       </div>
     </article>
   );
-}
-
-function formatDate(string) {
-  let [date, time] = string.split("T");
-
-  const [year, month, day] = date.split("-");
-
-  const [hour, minute] = time.split(":");
-
-  const formattedDate = `${day}.${month}.${year} ${hour}:${minute}`;
-  return formattedDate;
 }
 
 function CardContent({ id, props }) {
@@ -44,6 +37,11 @@ function CardContent({ id, props }) {
     onEdit,
     ...rest
   } = props;
+
+  const { handleDeleteEvent } = useContext(EventsContext);
+  const { handleDeleteRegistration } = useContext(RegistrationsContext);
+
+  const formattedDate = useFormattedDate(date);
 
   return (
     <>
@@ -63,7 +61,10 @@ function CardContent({ id, props }) {
             >
               <img src="./src/assets/icons/edit-button.svg" />
             </button>
-            <button className={style.iconButton}>
+            <button
+              className={style.iconButton}
+              onClick={() => handleDeleteEvent(id)}
+            >
               <img src="./src/assets/icons/delete-button.svg" />
             </button>
           </>
@@ -74,7 +75,7 @@ function CardContent({ id, props }) {
           <div>
             <img src="./src/assets/icons/icon-date.svg" />
           </div>
-          <span className="date">{formatDate(date)}</span>
+          <span className="date">{formattedDate}</span>
         </div>
         <div className={style.cardInfo}>
           <div>
@@ -89,172 +90,22 @@ function CardContent({ id, props }) {
         </div>
 
         {tab === "events" ? (
-          <Button onClick={() => onButtonClick(id)}>Записаться</Button>
+          <Button
+            onClick={() =>
+              onButtonClick({ type: "open-registration-modal", payload: id })
+            }
+          >
+            Записаться
+          </Button>
         ) : (
-          <Button className={shared.buttonTransparent}>Отменить запись</Button>
+          <Button
+            className={shared.buttonTransparent}
+            onClick={() => handleDeleteRegistration(id)}
+          >
+            Отменить запись
+          </Button>
         )}
       </div>
     </>
   );
 }
-
-function CardInput({ name, value, type = "text", onChange }) {
-  return (
-    <input
-      className={shared.input}
-      name={name}
-      defaultValue={value}
-      type={type}
-      onChange={onChange}
-    />
-  );
-}
-
-function EditForm({ id, props }) {
-  const {
-    title,
-    category,
-    description,
-    date,
-    location,
-    capacity,
-    onQuit,
-    events,
-    ...rest
-  } = props;
-
-  const [updatedEvent, setUpdatedEvent] = useState({
-    title,
-    description,
-    date,
-    location,
-    capacity,
-  });
-
-  function handleChange(e) {
-    const { name, value } = e.target;
-
-    if (name === "capacity") {
-      setUpdatedEvent((prev) => ({
-        ...prev,
-        [name]: Number(value),
-      }));
-      return;
-    }
-
-    setUpdatedEvent((prev) => ({
-      ...prev,
-      [name]: value.trim(),
-    }));
-  }
-
-  function handleUpdatedEvent(e) {
-    e.preventDefault();
-
-    completeEmptyInputs();
-
-    if (isExisting) {
-      alert("Мероприятие с таким именем уже существует.");
-      return;
-    }
-
-    if (isPast) {
-      alert("Указанная дата уже прошла. Пожалуйста, выберите другую дату.");
-      return;
-    }
-
-    if (isNull) {
-      alert("Количество участников должно быть больше 0.");
-      return;
-    }
-
-    console.log(updatedEvent);
-  }
-
-  function completeEmptyInputs() {
-    for (let [key, value] of Object.entries(updatedEvent)) {
-      if (!value) {
-        updatedEvent[key] = props[key];
-      }
-    }
-  }
-
-  const isExisting = events
-    .filter((event) => event.id !== id)
-    .some(
-      (event) =>
-        event.title.trim().toLowerCase() ===
-        updatedEvent.title.trim().toLowerCase(),
-    );
-
-  const isPast = new Date(updatedEvent.date).getTime() < Date.now();
-
-  const isNull = updatedEvent.capacity <= 0;
-
-  return (
-    <form onSubmit={handleUpdatedEvent}>
-      <div className={`${shared.flexColumn} ${style.cardTop}`}>
-        <div
-          className={`${shared.subtitle} ${shared.subtitleBackground} ${style.cardSubtitle}`}
-        >
-          {category}
-        </div>
-        <button
-          className={`${style.iconButton} ${style.iconButtonLeft}`}
-          type="button"
-          onClick={onQuit}
-        >
-          <img src="./src/assets/icons/quit-button.svg" />
-        </button>
-        <button className={style.iconButton} type="button">
-          <img src="./src/assets/icons/delete-button.svg" />
-        </button>
-        <CardInput name={"title"} value={title} onChange={handleChange} />
-        <CardInput
-          name={"description"}
-          value={description}
-          onChange={handleChange}
-        />
-      </div>
-      <div className={`${shared.flexColumn} ${style.cardBottom}`}>
-        <div className={style.cardInfo}>
-          <div>
-            <img src="./src/assets/icons/icon-date.svg" alt="Clock emoji" />
-          </div>
-          <CardInput
-            name={"date"}
-            value={date}
-            type={"datetime-local"}
-            onChange={handleChange}
-          />
-        </div>
-        <div className={style.cardInfo}>
-          <div>
-            <img
-              src="./src/assets/icons/icon-location.svg"
-              alt="Location pin emoji"
-            />
-          </div>
-          <CardInput
-            name={"location"}
-            value={location}
-            onChange={handleChange}
-          />
-        </div>
-        <div className={style.cardInfo}>
-          <CardInput
-            name={"capacity"}
-            value={capacity}
-            type={"number"}
-            onChange={handleChange}
-          />
-        </div>
-        <Button className={shared.buttonTransparent} type={"submit"}>
-          Завершить редактирование
-        </Button>
-      </div>
-    </form>
-  );
-}
-
-export default Card;

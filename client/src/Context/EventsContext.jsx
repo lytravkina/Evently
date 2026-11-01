@@ -1,28 +1,13 @@
-import { createContext, useContext, useState, useEffect } from "react";
-import { getEvents } from "../scripts/eventsAPI";
-import { getRegistrations } from "../scripts/registrationsAPI";
+import { createContext } from "react";
+import { useEvents } from "../hooks/useEvents";
 
 export const EventsContext = createContext(null);
 
 export function EventsProvider({ children }) {
-  const [events, setEvents] = useState([]);
-  const [registrations, setRegistrations] = useState([]);
-
-  let error;
-
-  useEffect(() => {
-    getEvents()
-      .then((response) => setEvents(response))
-      .catch((e) => (error = e.message));
-    getRegistrations()
-      .then((response) => setRegistrations(response))
-      .catch((e) => (error = e.message));
-  }, [events, registrations]);
+  const eventsData = useEvents();
 
   return (
-    <EventsContext.Provider
-      value={{ events, setEvents, registrations, setRegistrations, error }}
-    >
+    <EventsContext.Provider value={eventsData}>
       {children}
     </EventsContext.Provider>
   );
