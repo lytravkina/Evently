@@ -108,10 +108,16 @@ function EditForm({ id, props }) {
         <button className={style.iconButton} type="button">
           <img src="./src/assets/icons/delete-button.svg" />
         </button>
-        <CardInput name={"title"} value={title} onChange={handleChange} />
+        <CardInput
+          name={"title"}
+          value={title}
+          placeholder={title}
+          onChange={handleChange}
+        />
         <CardInput
           name={"description"}
           value={description}
+          placeholder={description}
           onChange={handleChange}
         />
       </div>
@@ -137,6 +143,7 @@ function EditForm({ id, props }) {
           <CardInput
             name={"location"}
             value={location}
+            placeholder={location}
             onChange={handleChange}
           />
         </div>
@@ -144,6 +151,7 @@ function EditForm({ id, props }) {
           <CardInput
             name={"capacity"}
             value={capacity}
+            placeholder={capacity}
             type={"number"}
             onChange={handleChange}
           />

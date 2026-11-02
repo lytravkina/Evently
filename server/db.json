@@ -1,36 +1,66 @@
 {
   "events": [
     {
-      "title": "mcdkls",
-      "description": "sdklcds",
+      "id": "1",
+      "title": "JavaScript Meetup",
+      "description": "Встреча frontend-разработчиков: JavaScript, браузер и современные подходы к разработке.",
       "category": "tech",
-      "date": "2026-11-26T02:08",
-      "location": "dskl",
-      "capacity": 29,
-      "id": "nFW6iqj1vkY"
+      "date": "2026-11-26T14:32",
+      "location": "Tech Hub",
+      "capacity": 29
     },
     {
-      "title": "dmkldadc",
-      "description": "sdlkmsdlm",
+      "id": "2",
+      "title": "Art Workshop",
+      "description": "Практический мастер-класс по современной живописи.",
+      "category": "art",
+      "date": "2026-10-05T15:00:00",
+      "location": "Art Space",
+      "capacity": 15
+    },
+    {
+      "id": "3",
+      "title": "Rock Night",
+      "description": "Вечер живой музыки с несколькими местными группами.",
+      "category": "music",
+      "date": "2026-10-08T19:00:00",
+      "location": "Music Hall",
+      "capacity": 50
+    },
+    {
+      "id": "4",
+      "title": "Frontend Breakfast",
+      "description": "Неформальная утренняя встреча frontend-разработчиков за кофе.",
       "category": "tech",
-      "date": "2026-11-26T02:08",
-      "location": "sdlfkam",
-      "capacity": 39,
-      "id": "Hepc4ftlZkY"
+      "date": "2026-10-10T10:00:00",
+      "location": "Coffee Point",
+      "capacity": 20
+    },
+    {
+      "id": "8",
+      "title": "Design Weekend",
+      "description": "Лекции и практические занятия по дизайну цифровых продуктов.",
+      "category": "art",
+      "date": "2026-10-24T11:00:00",
+      "location": "Design Center",
+      "capacity": 45
+    },
+    {
+      "title": "Началось в колхозе утро",
+      "description": "Все собираемся на детские мероприятия в хуторе Бакланики",
+      "category": "tech",
+      "date": "2026-11-19T13:47",
+      "location": "хутор Бакланики",
+      "capacity": 1,
+      "id": "vEMNDwvCm_M"
     }
   ],
   "registrations": [
     {
-      "name": "fedsfsa",
+      "name": ";askld",
       "email": "lytrvn@gmail.com",
-      "eventId": "nFW6iqj1vkY",
-      "id": "FaYeTALRIPI"
-    },
-    {
-      "name": "fedsfsa",
-      "email": "lytrvn@gmail.com",
-      "eventId": "Hepc4ftlZkY",
-      "id": "Od9naCWo5Fg"
+      "eventId": "1",
+      "id": "Zfz6dYsCXNk"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

@@ -1,22 +1,30 @@
 import Input from "../Inputs/Input";
 import Button from "../Button/Button";
-import { useState, useContext } from "react";
+import { useState, useContext, useRef } from "react";
 import { RegistrationsContext } from "../Context/RegistrationsContext";
-import { EventsContext } from "../Context/EventsContext";
 
 function RegistrationForm({ events, eventId, onRegistrationPost }) {
   const { registrations, handlePostRegistration } =
     useContext(RegistrationsContext);
 
+  const nameRef = useRef("");
+  const emailRef = useRef("");
+
   const [registration, setRegistration] = useState({
     name: "",
     email: "",
-    eventId: eventId,
+    eventId,
   });
+
   const [errors, setErrors] = useState({});
 
   function handleChange(e) {
     const { name, value } = e.target;
+
+    setErrors((prev) => {
+      const { [name]: _, ...rest } = prev;
+      return rest;
+    });
 
     setRegistration((prev) => ({
       ...prev,
@@ -50,12 +58,16 @@ function RegistrationForm({ events, eventId, onRegistrationPost }) {
   function validateForm() {
     const newErrors = {};
 
-    if (!registration.name.trim()) {
-      newErrors.name = "Пожалуйста, введите ваше имя";
-    }
-
     if (!registration.email.trim()) {
       newErrors.email = "Пожалуйста, введите ваш Email";
+      emailRef.current.value = "";
+      emailRef.current.focus();
+    }
+
+    if (!registration.name.trim()) {
+      newErrors.name = "Пожалуйста, введите ваше имя";
+      nameRef.current.value = "";
+      nameRef.current.focus();
     }
 
     setErrors(newErrors);
@@ -74,6 +86,7 @@ function RegistrationForm({ events, eventId, onRegistrationPost }) {
       <Input
         title={"Имя"}
         name={"name"}
+        ref={nameRef}
         isValid={!errors.name}
         error={errors.name || ""}
         onChange={handleChange}
@@ -82,6 +95,7 @@ function RegistrationForm({ events, eventId, onRegistrationPost }) {
         title={"Email"}
         name={"email"}
         type={"email"}
+        ref={emailRef}
         isValid={!errors.email}
         error={errors.email || ""}
         onChange={handleChange}

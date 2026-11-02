@@ -5,7 +5,6 @@ import style from "./card.module.css";
 import EditForm from "../Forms/EditForm";
 import { EventsContext } from "../Context/EventsContext";
 import { RegistrationsContext } from "../Context/RegistrationsContext";
-import { useFormattedDate } from "../hooks/useFormattedDate";
 
 export function Card({ id, isEdit, anyEdit, ...props }) {
   return (
@@ -41,8 +40,6 @@ function CardContent({ id, props }) {
   const { handleDeleteEvent } = useContext(EventsContext);
   const { handleDeleteRegistration } = useContext(RegistrationsContext);
 
-  const formattedDate = useFormattedDate(date);
-
   return (
     <>
       <div className={`${shared.flexColumn} ${style.cardTop}`}>
@@ -75,7 +72,7 @@ function CardContent({ id, props }) {
           <div>
             <img src="./src/assets/icons/icon-date.svg" />
           </div>
-          <span className="date">{formattedDate}</span>
+          <span className="date">{formatDate(date)}</span>
         </div>
         <div className={style.cardInfo}>
           <div>
@@ -108,4 +105,16 @@ function CardContent({ id, props }) {
       </div>
     </>
   );
+}
+
+function formatDate(string) {
+  let [date, time] = string.split("T");
+
+  const [year, month, day] = date.split("-");
+
+  const [hour, minute] = time.split(":");
+
+  const formattedDate = `${day}.${month}.${year} ${hour}:${minute}`;
+
+  return formattedDate;
 }

@@ -1,4 +1,4 @@
-import { createContext, useState, useContext } from "react";
+import { createContext, useState, useContext, useEffect } from "react";
 import { EventsContext } from "./EventsContext";
 import { RegistrationsContext } from "./RegistrationsContext";
 
@@ -8,7 +8,9 @@ export function PageProvider({ children }) {
   const { events } = useContext(EventsContext);
   const { registrations } = useContext(RegistrationsContext);
 
-  const [activeTab, setActiveTab] = useState("events");
+  const [activeTab, setActiveTab] = useState(
+    () => JSON.parse(localStorage.getItem("TAB_KEY")) ?? "events",
+  );
 
   const registeredEvents = events.filter((event) => {
     return registrations.some(
@@ -17,6 +19,10 @@ export function PageProvider({ children }) {
   });
 
   const currentEvents = activeTab === "events" ? events : registeredEvents;
+
+  useEffect(() => {
+    localStorage.setItem("TAB_KEY", JSON.stringify(activeTab));
+  }, [activeTab]);
 
   return (
     <PageContext.Provider value={{ activeTab, setActiveTab, currentEvents }}>

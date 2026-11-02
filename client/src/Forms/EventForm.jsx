@@ -1,10 +1,17 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useRef } from "react";
 import Input from "../Inputs/Input";
 import Button from "../Button/Button";
 import shared from "../styles/shared.module.css";
 import { EventsContext } from "../Context/EventsContext";
 
 function EventForm({ events, onEventPost }) {
+  const { handlePostEvent } = useContext(EventsContext);
+
+  const titleRef = useRef("");
+  const descriptionRef = useRef("");
+  const locationRef = useRef("");
+  const capacityRef = useRef("");
+
   const [event, setEvent] = useState({
     title: "",
     description: "",
@@ -15,10 +22,13 @@ function EventForm({ events, onEventPost }) {
   });
   const [errors, setErrors] = useState({});
 
-  const { handlePostEvent } = useContext(EventsContext);
-
   function handleChange(e) {
     const { name, value } = e.target;
+
+    setErrors((prev) => {
+      const { [name]: _, ...rest } = prev;
+      return rest;
+    });
 
     if (name === "capacity") {
       setEvent((prev) => ({
@@ -43,6 +53,7 @@ function EventForm({ events, onEventPost }) {
 
     if (isExisting) {
       alert("Мероприятие с таким именем уже существует.");
+      titleRef.current.focus();
       return;
     }
 
@@ -53,6 +64,7 @@ function EventForm({ events, onEventPost }) {
 
     if (isNull) {
       alert("Количество участников должно быть больше 0.");
+      capacityRef.current.focus();
       return;
     }
 
@@ -63,24 +75,32 @@ function EventForm({ events, onEventPost }) {
   function validateForm() {
     const newErrors = {};
 
-    if (!event.title.trim()) {
-      newErrors.title = "Пожалуйста, введите название";
+    if (!String(event.capacity)) {
+      newErrors.capacity = "Пожалуйста, укажите количество участников";
+      capacityRef.current.value = "";
+      capacityRef.current.focus();
     }
 
-    if (!event.description.trim()) {
-      newErrors.description = "Пожалуйста, введите описание";
+    if (!event.location.trim()) {
+      newErrors.location = "Пожалуйста, укажите место проведения";
+      locationRef.current.value = "";
+      locationRef.current.focus();
     }
 
     if (!event.date.trim()) {
       newErrors.date = "Пожалуйста, укажите дату и время";
     }
 
-    if (!event.location.trim()) {
-      newErrors.location = "Пожалуйста, укажите место проведения";
+    if (!event.description.trim()) {
+      newErrors.description = "Пожалуйста, введите описание";
+      descriptionRef.current.value = "";
+      descriptionRef.current.focus();
     }
 
-    if (!event.capacity) {
-      newErrors.capacity = "Пожалуйста, укажите количество участников";
+    if (!event.title.trim()) {
+      newErrors.title = "Пожалуйста, введите название";
+      titleRef.current.value = "";
+      titleRef.current.focus();
     }
 
     setErrors(newErrors);
@@ -102,6 +122,7 @@ function EventForm({ events, onEventPost }) {
       <Input
         title={"Название"}
         name={"title"}
+        ref={titleRef}
         onChange={handleChange}
         isValid={!errors.title}
         error={errors.title}
@@ -109,6 +130,7 @@ function EventForm({ events, onEventPost }) {
       <Input
         title={"Описание"}
         name={"description"}
+        ref={descriptionRef}
         onChange={handleChange}
         isValid={!errors.description}
         error={errors.description}
@@ -137,6 +159,7 @@ function EventForm({ events, onEventPost }) {
       <Input
         title={"Место проведения"}
         name={"location"}
+        ref={locationRef}
         onChange={handleChange}
         isValid={!errors.location}
         error={errors.location}
@@ -145,6 +168,7 @@ function EventForm({ events, onEventPost }) {
         title={"Количество участников"}
         name={"capacity"}
         type={"number"}
+        ref={capacityRef}
         onChange={handleChange}
         isValid={!errors.capacity}
         error={errors.capacity}
