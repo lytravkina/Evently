@@ -51,6 +51,13 @@ function RegistrationForm({ events, eventId, onRegistrationPost }) {
       return;
     }
 
+    if (isPast) {
+      alert(
+        "Данное мероприятие уже закончилось. Пожалуйста, выберите другое мероприятие.",
+      );
+      return;
+    }
+
     handlePostRegistration(registration);
     onRegistrationPost({ type: "close-modal" });
   }
@@ -80,6 +87,10 @@ function RegistrationForm({ events, eventId, onRegistrationPost }) {
   );
 
   const isFull = events.find((event) => event.id === eventId).capacity === 0;
+
+  const isPast =
+    new Date(events.find((event) => event.id === eventId).date).getTime() <
+    Date.now();
 
   return (
     <form onSubmit={handleSubmit}>

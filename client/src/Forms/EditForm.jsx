@@ -72,7 +72,7 @@ function EditForm({ id, props }) {
 
   function completeEmptyInputs() {
     for (let [key, value] of Object.entries(updatedEvent)) {
-      if (!value) {
+      if (!String(value)) {
         updatedEvent[key] = props[key];
       }
     }

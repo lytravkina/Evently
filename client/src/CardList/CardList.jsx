@@ -6,8 +6,9 @@ import { PageContext } from "../Context/PageContext";
 import { EventsContext } from "../Context/EventsContext";
 import { RegistrationsContext } from "../Context/RegistrationsContext";
 import Spinner from "../Spinner/Spinner";
+import Sorting from "../Sorting/Sorting";
 
-function CardList({ events, onButtonClick }) {
+function CardList({ events, onButtonClick, checked, onCheck }) {
   const { activeTab } = useContext(PageContext);
   const { eventsError, isEventsLoading, handleDeleteAllEvents } =
     useContext(EventsContext);
@@ -65,6 +66,7 @@ function CardList({ events, onButtonClick }) {
 
       {events.length > 0 && (
         <div className={style.buttonWrapper}>
+          <Sorting checked={checked} onCheck={onCheck} />
           <button
             className={style.buttonDeleteAll}
             onClick={

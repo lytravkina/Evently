@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useRef } from "react";
 import Button from "../Button/Button";
 import shared from "../styles/shared.module.css";
 import style from "./card.module.css";
@@ -40,6 +40,8 @@ function CardContent({ id, props }) {
   const { handleDeleteEvent } = useContext(EventsContext);
   const { handleDeleteRegistration } = useContext(RegistrationsContext);
 
+  const isPast = new Date(date).getTime() < Date.now();
+
   return (
     <>
       <div className={`${shared.flexColumn} ${style.cardTop}`}>
@@ -72,17 +74,19 @@ function CardContent({ id, props }) {
           <div>
             <img src="./src/assets/icons/icon-date.svg" />
           </div>
-          <span className="date">{formatDate(date)}</span>
+          <span className={isPast ? style.dateInvalid : ""}>
+            {formatDate(date)}
+          </span>
         </div>
         <div className={style.cardInfo}>
           <div>
             <img src="./src/assets/icons/icon-location.svg" />
           </div>
-          <span className="location">{location}</span>
+          <span>{location}</span>
         </div>
         <div className={style.cardInfo}>
-          <span className="capacity">
-            <span className="capacity__number">{capacity}</span> мест
+          <span>
+            <span>{capacity}</span> мест
           </span>
         </div>
 

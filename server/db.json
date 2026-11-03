@@ -5,7 +5,7 @@
       "title": "JavaScript Meetup",
       "description": "Встреча frontend-разработчиков: JavaScript, браузер и современные подходы к разработке.",
       "category": "tech",
-      "date": "2026-11-26T14:32",
+      "date": "2026-11-08T18:30",
       "location": "Tech Hub",
       "capacity": 29
     },
@@ -37,6 +37,33 @@
       "capacity": 20
     },
     {
+      "id": "5",
+      "title": "Photography Walk",
+      "description": "Прогулка по городу для любителей уличной фотографии.",
+      "category": "art",
+      "date": "2026-10-12T12:00:00",
+      "location": "Central Park",
+      "capacity": 25
+    },
+    {
+      "id": "6",
+      "title": "Indie Music Evening",
+      "description": "Небольшой концерт независимых музыкантов.",
+      "category": "music",
+      "date": "2026-10-15T20:00:00",
+      "location": "Loft Stage",
+      "capacity": 40
+    },
+    {
+      "id": "7",
+      "title": "Web Performance Meetup",
+      "description": "Встреча о производительности современных веб-приложений.",
+      "category": "tech",
+      "date": "2026-10-18T18:00:00",
+      "location": "Tech Hub",
+      "capacity": 35
+    },
+    {
       "id": "8",
       "title": "Design Weekend",
       "description": "Лекции и практические занятия по дизайну цифровых продуктов.",
@@ -48,19 +75,25 @@
     {
       "title": "Началось в колхозе утро",
       "description": "Все собираемся на детские мероприятия в хуторе Бакланики",
-      "category": "tech",
-      "date": "2026-11-19T13:47",
+      "category": "music",
+      "date": "2026-12-03T15:55",
       "location": "хутор Бакланики",
-      "capacity": 1,
-      "id": "vEMNDwvCm_M"
+      "capacity": 999,
+      "id": "7mFRvYLCziE"
     }
   ],
   "registrations": [
     {
-      "name": ";askld",
+      "name": "fedsfsa",
+      "email": "lytrvn@gmail.com",
+      "eventId": "7mFRvYLCziE",
+      "id": "Guq8efwjZuE"
+    },
+    {
+      "name": "fedsfsa",
       "email": "lytrvn@gmail.com",
       "eventId": "1",
-      "id": "Zfz6dYsCXNk"
+      "id": "GjrWwZU36mQ"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

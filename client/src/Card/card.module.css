@@ -60,6 +60,10 @@
     img {
         max-height: 1.2rem;
     }
+
+    .dateInvalid {
+        color: red;
+    }
 }
 
 .iconButton {
