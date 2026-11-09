@@ -40,7 +40,7 @@
     background-position: 0%;
     cursor: pointer;
 
-    & span {
+    span {
         background-color: var(--accent-color);
         background-clip: text;
         -webkit-background-clip: text;
@@ -77,5 +77,10 @@
     &:active {
         background-color: var(--border-color);
         transition: background-color .1s;
+    }
+
+    img {
+        height: 1rem;
+        width: auto;
     }
 }

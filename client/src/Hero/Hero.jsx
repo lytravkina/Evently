@@ -1,19 +1,23 @@
+import { useContext } from "react";
 import shared from "../styles/shared.module.css";
 import style from "./hero.module.css";
+import { PageContext } from "../Context/PageContext";
 
-function Hero({ tab }) {
+function Hero() {
+  const { activeTab } = useContext(PageContext);
+
   return (
     <section className={`${shared.flexColumn}`}>
       <div className={`${shared.subtitle}`}>
-        {tab === "events" ? "Мероприятия" : "Мои записи"}
+        {activeTab === "events" ? "Мероприятия" : "Мои записи"}
       </div>
       <h1 className={`${shared.title} ${style.heroTitle}`}>
-        {tab === "events"
+        {activeTab === "events"
           ? "Будь в центре событий"
           : "Твои планы на ближайшее время"}
       </h1>
       <p className={`${shared.description}`}>
-        {tab === "events"
+        {activeTab === "events"
           ? "Выбирай интересное мероприятие и записывайся в пару кликов."
           : "Следи за предстоящими событиями и ничего не пропускай."}
       </p>

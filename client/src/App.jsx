@@ -1,35 +1,42 @@
-import { useState } from "react";
+import { useEffect, useState, useRef, useContext, useReducer } from "react";
+import shared from "./styles/shared.module.css";
 import Header from "./Header/Header";
 import Hero from "./Hero/Hero";
-import CardList from "./CardList/CardList";
+import EventsSection from "./EventsSection/EventsSection";
+import Modal from "./Modal/Modal";
 
 function App() {
-  const [activeTab, setActiveTab] = useState("events");
+  function modalReducer(state, action) {
+    switch (action.type) {
+      case "open-registration-modal":
+        return { modalOpen: true, cardId: action.payload };
+      case "open-event-modal":
+        return { modalOpen: true, cardId: null };
+      case "close-modal":
+        return { modalOpen: false, cardId: null };
+    }
+  }
+
+  const [state, dispatch] = useReducer(modalReducer, {
+    modalOpen: false,
+    cardId: null,
+  });
 
   return (
     <>
-      <Header onTabChange={setActiveTab} />
+      <Header />
 
-      <main className="events-page">
-        <Hero tab={activeTab} />
-        <section className="events">
-          <div className="events__filters">
-            <form className="filters-form form">
-              <input
-                type="text"
-                placeholder="Поиск по названию и описанию..."
-                className="filters-form__input input"
-              />
-              <select className="filters-form__select select">
-                <option className="filters-form__default" value="" defaultValue>
-                  Все категории
-                </option>
-              </select>
-            </form>
-          </div>
-          <CardList tab={activeTab} />
-        </section>
+      <main className={shared.mainSection}>
+        <Hero />
+        <EventsSection onButtonClick={dispatch} />
       </main>
+
+      {state.modalOpen && (
+        <Modal
+          cardId={state.cardId}
+          onClose={() => dispatch({ type: "close-modal" })}
+        />
+      )}
     </>
   );
 }
