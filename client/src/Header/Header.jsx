@@ -1,9 +1,11 @@
 import { useContext, useState, useEffect, useRef } from "react";
 import style from "./header.module.css";
 import { PageContext } from "../Context/PageContext";
+import { usePage } from "../store/pageStore";
 
 function Header() {
   const { setActiveTab } = useContext(PageContext);
+  // const setActiveTab = usePage((state) => state.setActiveTab);
 
   const [themeIsDark, setTheme] = useState(
     () => JSON.parse(localStorage.getItem("THEME_KEY")) ?? false,
