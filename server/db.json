@@ -7,7 +7,7 @@
       "category": "tech",
       "date": "2026-11-08T18:30",
       "location": "Tech Hub",
-      "capacity": 29
+      "capacity": 30
     },
     {
       "id": "2",
@@ -16,7 +16,7 @@
       "category": "art",
       "date": "2026-11-21T15:00",
       "location": "Art Space",
-      "capacity": 14
+      "capacity": 15
     },
     {
       "id": "3",
@@ -78,7 +78,7 @@
       "category": "music",
       "date": "2026-12-03T15:55",
       "location": "хутор Бакланики",
-      "capacity": 999,
+      "capacity": 1000,
       "id": "7mFRvYLCziE"
     },
     {
@@ -89,27 +89,17 @@
       "location": "Central Park",
       "capacity": 39,
       "id": "NeHXyCxxZ1g"
-    }
-  ],
-  "registrations": [
-    {
-      "name": "fedsfsa",
-      "email": "lytrvn@gmail.com",
-      "eventId": "7mFRvYLCziE",
-      "id": "Guq8efwjZuE"
     },
     {
-      "name": "fedsfsa",
-      "email": "lytrvn@gmail.com",
-      "eventId": "1",
-      "id": "GjrWwZU36mQ"
-    },
-    {
-      "name": "fedsfsa",
-      "email": "lytrvn@gmail.com",
-      "eventId": "2",
-      "id": "kJN3TD6dMQk"
+      "title": "ksamlkdsa",
+      "description": "ldwskds",
+      "category": "tech",
+      "date": "2026-11-28T16:53",
+      "location": "SLKMk",
+      "capacity": 50,
+      "id": "fmFVdJommgE"
     }
   ],
+  "registrations": [],
   "$schema": "./node_modules/json-server/schema.json"
 }

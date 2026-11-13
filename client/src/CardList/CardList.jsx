@@ -2,23 +2,17 @@ import { useContext, useEffect, useState } from "react";
 import style from "./card-list.module.css";
 import shared from "../styles/shared.module.css";
 import { Card } from "../Card/Card";
-// import { PageContext } from "../Context/PageContext";
-import { EventsContext } from "../Context/EventsContext";
-import { RegistrationsContext } from "../Context/RegistrationsContext";
 import Spinner from "../Spinner/Spinner";
 import Sorting from "../Sorting/Sorting";
 import { useEvents } from "../store/eventsStore";
 import { useRegistrations } from "../store/registrationsStore";
+import { DeleteAllButton } from "../DeleteAllButton/DeleteAllButton";
 
 function CardList({ events, activeTab, onButtonClick, checked, onCheck }) {
   const loadEvents = useEvents((state) => state.loadEvents);
   const loadRegistrations = useRegistrations(
     (state) => state.loadRegistrations,
   );
-
-  // const { activeTab } = useContext(PageContext);
-  const { handleDeleteAllEvents } = useContext(EventsContext);
-  const { handleDeleteAllRegistrations } = useContext(RegistrationsContext);
 
   const [isEventsLoading, setEventsLoading] = useState(true);
   const [isRegistrationsLoading, setRegistrationsLoading] = useState(true);
@@ -101,45 +95,7 @@ function CardList({ events, activeTab, onButtonClick, checked, onCheck }) {
       {events.length > 0 && (
         <div className={style.buttonWrapper}>
           <Sorting checked={checked} onCheck={onCheck} />
-          <button
-            className={style.buttonDeleteAll}
-            onClick={
-              activeTab === "events"
-                ? handleDeleteAllEvents
-                : handleDeleteAllRegistrations
-            }
-          >
-            Очистить все
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="18"
-              height="20"
-              viewBox="0 0 18 20"
-              fill="none"
-            >
-              <path
-                d="M15.4245 7.59003C15.4245 15.6091 16.5788 19.2338 8.81495 19.2338C1.05018 19.2338 2.22828 15.6091 2.22828 7.59003"
-                stroke="black"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M16.9005 4.51574H0.75"
-                stroke="black"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M12.2502 4.51571C12.2502 4.51571 12.7788 0.75 8.82451 0.75C4.87118 0.75 5.39975 4.51571 5.39975 4.51571"
-                stroke="black"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </button>
+          <DeleteAllButton className={style.buttonDeleteAll} />
         </div>
       )}
 

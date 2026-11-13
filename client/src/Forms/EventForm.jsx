@@ -2,10 +2,15 @@ import { useContext, useState, useRef } from "react";
 import Input from "../Inputs/Input";
 import Button from "../Button/Button";
 import shared from "../styles/shared.module.css";
-import { EventsContext } from "../Context/EventsContext";
+// import { EventsContext } from "../Context/EventsContext";
+import { postEvent } from "../api/eventsAPI";
+import { useEvents } from "../store/eventsStore";
 
 function EventForm({ events, onEventPost }) {
-  const { handlePostEvent } = useContext(EventsContext);
+  // const { handlePostEvent } = useContext(EventsContext);
+  const loadEvents = useEvents((state) => state.loadEvents);
+  const [isLoading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const titleRef = useRef("");
   const descriptionRef = useRef("");
@@ -44,7 +49,7 @@ function EventForm({ events, onEventPost }) {
     }));
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
 
     if (!validateForm()) {
@@ -68,7 +73,17 @@ function EventForm({ events, onEventPost }) {
       return;
     }
 
-    handlePostEvent(event);
+    // handlePostEvent(event);
+    setLoading(true);
+    try {
+      await postEvent(event);
+      await loadEvents();
+    } catch (e) {
+      setError(e.message);
+    } finally {
+      setLoading(false);
+    }
+
     onEventPost();
   }
 
