@@ -3,7 +3,9 @@ import style from "../Card/card.module.css";
 import { useState, useContext } from "react";
 import Button from "../Button/Button";
 import CardInput from "../Inputs/CardInput";
-import { EventsContext } from "../Context/EventsContext";
+// import { EventsContext } from "../Context/EventsContext";
+import { updateEvent } from "../api/eventsAPI";
+import { useEvents } from "../store/eventsStore";
 
 function EditForm({ id, props }) {
   const {
@@ -14,7 +16,7 @@ function EditForm({ id, props }) {
     location,
     capacity,
     onQuit,
-    events,
+    // events,
     ...rest
   } = props;
 
@@ -26,8 +28,12 @@ function EditForm({ id, props }) {
     location,
     capacity,
   });
+  const [isLoading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  const { handleUpdateEvent } = useContext(EventsContext);
+  const { events, loadEvents } = useEvents();
+
+  // const { handleUpdateEvent } = useContext(EventsContext);
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -46,7 +52,7 @@ function EditForm({ id, props }) {
     }));
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
 
     completeEmptyInputs();
@@ -66,7 +72,17 @@ function EditForm({ id, props }) {
       return;
     }
 
-    handleUpdateEvent(updatedEvent);
+    // handleUpdateEvent(updatedEvent);
+    setLoading(true);
+    try {
+      await updateEvent(updatedEvent);
+      await loadEvents();
+    } catch (e) {
+      setError(e.message);
+    } finally {
+      setLoading(false);
+    }
+
     onQuit();
   }
 
