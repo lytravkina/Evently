@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import style from "./card-list.module.css";
 import shared from "../styles/shared.module.css";
 import { Card } from "../Card/Card";

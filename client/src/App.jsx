@@ -1,4 +1,3 @@
-import { useEffect, useState, useRef, useContext } from "react";
 import shared from "./styles/shared.module.css";
 import Header from "./Header/Header";
 import Hero from "./Hero/Hero";

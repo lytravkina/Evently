@@ -1,4 +1,3 @@
-import { useContext, useEffect, useRef, useState } from "react";
 import CardList from "../CardList/CardList";
 import shared from "../styles/shared.module.css";
 import { useFilters } from "../hooks/useFilters";

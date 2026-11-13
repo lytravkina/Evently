@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import style from "./header.module.css";
 import { useTab } from "../store/pageStore";
 

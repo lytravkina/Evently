@@ -1,6 +1,6 @@
 import shared from "../styles/shared.module.css";
 import style from "../Card/card.module.css";
-import { useState, useContext } from "react";
+import { useState } from "react";
 import Button from "../Button/Button";
 import CardInput from "../Inputs/CardInput";
 import { updateEvent } from "../api/eventsAPI";

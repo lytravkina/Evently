@@ -1,4 +1,3 @@
-import { useContext } from "react";
 import EventForm from "../Forms/EventForm";
 import RegistrationForm from "../Forms/RegistrationForm";
 import shared from "../styles/shared.module.css";

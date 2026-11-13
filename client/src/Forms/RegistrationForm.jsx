@@ -1,6 +1,6 @@
 import Input from "../Inputs/Input";
 import Button from "../Button/Button";
-import { useState, useContext, useRef } from "react";
+import { useState, useRef } from "react";
 import { postRegistration } from "../api/registrationsAPI";
 import { updateEvent } from "../api/eventsAPI";
 import { useEvents } from "../store/eventsStore";
