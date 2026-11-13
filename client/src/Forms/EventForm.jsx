@@ -2,13 +2,13 @@ import { useContext, useState, useRef } from "react";
 import Input from "../Inputs/Input";
 import Button from "../Button/Button";
 import shared from "../styles/shared.module.css";
-// import { EventsContext } from "../Context/EventsContext";
 import { postEvent } from "../api/eventsAPI";
 import { useEvents } from "../store/eventsStore";
+import { useModal } from "../store/pageStore";
 
-function EventForm({ events, onEventPost }) {
-  // const { handlePostEvent } = useContext(EventsContext);
-  const loadEvents = useEvents((state) => state.loadEvents);
+function EventForm() {
+  const { events, loadEvents } = useEvents();
+  const closeModal = useModal((state) => state.closeModal);
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -73,7 +73,6 @@ function EventForm({ events, onEventPost }) {
       return;
     }
 
-    // handlePostEvent(event);
     setLoading(true);
     try {
       await postEvent(event);
@@ -84,7 +83,7 @@ function EventForm({ events, onEventPost }) {
       setLoading(false);
     }
 
-    onEventPost();
+    closeModal();
   }
 
   function validateForm() {

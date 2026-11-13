@@ -5,8 +5,10 @@ import { postRegistration } from "../api/registrationsAPI";
 import { updateEvent } from "../api/eventsAPI";
 import { useEvents } from "../store/eventsStore";
 import { useRegistrations } from "../store/registrationsStore";
+import { useModal } from "../store/pageStore";
 
-function RegistrationForm({ eventId, onRegistrationPost }) {
+function RegistrationForm({ eventId }) {
+  const closeModal = useModal((state) => state.closeModal);
   const { registrations, loadRegistrations } = useRegistrations();
   const { events, loadEvents } = useEvents();
 
@@ -79,7 +81,7 @@ function RegistrationForm({ eventId, onRegistrationPost }) {
       setLoading(false);
     }
 
-    onRegistrationPost({ type: "close-modal" });
+    closeModal();
   }
 
   function validateForm() {

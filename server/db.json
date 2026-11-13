@@ -78,7 +78,7 @@
       "category": "music",
       "date": "2026-12-03T15:55",
       "location": "хутор Бакланики",
-      "capacity": 1000,
+      "capacity": 999,
       "id": "7mFRvYLCziE"
     },
     {
@@ -89,8 +89,24 @@
       "location": "da;/sd",
       "capacity": 1,
       "id": "YfKIl0EjZXo"
+    },
+    {
+      "title": "lkalkS",
+      "description": "ALKSDL;A",
+      "category": "tech",
+      "date": "2026-11-30T00:54",
+      "location": ";LSk;ls",
+      "capacity": 24,
+      "id": "GZ0JhA53FhM"
     }
   ],
-  "registrations": [],
+  "registrations": [
+    {
+      "name": "fedsfsa",
+      "email": "lytrvn@gmail.com",
+      "eventId": "7mFRvYLCziE",
+      "id": "WD64tFkJAAo"
+    }
+  ],
   "$schema": "./node_modules/json-server/schema.json"
 }

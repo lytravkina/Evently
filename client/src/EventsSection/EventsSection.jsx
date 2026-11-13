@@ -1,15 +1,12 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import CardList from "../CardList/CardList";
 import shared from "../styles/shared.module.css";
-import { PageContext } from "../Context/PageContext";
 import { useFilters } from "../hooks/useFilters";
 import { useTab } from "../store/pageStore";
 import { useEvents } from "../store/eventsStore";
 import { useRegistrations } from "../store/registrationsStore";
 
-function EventsSection({ onButtonClick }) {
-  // const { currentEvents } = useContext(PageContext);
-
+function EventsSection() {
   const activeTab = useTab((state) => state.activeTab);
   const events = useEvents((state) => state.events);
   const registrations = useRegistrations((state) => state.registrations);
@@ -59,7 +56,6 @@ function EventsSection({ onButtonClick }) {
       <CardList
         events={sortedEvents(sortingType)}
         activeTab={activeTab}
-        onButtonClick={onButtonClick}
         checked={sortingType}
         onCheck={setSortingType}
       />

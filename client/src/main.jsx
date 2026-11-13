@@ -7,12 +7,12 @@ import { PageProvider } from "./Context/PageContext";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <EventsProvider>
+    {/* <EventsProvider>
       <RegistrationsProvider>
-        <PageProvider>
-          <App />
-        </PageProvider>
+        <PageProvider> */}
+    <App />
+    {/* </PageProvider>
       </RegistrationsProvider>
-    </EventsProvider>
+    </EventsProvider> */}
   </StrictMode>,
 );

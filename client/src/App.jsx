@@ -1,26 +1,15 @@
-import { useEffect, useState, useRef, useContext, useReducer } from "react";
+import { useEffect, useState, useRef, useContext } from "react";
 import shared from "./styles/shared.module.css";
 import Header from "./Header/Header";
 import Hero from "./Hero/Hero";
 import EventsSection from "./EventsSection/EventsSection";
 import Modal from "./Modal/Modal";
+import { useModal } from "./store/pageStore";
 
 function App() {
-  function modalReducer(state, action) {
-    switch (action.type) {
-      case "open-registration-modal":
-        return { modalOpen: true, cardId: action.payload };
-      case "open-event-modal":
-        return { modalOpen: true, cardId: null };
-      case "close-modal":
-        return { modalOpen: false, cardId: null };
-    }
-  }
-
-  const [state, dispatch] = useReducer(modalReducer, {
-    modalOpen: false,
-    cardId: null,
-  });
+  const closeModal = useModal((state) => state.closeModal);
+  const modalOpen = useModal((state) => state.modalOpen);
+  const cardId = useModal((state) => state.cardId);
 
   return (
     <>
@@ -28,15 +17,10 @@ function App() {
 
       <main className={shared.mainSection}>
         <Hero />
-        <EventsSection onButtonClick={dispatch} />
+        <EventsSection />
       </main>
 
-      {state.modalOpen && (
-        <Modal
-          cardId={state.cardId}
-          onClose={() => dispatch({ type: "close-modal" })}
-        />
-      )}
+      {modalOpen && <Modal cardId={cardId} onClose={closeModal} />}
     </>
   );
 }

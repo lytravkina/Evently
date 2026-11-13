@@ -7,8 +7,10 @@ import Sorting from "../Sorting/Sorting";
 import { useEvents } from "../store/eventsStore";
 import { useRegistrations } from "../store/registrationsStore";
 import { DeleteAllButton } from "../DeleteAllButton/DeleteAllButton";
+import { useModal } from "../store/pageStore";
 
-function CardList({ events, activeTab, onButtonClick, checked, onCheck }) {
+function CardList({ events, activeTab, checked, onCheck }) {
+  const openEventModal = useModal((state) => state.openEventModal);
   const loadEvents = useEvents((state) => state.loadEvents);
   const loadRegistrations = useRegistrations(
     (state) => state.loadRegistrations,
@@ -53,10 +55,7 @@ function CardList({ events, activeTab, onButtonClick, checked, onCheck }) {
   return (
     <div className={style.cardsWrapper}>
       {activeTab === "events" && (
-        <button
-          className={style.buttonAdd}
-          onClick={() => onButtonClick({ type: "open-event-modal" })}
-        >
+        <button className={style.buttonAdd} onClick={openEventModal}>
           Создать событие
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -124,7 +123,6 @@ function CardList({ events, activeTab, onButtonClick, checked, onCheck }) {
             date={event.date}
             location={event.location}
             capacity={event.capacity}
-            onButtonClick={onButtonClick}
             isEdit={editId === event.id}
             anyEdit={!!editId}
             onEdit={setEditId}

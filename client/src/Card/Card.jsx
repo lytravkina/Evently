@@ -8,6 +8,7 @@ import { useRegistrations } from "../store/registrationsStore";
 import { deleteEvent as deleteEventRequest } from "../api/eventsAPI";
 import { updateEvent } from "../api/eventsAPI";
 import { deleteRegistration as deleteRegistrationRequest } from "../api/registrationsAPI";
+import { useModal } from "../store/pageStore";
 
 export function Card({ id, isEdit, anyEdit, ...props }) {
   return (
@@ -35,11 +36,13 @@ function CardContent({ id, props }) {
     date,
     location,
     capacity,
-    onButtonClick,
     onEdit,
     ...rest
   } = props;
 
+  const openRegistrationModal = useModal(
+    (state) => state.openRegistrationModal,
+  );
   const { events, loadEvents } = useEvents();
   const { registrations, loadRegistrations } = useRegistrations();
 
@@ -142,13 +145,7 @@ function CardContent({ id, props }) {
         </div>
 
         {tab === "events" ? (
-          <Button
-            onClick={() =>
-              onButtonClick({ type: "open-registration-modal", payload: id })
-            }
-          >
-            Записаться
-          </Button>
+          <Button onClick={() => openRegistrationModal(id)}>Записаться</Button>
         ) : (
           <Button
             className={shared.buttonTransparent}
