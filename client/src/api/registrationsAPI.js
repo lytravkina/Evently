@@ -7,6 +7,8 @@ function sleep(ms) {
 async function getRegistrations() {
     const response = await fetch(path)
 
+    sleep(5000)
+
     if (!response.ok) {
         throw new Error('Не удалось загрузить записи')
     }

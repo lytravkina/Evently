@@ -14,9 +14,9 @@
       "title": "Art Workshop",
       "description": "Практический мастер-класс по современной живописи.",
       "category": "art",
-      "date": "2026-10-05T15:00:00",
+      "date": "2026-11-21T15:00",
       "location": "Art Space",
-      "capacity": 15
+      "capacity": 14
     },
     {
       "id": "3",
@@ -80,6 +80,15 @@
       "location": "хутор Бакланики",
       "capacity": 999,
       "id": "7mFRvYLCziE"
+    },
+    {
+      "title": "zkljjsa",
+      "description": "Встреча frontend-разработчиков: JavaScript, браузер и современные подходы к разработке.",
+      "category": "tech",
+      "date": "2026-11-29T15:34",
+      "location": "Central Park",
+      "capacity": 39,
+      "id": "NeHXyCxxZ1g"
     }
   ],
   "registrations": [
@@ -94,6 +103,12 @@
       "email": "lytrvn@gmail.com",
       "eventId": "1",
       "id": "GjrWwZU36mQ"
+    },
+    {
+      "name": "fedsfsa",
+      "email": "lytrvn@gmail.com",
+      "eventId": "2",
+      "id": "kJN3TD6dMQk"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

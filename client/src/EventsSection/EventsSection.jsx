@@ -2,69 +2,36 @@ import { useContext, useEffect, useRef, useState } from "react";
 import CardList from "../CardList/CardList";
 import shared from "../styles/shared.module.css";
 import { PageContext } from "../Context/PageContext";
+import { useFilters } from "../hooks/useFilters";
+import { usePage } from "../store/pageStore";
+import { useEvents } from "../store/eventsStore";
+import { useRegistrations } from "../store/registrationsStore";
 
 function EventsSection({ onButtonClick }) {
-  const { currentEvents } = useContext(PageContext);
+  // const { currentEvents } = useContext(PageContext);
 
-  const [search, setSearch] = useState(
-    () => JSON.parse(localStorage.getItem("FILTERS_KEY"))?.search ?? "",
-  );
-  const [category, setCategory] = useState(
-    () => JSON.parse(localStorage.getItem("FILTERS_KEY"))?.category ?? "",
-  );
+  const activeTab = usePage((state) => state.activeTab);
+  const events = useEvents((state) => state.events);
+  const registrations = useRegistrations((state) => state.registrations);
 
-  const [sortingType, setSortingType] = useState(
-    () => JSON.parse(localStorage.getItem("FILTERS_KEY"))?.sorting ?? null,
-  );
-
-  const categories = currentEvents.reduce((categories, event) => {
-    if (!categories.includes(event.category)) {
-      categories.push(event.category);
-    }
-    return categories;
-  }, []);
-
-  const matchesSearch = currentEvents.filter((event) => {
-    return (
-      event.title.toLowerCase().includes(search.trim().toLowerCase()) ||
-      event.description.toLowerCase().includes(search.trim().toLowerCase())
+  const registeredEvents = events.filter((event) => {
+    return registrations.some(
+      (registration) => registration.eventId === event.id,
     );
   });
 
-  const matchesFilters = matchesSearch.filter((event) => {
-    return category ? event.category === category : event;
-  });
+  const currentEvents = activeTab === "events" ? events : registeredEvents;
 
-  const sortedEvents = (type) => {
-    const arr = [...matchesFilters];
-    switch (type) {
-      case "title-asc":
-        return arr.sort((a, b) => a.title.localeCompare(b.title));
-      case "title-desc":
-        return arr.sort((a, b) => b.title.localeCompare(a.title));
-      case "date-asc":
-        return arr.sort(
-          (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
-        );
-      case "date-desc":
-        return arr.sort(
-          (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
-        );
-      case "capacity-asc":
-        return arr.sort((a, b) => a.capacity - b.capacity);
-      case "capacity-desc":
-        return arr.sort((a, b) => b.capacity - a.capacity);
-      default:
-        return arr;
-    }
-  };
-
-  useEffect(() => {
-    localStorage.setItem(
-      "FILTERS_KEY",
-      JSON.stringify({ search, category, sorting: sortingType }),
-    );
-  }, [search, category, sortingType]);
+  const {
+    search,
+    category,
+    sortingType,
+    setSearch,
+    setCategory,
+    setSortingType,
+    categories,
+    sortedEvents,
+  } = useFilters(currentEvents);
 
   return (
     <section className={shared.flexColumn}>
@@ -91,6 +58,7 @@ function EventsSection({ onButtonClick }) {
       </div>
       <CardList
         events={sortedEvents(sortingType)}
+        activeTab={activeTab}
         onButtonClick={onButtonClick}
         checked={sortingType}
         onCheck={setSortingType}

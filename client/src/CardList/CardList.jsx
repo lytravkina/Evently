@@ -1,26 +1,60 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import style from "./card-list.module.css";
 import shared from "../styles/shared.module.css";
 import { Card } from "../Card/Card";
-import { PageContext } from "../Context/PageContext";
+// import { PageContext } from "../Context/PageContext";
 import { EventsContext } from "../Context/EventsContext";
 import { RegistrationsContext } from "../Context/RegistrationsContext";
 import Spinner from "../Spinner/Spinner";
 import Sorting from "../Sorting/Sorting";
+import { useEvents } from "../store/eventsStore";
+import { useRegistrations } from "../store/registrationsStore";
 
-function CardList({ events, onButtonClick, checked, onCheck }) {
-  const { activeTab } = useContext(PageContext);
-  const { eventsError, isEventsLoading, handleDeleteAllEvents } =
-    useContext(EventsContext);
-  const {
-    registrationsError,
-    isRegistrationsLoading,
-    handleDeleteAllRegistrations,
-  } = useContext(RegistrationsContext);
+function CardList({ events, activeTab, onButtonClick, checked, onCheck }) {
+  const loadEvents = useEvents((state) => state.loadEvents);
+  const loadRegistrations = useRegistrations(
+    (state) => state.loadRegistrations,
+  );
+
+  // const { activeTab } = useContext(PageContext);
+  const { handleDeleteAllEvents } = useContext(EventsContext);
+  const { handleDeleteAllRegistrations } = useContext(RegistrationsContext);
+
+  const [isEventsLoading, setEventsLoading] = useState(true);
+  const [isRegistrationsLoading, setRegistrationsLoading] = useState(true);
+
+  const [eventsError, setEventsError] = useState(null);
+  const [registrationsError, setRegistrationsError] = useState(null);
 
   const [editId, setEditId] = useState(null);
 
   const isLoading = isEventsLoading || isRegistrationsLoading;
+
+  useEffect(() => {
+    (async () => {
+      setEventsLoading(true);
+      try {
+        await loadEvents();
+      } catch (e) {
+        setEventsError(e.message);
+      } finally {
+        setEventsLoading(false);
+      }
+    })();
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      setRegistrationsLoading(true);
+      try {
+        await loadRegistrations();
+      } catch (e) {
+        setRegistrationsError(e.message);
+      } finally {
+        setRegistrationsLoading(false);
+      }
+    })();
+  }, []);
 
   return (
     <div className={style.cardsWrapper}>

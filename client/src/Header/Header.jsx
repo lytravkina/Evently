@@ -4,12 +4,16 @@ import { PageContext } from "../Context/PageContext";
 import { usePage } from "../store/pageStore";
 
 function Header() {
-  const { setActiveTab } = useContext(PageContext);
-  // const setActiveTab = usePage((state) => state.setActiveTab);
+  // const { setActiveTab } = useContext(PageContext);
+  const { activeTab, setActiveTab } = usePage();
 
   const [themeIsDark, setTheme] = useState(
     () => JSON.parse(localStorage.getItem("THEME_KEY")) ?? false,
   );
+
+  useEffect(() => {
+    localStorage.setItem("TAB_KEY", JSON.stringify(activeTab));
+  }, [activeTab]);
 
   useEffect(() => {
     document.documentElement.dataset.theme = themeIsDark ? "dark" : "light";
