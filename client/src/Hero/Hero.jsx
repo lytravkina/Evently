@@ -1,9 +1,9 @@
 import shared from "../styles/shared.module.css";
 import style from "./hero.module.css";
-import { usePage } from "../store/pageStore";
+import { useTab } from "../store/pageStore";
 
 function Hero() {
-  const activeTab = usePage((state) => state.activeTab);
+  const activeTab = useTab((state) => state.activeTab);
 
   return (
     <section className={`${shared.flexColumn}`}>

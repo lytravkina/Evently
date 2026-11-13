@@ -1,4 +1,4 @@
-import { usePage } from "../store/pageStore";
+import { useTab } from "../store/pageStore";
 import { useEvents } from "../store/eventsStore";
 import { useRegistrations } from "../store/registrationsStore";
 import { deleteEvent, updateEvent } from "../api/eventsAPI";
@@ -12,7 +12,7 @@ export function DeleteAllButton({
   setEventsError,
   setRegistrationsError,
 }) {
-  const activeTab = usePage((state) => state.activeTab);
+  const activeTab = useTab((state) => state.activeTab);
   const { events, loadEvents } = useEvents();
   const { registrations, loadRegistrations } = useRegistrations();
 

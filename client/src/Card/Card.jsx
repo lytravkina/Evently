@@ -1,10 +1,13 @@
-import { useState, useContext, useRef } from "react";
+import { useState } from "react";
 import Button from "../Button/Button";
 import shared from "../styles/shared.module.css";
 import style from "./card.module.css";
 import EditForm from "../Forms/EditForm";
-import { EventsContext } from "../Context/EventsContext";
-import { RegistrationsContext } from "../Context/RegistrationsContext";
+import { useEvents } from "../store/eventsStore";
+import { useRegistrations } from "../store/registrationsStore";
+import { deleteEvent as deleteEventRequest } from "../api/eventsAPI";
+import { updateEvent } from "../api/eventsAPI";
+import { deleteRegistration as deleteRegistrationRequest } from "../api/registrationsAPI";
 
 export function Card({ id, isEdit, anyEdit, ...props }) {
   return (
@@ -37,10 +40,58 @@ function CardContent({ id, props }) {
     ...rest
   } = props;
 
-  const { handleDeleteEvent } = useContext(EventsContext);
-  const { handleDeleteRegistration } = useContext(RegistrationsContext);
+  const { events, loadEvents } = useEvents();
+  const { registrations, loadRegistrations } = useRegistrations();
+
+  const [isEventsLoading, setEventsLoading] = useState(true);
+  const [isRegistrationsLoading, setRegistrationsLoading] = useState(true);
+
+  const [eventsError, setEventsError] = useState(null);
+  const [registrationsError, setRegistrationsError] = useState(null);
 
   const isPast = new Date(date).getTime() < Date.now();
+
+  async function deleteEvent(id) {
+    const confirmed = confirm("Вы действительно хотите удалить мероприятие?");
+    if (confirmed) {
+      setEventsLoading(true);
+      try {
+        await deleteEventRequest(id);
+        await loadEvents();
+      } catch (e) {
+        setEventsError(e.message);
+      } finally {
+        setEventsLoading(false);
+      }
+    }
+  }
+
+  async function deleteRegistration(eventId) {
+    const registrationId = registrations.find(
+      (registration) => registration.eventId === eventId,
+    ).id;
+
+    const registeredEvent = events.find((event) => event.id === eventId);
+
+    const confirmed = confirm(
+      "Вы действительно хотите отменить запись на мероприятие?",
+    );
+    if (confirmed) {
+      setRegistrationsLoading(true);
+      try {
+        await deleteRegistrationRequest(registrationId);
+        await updateEvent({
+          ...registeredEvent,
+          capacity: registeredEvent.capacity + 1,
+        });
+        await Promise.all([loadRegistrations(), loadEvents()]);
+      } catch (e) {
+        setRegistrationsError(e.message);
+      } finally {
+        setRegistrationsLoading(false);
+      }
+    }
+  }
 
   return (
     <>
@@ -62,7 +113,7 @@ function CardContent({ id, props }) {
             </button>
             <button
               className={style.iconButton}
-              onClick={() => handleDeleteEvent(id)}
+              onClick={() => deleteEvent(id)}
             >
               <img src="./src/assets/icons/delete-button.svg" />
             </button>
@@ -101,7 +152,7 @@ function CardContent({ id, props }) {
         ) : (
           <Button
             className={shared.buttonTransparent}
-            onClick={() => handleDeleteRegistration(id)}
+            onClick={() => deleteRegistration(id)}
           >
             Отменить запись
           </Button>

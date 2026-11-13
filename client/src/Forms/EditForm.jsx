@@ -3,7 +3,6 @@ import style from "../Card/card.module.css";
 import { useState, useContext } from "react";
 import Button from "../Button/Button";
 import CardInput from "../Inputs/CardInput";
-// import { EventsContext } from "../Context/EventsContext";
 import { updateEvent } from "../api/eventsAPI";
 import { useEvents } from "../store/eventsStore";
 
@@ -16,7 +15,6 @@ function EditForm({ id, props }) {
     location,
     capacity,
     onQuit,
-    // events,
     ...rest
   } = props;
 
@@ -32,8 +30,6 @@ function EditForm({ id, props }) {
   const [error, setError] = useState(null);
 
   const { events, loadEvents } = useEvents();
-
-  // const { handleUpdateEvent } = useContext(EventsContext);
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -72,7 +68,6 @@ function EditForm({ id, props }) {
       return;
     }
 
-    // handleUpdateEvent(updatedEvent);
     setLoading(true);
     try {
       await updateEvent(updatedEvent);
