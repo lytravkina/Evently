@@ -95,7 +95,14 @@ function CardList({ events, activeTab, onButtonClick, checked, onCheck }) {
       {events.length > 0 && (
         <div className={style.buttonWrapper}>
           <Sorting checked={checked} onCheck={onCheck} />
-          <DeleteAllButton className={style.buttonDeleteAll} />
+          <DeleteAllButton
+            currentEvents={events}
+            className={style.buttonDeleteAll}
+            setEventsLoading={setEventsLoading}
+            setRegistrationsLoading={setRegistrationsLoading}
+            setEventsError={setEventsError}
+            setRegistrationsError={setRegistrationsError}
+          />
         </div>
       )}
 

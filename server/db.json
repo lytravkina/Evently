@@ -96,26 +96,10 @@
       "category": "tech",
       "date": "2026-11-28T16:53",
       "location": "SLKMk",
-      "capacity": 46,
+      "capacity": 47,
       "id": "fmFVdJommgE"
     }
   ],
-  "registrations": [
-    {
-      "id": "k3RcN6Cf8w0"
-    },
-    {
-      "id": "pNH_CX2BSF8"
-    },
-    {
-      "id": "JJgaGelmieQ"
-    },
-    {
-      "name": "fedsfsa",
-      "email": "lytrvn@gmail.com",
-      "eventId": "fmFVdJommgE",
-      "id": "SknxnrEr2gg"
-    }
-  ],
+  "registrations": [],
   "$schema": "./node_modules/json-server/schema.json"
 }

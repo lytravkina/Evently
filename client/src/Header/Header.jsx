@@ -1,10 +1,8 @@
 import { useContext, useState, useEffect, useRef } from "react";
 import style from "./header.module.css";
-import { PageContext } from "../Context/PageContext";
 import { usePage } from "../store/pageStore";
 
 function Header() {
-  // const { setActiveTab } = useContext(PageContext);
   const { activeTab, setActiveTab } = usePage();
 
   const [themeIsDark, setTheme] = useState(

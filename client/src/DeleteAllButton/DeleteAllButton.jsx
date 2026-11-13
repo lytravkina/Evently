@@ -1,21 +1,67 @@
-import { useContext } from "react";
 import { usePage } from "../store/pageStore";
-import { EventsContext } from "../Context/EventsContext";
-import { RegistrationsContext } from "../Context/RegistrationsContext";
+import { useEvents } from "../store/eventsStore";
+import { useRegistrations } from "../store/registrationsStore";
+import { deleteEvent, updateEvent } from "../api/eventsAPI";
+import { deleteRegistration } from "../api/registrationsAPI";
 
-export function DeleteAllButton({ className }) {
+export function DeleteAllButton({
+  currentEvents,
+  className,
+  setEventsLoading,
+  setRegistrationsLoading,
+  setEventsError,
+  setRegistrationsError,
+}) {
   const activeTab = usePage((state) => state.activeTab);
+  const { events, loadEvents } = useEvents();
+  const { registrations, loadRegistrations } = useRegistrations();
 
-  const { handleDeleteAllEvents } = useContext(EventsContext);
-  const { handleDeleteAllRegistrations } = useContext(RegistrationsContext);
+  async function deleteAllEvents() {
+    const confirmed = confirm(
+      "Вы действительно хотите очистить список мероприятий?",
+    );
+    if (confirmed) {
+      setEventsLoading(true);
+      try {
+        await Promise.all(events.map((event) => deleteEvent(event.id)));
+        await loadEvents();
+      } catch (e) {
+        setEventsError(e.message);
+      } finally {
+        setEventsLoading(false);
+      }
+    }
+  }
+
+  async function deleteAllRegistrations() {
+    const confirmed = confirm("Вы действительно хотите отменить все записи?");
+    if (confirmed) {
+      setRegistrationsLoading(true);
+      try {
+        await Promise.all(
+          registrations.map((registration) =>
+            deleteRegistration(registration.id),
+          ),
+        );
+        await Promise.all(
+          currentEvents.map((event) =>
+            updateEvent({ ...event, capacity: event.capacity + 1 }),
+          ),
+        );
+        await Promise.all([loadRegistrations(), loadEvents()]);
+      } catch (e) {
+        setRegistrationsError(e.message);
+      } finally {
+        setRegistrationsLoading(false);
+      }
+    }
+  }
 
   return (
     <button
       className={className}
       onClick={
-        activeTab === "events"
-          ? handleDeleteAllEvents
-          : handleDeleteAllRegistrations
+        activeTab === "events" ? deleteAllEvents : deleteAllRegistrations
       }
     >
       Очистить все
