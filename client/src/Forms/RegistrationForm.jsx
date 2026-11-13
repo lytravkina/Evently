@@ -1,11 +1,17 @@
 import Input from "../Inputs/Input";
 import Button from "../Button/Button";
 import { useState, useContext, useRef } from "react";
-import { RegistrationsContext } from "../Context/RegistrationsContext";
+import { postRegistration } from "../api/registrationsAPI";
+import { updateEvent } from "../api/eventsAPI";
+import { useEvents } from "../store/eventsStore";
+import { useRegistrations } from "../store/registrationsStore";
 
-function RegistrationForm({ events, eventId, onRegistrationPost }) {
-  const { registrations, handlePostRegistration } =
-    useContext(RegistrationsContext);
+function RegistrationForm({ eventId, onRegistrationPost }) {
+  const { registrations, loadRegistrations } = useRegistrations();
+  const { events, loadEvents } = useEvents();
+
+  const [isLoading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const nameRef = useRef("");
   const emailRef = useRef("");
@@ -32,7 +38,7 @@ function RegistrationForm({ events, eventId, onRegistrationPost }) {
     }));
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
 
     if (!validateForm()) {
@@ -58,7 +64,21 @@ function RegistrationForm({ events, eventId, onRegistrationPost }) {
       return;
     }
 
-    handlePostRegistration(registration);
+    setLoading(true);
+    try {
+      await postRegistration(registration);
+      const eventToUpdate = events.find((event) => event.id === eventId);
+      await updateEvent({
+        ...eventToUpdate,
+        capacity: eventToUpdate.capacity - 1,
+      });
+      await Promise.all([loadEvents(), loadRegistrations()]);
+    } catch (e) {
+      setError(e.message);
+    } finally {
+      setLoading(false);
+    }
+
     onRegistrationPost({ type: "close-modal" });
   }
 

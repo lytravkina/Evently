@@ -39,7 +39,7 @@ function Modal({ cardId, onClose }) {
         </div>
         {cardId ? (
           <RegistrationForm
-            events={events}
+            // events={events}
             eventId={cardId}
             onRegistrationPost={onClose}
           />
