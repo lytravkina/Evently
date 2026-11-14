@@ -4,10 +4,10 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-const num = Math.floor(Math.random() * 2)
-if (num > 0) {
-    throw new Error('Произошла непредвиденная ошибка. Пожалуйста, повторите попытку.')
-}
+// const num = Math.floor(Math.random() * 2)
+// if (num > 0) {
+//     throw new Error('Произошла непредвиденная ошибка. Пожалуйста, повторите попытку.')
+// }
 
 async function getEvents() {
     const response = await fetch(path)
@@ -36,11 +36,6 @@ async function postEvent(event) {
 }
 
 async function updateEvent(updatedEvent) {
-    const num = Math.floor(Math.random() * 2)
-    if (num > 0) {
-        throw new Error('Произошла непредвиденная ошибка. Пожалуйста, повторите попытку.')
-    }
-
     const response = await fetch(`${path}/${updatedEvent.id}`, {
         headers: {
             'Content-Type': 'application/json'
@@ -48,8 +43,6 @@ async function updateEvent(updatedEvent) {
         method: 'PATCH',
         body: JSON.stringify(updatedEvent)
     })
-
-    await sleep(5000)
 
     if (!response.ok) {
         throw new Error('Произошла непредвиденная ошибка')
@@ -69,11 +62,6 @@ async function deleteEvent(eventId) {
 
     return await response.json()
 }
-
-async function updateEventCapacity() {
-
-}
-
 
 export { getEvents, postEvent, updateEvent, deleteEvent }
 

@@ -46,25 +46,21 @@ function CardContent({ id, props }) {
   const { events, loadEvents } = useEvents();
   const { registrations, loadRegistrations } = useRegistrations();
 
-  const [isEventsLoading, setEventsLoading] = useState(true);
-  const [isRegistrationsLoading, setRegistrationsLoading] = useState(true);
-
-  const [eventsError, setEventsError] = useState(null);
-  const [registrationsError, setRegistrationsError] = useState(null);
+  const [isRegistrationLoading, setRegistrationLoading] = useState(false);
 
   const isPast = new Date(date).getTime() < Date.now();
 
   async function deleteEvent(id) {
     const confirmed = confirm("Вы действительно хотите удалить мероприятие?");
     if (confirmed) {
-      setEventsLoading(true);
       try {
         await deleteEventRequest(id);
         await loadEvents();
       } catch (e) {
-        setEventsError(e.message);
+        alert(
+          "Произошла непредвиденная ошибка. Пожалуйста, повторите попытку.",
+        );
       } finally {
-        setEventsLoading(false);
       }
     }
   }
@@ -80,7 +76,7 @@ function CardContent({ id, props }) {
       "Вы действительно хотите отменить запись на мероприятие?",
     );
     if (confirmed) {
-      setRegistrationsLoading(true);
+      setRegistrationLoading(true);
       try {
         await deleteRegistrationRequest(registrationId);
         await updateEvent({
@@ -88,10 +84,12 @@ function CardContent({ id, props }) {
           capacity: registeredEvent.capacity + 1,
         });
         await Promise.all([loadRegistrations(), loadEvents()]);
-      } catch (e) {
-        setRegistrationsError(e.message);
+      } catch {
+        alert(
+          "Произошла непредвиденная ошибка. Пожалуйста, повторите попытку.",
+        );
       } finally {
-        setRegistrationsLoading(false);
+        setRegistrationLoading(false);
       }
     }
   }
@@ -149,9 +147,10 @@ function CardContent({ id, props }) {
         ) : (
           <Button
             className={shared.buttonTransparent}
+            disabled={isRegistrationLoading}
             onClick={() => deleteRegistration(id)}
           >
-            Отменить запись
+            {isRegistrationLoading ? "Отмена..." : "Отменить запись"}
           </Button>
         )}
       </div>

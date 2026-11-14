@@ -61,7 +61,7 @@
       "category": "tech",
       "date": "2026-12-06T18:00",
       "location": "Tech Hub",
-      "capacity": 36
+      "capacity": 41
     },
     {
       "id": "8",
@@ -71,51 +71,9 @@
       "date": "2026-10-24T11:00:00",
       "location": "Design Center",
       "capacity": 45
-    },
-    {
-      "title": "jjdl;aa2",
-      "description": "as;lkd",
-      "category": "tech",
-      "date": "2026-12-06T12:00",
-      "location": ";ldlaw",
-      "capacity": 50,
-      "id": "WbH0ro1eoOc"
-    },
-    {
-      "title": "f;alfkl;a",
-      "description": "sl;fkl;ds",
-      "category": "tech",
-      "date": "2026-12-03T12:00",
-      "location": "fale;fa;e",
-      "capacity": 430,
-      "id": "jZ3s8M4PI3s"
     }
   ],
   "registrations": [
-    {
-      "name": "fedsfsa",
-      "email": "lytrvn@gmail.com",
-      "eventId": "7",
-      "id": "MEx2qzMI9uE"
-    },
-    {
-      "name": "fedsfsa",
-      "email": "lytrvn@gmail.com",
-      "eventId": "7",
-      "id": "WUariDAsGPA"
-    },
-    {
-      "name": "fedsfsa",
-      "email": "lytrvn@gmail.com",
-      "eventId": "7",
-      "id": "-ravAvYk3aw"
-    },
-    {
-      "name": "fedsfsa",
-      "email": "lytrvn@gmail.com",
-      "eventId": "7",
-      "id": "lPU3GmITWxE"
-    },
     {
       "name": "kljljkj",
       "email": "lytrvn@gmail.com",
