@@ -76,13 +76,15 @@ function EventForm() {
     setLoading(true);
     try {
       await postEvent(event);
-      await loadEvents();
       setError(null);
       closeModal();
     } catch (e) {
-      setError(e.message);
+      setError(
+        "Не удалось создать мероприятие. Пожалуйста, повторите попытку.",
+      );
     } finally {
       setLoading(false);
+      await loadEvents();
     }
   }
 

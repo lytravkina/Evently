@@ -4,11 +4,6 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-// const num = Math.floor(Math.random() * 2)
-// if (num > 0) {
-//     throw new Error('Произошла непредвиденная ошибка. Пожалуйста, повторите попытку.')
-// }
-
 async function getRegistrations() {
     const response = await fetch(path)
 

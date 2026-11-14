@@ -70,20 +70,18 @@ function RegistrationForm({ eventId }) {
     setLoading(true);
     try {
       const eventToUpdate = events.find((event) => event.id === eventId);
-      await Promise.all([
-        postRegistration(registration),
-        updateEvent({
-          ...eventToUpdate,
-          capacity: eventToUpdate.capacity - 1,
-        }),
-      ]);
-      await Promise.all([loadEvents(), loadRegistrations()]);
+      await postRegistration(registration);
+      await updateEvent({
+        ...eventToUpdate,
+        capacity: eventToUpdate.capacity - 1,
+      });
       setError(null);
       closeModal();
     } catch {
       setError("Возникла непредвиденная ошибка. Пожалуйста, повторите попытку");
     } finally {
       setLoading(false);
+      await Promise.all([loadEvents(), loadRegistrations()]);
     }
   }
 

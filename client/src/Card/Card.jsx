@@ -55,12 +55,12 @@ function CardContent({ id, props }) {
     if (confirmed) {
       try {
         await deleteEventRequest(id);
-        await loadEvents();
       } catch (e) {
         alert(
           "Произошла непредвиденная ошибка. Пожалуйста, повторите попытку.",
         );
       } finally {
+        await loadEvents();
       }
     }
   }
@@ -83,13 +83,13 @@ function CardContent({ id, props }) {
           ...registeredEvent,
           capacity: registeredEvent.capacity + 1,
         });
-        await Promise.all([loadRegistrations(), loadEvents()]);
       } catch {
         alert(
           "Произошла непредвиденная ошибка. Пожалуйста, повторите попытку.",
         );
       } finally {
         setRegistrationLoading(false);
+        await Promise.all([loadRegistrations(), loadEvents()]);
       }
     }
   }

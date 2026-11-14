@@ -58,6 +58,10 @@
     button {
         margin: 0;
     }
+
+    p {
+        color: var(--title-color);
+    }
 }
 
 .form {
@@ -72,6 +76,7 @@
         align-items: center;
         font-size: 1rem;
         margin-bottom: 1rem;
+        color: var(--title-color);
     }
 
     input {

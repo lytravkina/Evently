@@ -71,7 +71,6 @@ function EditForm({ id, props }) {
     setLoading(true);
     try {
       await updateEvent(updatedEvent);
-      await loadEvents();
       setError(null);
       onQuit();
     } catch {
@@ -80,6 +79,7 @@ function EditForm({ id, props }) {
       );
     } finally {
       setLoading(false);
+      await loadEvents();
     }
   }
 

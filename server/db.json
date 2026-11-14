@@ -1,15 +1,6 @@
 {
   "events": [
     {
-      "id": "1",
-      "title": "JavaScript Meetup",
-      "description": "Встреча frontend-разработчиков: JavaScript, браузер и современные подходы к разработке.",
-      "category": "tech",
-      "date": "2026-10-03T18:30:00",
-      "location": "Tech Hub",
-      "capacity": 30
-    },
-    {
       "id": "2",
       "title": "Art Workshop",
       "description": "Практический мастер-класс по современной живописи.",
@@ -59,9 +50,9 @@
       "title": "Web Performance Meetup",
       "description": "Встреча о производительности современных веб-приложений.",
       "category": "tech",
-      "date": "2026-12-06T18:00",
+      "date": "2026-10-18T18:00:00",
       "location": "Tech Hub",
-      "capacity": 41
+      "capacity": 35
     },
     {
       "id": "8",
@@ -71,21 +62,17 @@
       "date": "2026-10-24T11:00:00",
       "location": "Design Center",
       "capacity": 45
-    }
-  ],
-  "registrations": [
-    {
-      "name": "kljljkj",
-      "email": "lytrvn@gmail.com",
-      "eventId": null,
-      "id": "qgfoc4m7Bn4"
     },
     {
-      "name": "kljljkj",
-      "email": "lytrvn@gmail.com",
-      "eventId": null,
-      "id": "UnGSO03vkL4"
+      "title": "JavaScript Meetup",
+      "description": "Встреча frontend-разработчиков: JavaScript, браузер и современные подходы к разработке.",
+      "category": "tech",
+      "date": "2026-12-25T18:41",
+      "location": "Tech Hub",
+      "capacity": 45,
+      "id": "rLNG7yTe1_E"
     }
   ],
+  "registrations": [],
   "$schema": "./node_modules/json-server/schema.json"
 }
