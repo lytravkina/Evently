@@ -22,6 +22,7 @@ async function postRegistration(registration) {
         method: 'POST',
         body: JSON.stringify(registration)
     })
+
     if (!response.ok) {
         throw new Error('Не удалось записаться на мероприятие')
     }

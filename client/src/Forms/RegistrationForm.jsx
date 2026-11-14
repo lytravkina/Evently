@@ -6,6 +6,7 @@ import { updateEvent } from "../api/eventsAPI";
 import { useEvents } from "../store/eventsStore";
 import { useRegistrations } from "../store/registrationsStore";
 import { useModal } from "../store/pageStore";
+import shared from "../styles/shared.module.css";
 
 function RegistrationForm({ eventId }) {
   const closeModal = useModal((state) => state.closeModal);
@@ -68,20 +69,22 @@ function RegistrationForm({ eventId }) {
 
     setLoading(true);
     try {
-      await postRegistration(registration);
       const eventToUpdate = events.find((event) => event.id === eventId);
-      await updateEvent({
-        ...eventToUpdate,
-        capacity: eventToUpdate.capacity - 1,
-      });
+      await Promise.all([
+        postRegistration(registration),
+        updateEvent({
+          ...eventToUpdate,
+          capacity: eventToUpdate.capacity - 1,
+        }),
+      ]);
       await Promise.all([loadEvents(), loadRegistrations()]);
-    } catch (e) {
-      setError(e.message);
+      setError(null);
+      closeModal();
+    } catch {
+      setError("Возникла непредвиденная ошибка. Пожалуйста, повторите попытку");
     } finally {
       setLoading(false);
     }
-
-    closeModal();
   }
 
   function validateForm() {
@@ -115,7 +118,7 @@ function RegistrationForm({ eventId }) {
     Date.now();
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className={shared.flexColumn} onSubmit={handleSubmit}>
       <Input
         title={"Имя"}
         name={"name"}
@@ -133,7 +136,15 @@ function RegistrationForm({ eventId }) {
         error={errors.email || ""}
         onChange={handleChange}
       />
-      <Button type={"submit"}>Отправить</Button>
+      <Button type={"submit"} disabled={isLoading}>
+        {isLoading ? "Отправка..." : "Отправить"}
+      </Button>
+      {error ? (
+        <p className={shared.warning}>
+          <img src="./src/assets/icons/icon-warning.svg" />
+          {error}
+        </p>
+      ) : null}
     </form>
   );
 }

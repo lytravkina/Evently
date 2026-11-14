@@ -1,6 +1,6 @@
 import shared from "../styles/shared.module.css";
 import style from "../Card/card.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../Button/Button";
 import CardInput from "../Inputs/CardInput";
 import { updateEvent } from "../api/eventsAPI";
@@ -72,13 +72,15 @@ function EditForm({ id, props }) {
     try {
       await updateEvent(updatedEvent);
       await loadEvents();
-    } catch (e) {
-      setError(e.message);
+      setError(null);
+      onQuit();
+    } catch {
+      setError(
+        "Произошла непредвиденная ошибка. Пожалуйста, повторите попытку.",
+      );
     } finally {
       setLoading(false);
     }
-
-    onQuit();
   }
 
   function completeEmptyInputs() {
@@ -167,9 +169,19 @@ function EditForm({ id, props }) {
             onChange={handleChange}
           />
         </div>
-        <Button className={shared.buttonTransparent} type={"submit"}>
-          Завершить редактирование
+        <Button
+          className={shared.buttonTransparent}
+          disabled={isLoading}
+          type={"submit"}
+        >
+          {isLoading ? "Отправка..." : "Завершить редактирование"}
         </Button>
+        {error ? (
+          <p className={shared.warning}>
+            <img src="./src/assets/icons/icon-warning.svg" />
+            {error}
+          </p>
+        ) : null}
       </div>
     </form>
   );

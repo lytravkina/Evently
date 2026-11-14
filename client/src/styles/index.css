@@ -44,6 +44,10 @@ body {
     --medium-success: #3AC0A0;
     --light-success: #E7F4E8;
 
+    --dark-warning: #E86339;
+    --medium-warning: #FFB37C;
+    --light-warning: #FFF4E4;
+
     --dark-error: #ED3241;
     --medium-error: #FF616D;
     --light-error: #FFE2E5;

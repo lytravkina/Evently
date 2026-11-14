@@ -77,13 +77,13 @@ function EventForm() {
     try {
       await postEvent(event);
       await loadEvents();
+      setError(null);
+      closeModal();
     } catch (e) {
       setError(e.message);
     } finally {
       setLoading(false);
     }
-
-    closeModal();
   }
 
   function validateForm() {
@@ -132,7 +132,7 @@ function EventForm() {
   const isNull = event.capacity <= 0;
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className={shared.flexColumn} onSubmit={handleSubmit}>
       <Input
         title={"Название"}
         name={"title"}
@@ -187,7 +187,15 @@ function EventForm() {
         isValid={!errors.capacity}
         error={errors.capacity}
       />
-      <Button type={"submit"}>Отправить</Button>
+      <Button type={"submit"} disabled={isLoading}>
+        {isLoading ? "Отправка..." : "Отправить"}
+      </Button>
+      {error ? (
+        <p className={shared.warning}>
+          <img src="./src/assets/icons/icon-warning.svg" />
+          {error}
+        </p>
+      ) : null}
     </form>
   );
 }

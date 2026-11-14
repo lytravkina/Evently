@@ -50,7 +50,7 @@
     display: flex;
     flex-direction: column;
     font-size: 1rem;
-    margin-bottom: 1rem;
+    /* margin-bottom: 1rem; */
     color: var(--text-color);
 }
 
@@ -122,5 +122,33 @@
             color: white;
             transition: background-color .2s, color .2s;
         }
+    }
+
+    &:disabled {
+        background-color: var(--border-color-light);
+        border-color: var(--border-color-light);
+        color: white;
+        cursor: not-allowed;
+
+        &:hover {
+            background-color: var(--border-color-light);
+            border-color: var(--border-color-light);
+            color: white;
+        }
+    }
+}
+
+.warning {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: .5rem;
+    padding: .5rem 1rem;
+    background-color: var(--light-warning);
+    border-radius: .5rem;
+    color: var(--medium-warning);
+
+    img {
+        height: 1.5rem;
     }
 }
