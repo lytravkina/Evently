@@ -1,10 +1,9 @@
-import { useContext } from "react";
 import shared from "../styles/shared.module.css";
 import style from "./hero.module.css";
-import { PageContext } from "../Context/PageContext";
+import { useTab } from "../store/pageStore";
 
 function Hero() {
-  const { activeTab } = useContext(PageContext);
+  const activeTab = useTab((state) => state.activeTab);
 
   return (
     <section className={`${shared.flexColumn}`}>

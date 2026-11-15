@@ -1,11 +1,20 @@
 import Input from "../Inputs/Input";
 import Button from "../Button/Button";
-import { useState, useContext, useRef } from "react";
-import { RegistrationsContext } from "../Context/RegistrationsContext";
+import { useState, useRef } from "react";
+import { postRegistration } from "../api/registrationsAPI";
+import { updateEvent } from "../api/eventsAPI";
+import { useEvents } from "../store/eventsStore";
+import { useRegistrations } from "../store/registrationsStore";
+import { useModal } from "../store/pageStore";
+import shared from "../styles/shared.module.css";
 
-function RegistrationForm({ events, eventId, onRegistrationPost }) {
-  const { registrations, handlePostRegistration } =
-    useContext(RegistrationsContext);
+function RegistrationForm({ eventId }) {
+  const closeModal = useModal((state) => state.closeModal);
+  const { registrations, loadRegistrations } = useRegistrations();
+  const { events, loadEvents } = useEvents();
+
+  const [isLoading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const nameRef = useRef("");
   const emailRef = useRef("");
@@ -32,7 +41,7 @@ function RegistrationForm({ events, eventId, onRegistrationPost }) {
     }));
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
 
     if (!validateForm()) {
@@ -58,8 +67,22 @@ function RegistrationForm({ events, eventId, onRegistrationPost }) {
       return;
     }
 
-    handlePostRegistration(registration);
-    onRegistrationPost({ type: "close-modal" });
+    setLoading(true);
+    try {
+      const eventToUpdate = events.find((event) => event.id === eventId);
+      await postRegistration(registration);
+      await updateEvent({
+        ...eventToUpdate,
+        capacity: eventToUpdate.capacity - 1,
+      });
+      setError(null);
+      closeModal();
+    } catch {
+      setError("Возникла непредвиденная ошибка. Пожалуйста, повторите попытку");
+    } finally {
+      setLoading(false);
+      await Promise.all([loadEvents(), loadRegistrations()]);
+    }
   }
 
   function validateForm() {
@@ -93,7 +116,7 @@ function RegistrationForm({ events, eventId, onRegistrationPost }) {
     Date.now();
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className={shared.flexColumn} onSubmit={handleSubmit}>
       <Input
         title={"Имя"}
         name={"name"}
@@ -111,7 +134,15 @@ function RegistrationForm({ events, eventId, onRegistrationPost }) {
         error={errors.email || ""}
         onChange={handleChange}
       />
-      <Button type={"submit"}>Отправить</Button>
+      <Button type={"submit"} disabled={isLoading}>
+        {isLoading ? "Отправка..." : "Отправить"}
+      </Button>
+      {error ? (
+        <p className={shared.warning}>
+          <img src="./src/assets/icons/icon-warning.svg" />
+          {error}
+        </p>
+      ) : null}
     </form>
   );
 }

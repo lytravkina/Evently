@@ -1,12 +1,11 @@
-import { useContext } from "react";
 import EventForm from "../Forms/EventForm";
 import RegistrationForm from "../Forms/RegistrationForm";
 import shared from "../styles/shared.module.css";
 import style from "./modal.module.css";
-import { EventsContext } from "../Context/EventsContext";
+import { useEvents } from "../store/eventsStore";
 
 function Modal({ cardId, onClose }) {
-  const { events } = useContext(EventsContext);
+  const events = useEvents((state) => state.events);
 
   function handleClick(e) {
     if (e.target !== e.currentTarget) {
@@ -37,15 +36,7 @@ function Modal({ cardId, onClose }) {
             ×
           </button>
         </div>
-        {cardId ? (
-          <RegistrationForm
-            events={events}
-            eventId={cardId}
-            onRegistrationPost={onClose}
-          />
-        ) : (
-          <EventForm events={events} onEventPost={onClose} />
-        )}
+        {cardId ? <RegistrationForm eventId={cardId} /> : <EventForm />}
       </div>
     </div>
   );

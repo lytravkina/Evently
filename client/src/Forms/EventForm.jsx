@@ -1,11 +1,16 @@
-import { useContext, useState, useRef } from "react";
+import { useState, useRef } from "react";
 import Input from "../Inputs/Input";
 import Button from "../Button/Button";
 import shared from "../styles/shared.module.css";
-import { EventsContext } from "../Context/EventsContext";
+import { postEvent } from "../api/eventsAPI";
+import { useEvents } from "../store/eventsStore";
+import { useModal } from "../store/pageStore";
 
-function EventForm({ events, onEventPost }) {
-  const { handlePostEvent } = useContext(EventsContext);
+function EventForm() {
+  const { events, loadEvents } = useEvents();
+  const closeModal = useModal((state) => state.closeModal);
+  const [isLoading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const titleRef = useRef("");
   const descriptionRef = useRef("");
@@ -44,7 +49,7 @@ function EventForm({ events, onEventPost }) {
     }));
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
 
     if (!validateForm()) {
@@ -68,8 +73,19 @@ function EventForm({ events, onEventPost }) {
       return;
     }
 
-    handlePostEvent(event);
-    onEventPost();
+    setLoading(true);
+    try {
+      await postEvent(event);
+      setError(null);
+      closeModal();
+    } catch (e) {
+      setError(
+        "Не удалось создать мероприятие. Пожалуйста, повторите попытку.",
+      );
+    } finally {
+      setLoading(false);
+      await loadEvents();
+    }
   }
 
   function validateForm() {
@@ -118,7 +134,7 @@ function EventForm({ events, onEventPost }) {
   const isNull = event.capacity <= 0;
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className={shared.flexColumn} onSubmit={handleSubmit}>
       <Input
         title={"Название"}
         name={"title"}
@@ -173,7 +189,15 @@ function EventForm({ events, onEventPost }) {
         isValid={!errors.capacity}
         error={errors.capacity}
       />
-      <Button type={"submit"}>Отправить</Button>
+      <Button type={"submit"} disabled={isLoading}>
+        {isLoading ? "Отправка..." : "Отправить"}
+      </Button>
+      {error ? (
+        <p className={shared.warning}>
+          <img src="./src/assets/icons/icon-warning.svg" />
+          {error}
+        </p>
+      ) : null}
     </form>
   );
 }

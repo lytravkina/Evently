@@ -1,15 +1,6 @@
 {
   "events": [
     {
-      "id": "1",
-      "title": "JavaScript Meetup",
-      "description": "Встреча frontend-разработчиков: JavaScript, браузер и современные подходы к разработке.",
-      "category": "tech",
-      "date": "2026-11-08T18:30",
-      "location": "Tech Hub",
-      "capacity": 29
-    },
-    {
       "id": "2",
       "title": "Art Workshop",
       "description": "Практический мастер-класс по современной живописи.",
@@ -73,28 +64,15 @@
       "capacity": 45
     },
     {
-      "title": "Началось в колхозе утро",
-      "description": "Все собираемся на детские мероприятия в хуторе Бакланики",
-      "category": "music",
-      "date": "2026-12-03T15:55",
-      "location": "хутор Бакланики",
-      "capacity": 999,
-      "id": "7mFRvYLCziE"
+      "title": "JavaScript Meetup",
+      "description": "Встреча frontend-разработчиков: JavaScript, браузер и современные подходы к разработке.",
+      "category": "tech",
+      "date": "2026-12-25T18:41",
+      "location": "Tech Hub",
+      "capacity": 45,
+      "id": "rLNG7yTe1_E"
     }
   ],
-  "registrations": [
-    {
-      "name": "fedsfsa",
-      "email": "lytrvn@gmail.com",
-      "eventId": "7mFRvYLCziE",
-      "id": "Guq8efwjZuE"
-    },
-    {
-      "name": "fedsfsa",
-      "email": "lytrvn@gmail.com",
-      "eventId": "1",
-      "id": "GjrWwZU36mQ"
-    }
-  ],
+  "registrations": [],
   "$schema": "./node_modules/json-server/schema.json"
 }

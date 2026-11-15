@@ -1,34 +1,61 @@
-import { useContext, useState } from "react";
+import { useEffect, useState } from "react";
 import style from "./card-list.module.css";
 import shared from "../styles/shared.module.css";
 import { Card } from "../Card/Card";
-import { PageContext } from "../Context/PageContext";
-import { EventsContext } from "../Context/EventsContext";
-import { RegistrationsContext } from "../Context/RegistrationsContext";
 import Spinner from "../Spinner/Spinner";
 import Sorting from "../Sorting/Sorting";
+import { useEvents } from "../store/eventsStore";
+import { useRegistrations } from "../store/registrationsStore";
+import { DeleteAllButton } from "../DeleteAllButton/DeleteAllButton";
+import { useModal } from "../store/pageStore";
 
-function CardList({ events, onButtonClick, checked, onCheck }) {
-  const { activeTab } = useContext(PageContext);
-  const { eventsError, isEventsLoading, handleDeleteAllEvents } =
-    useContext(EventsContext);
-  const {
-    registrationsError,
-    isRegistrationsLoading,
-    handleDeleteAllRegistrations,
-  } = useContext(RegistrationsContext);
+function CardList({ events, activeTab, checked, onCheck }) {
+  const openEventModal = useModal((state) => state.openEventModal);
+  const loadEvents = useEvents((state) => state.loadEvents);
+  const loadRegistrations = useRegistrations(
+    (state) => state.loadRegistrations,
+  );
+
+  const [isEventsLoading, setEventsLoading] = useState(true);
+  const [isRegistrationsLoading, setRegistrationsLoading] = useState(true);
+
+  const [eventsError, setEventsError] = useState(null);
+  const [registrationsError, setRegistrationsError] = useState(null);
 
   const [editId, setEditId] = useState(null);
 
   const isLoading = isEventsLoading || isRegistrationsLoading;
 
+  useEffect(() => {
+    (async () => {
+      setEventsLoading(true);
+      try {
+        await loadEvents();
+      } catch (e) {
+        setEventsError(e.message);
+      } finally {
+        setEventsLoading(false);
+      }
+    })();
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      setRegistrationsLoading(true);
+      try {
+        await loadRegistrations();
+      } catch (e) {
+        setRegistrationsError(e.message);
+      } finally {
+        setRegistrationsLoading(false);
+      }
+    })();
+  }, []);
+
   return (
     <div className={style.cardsWrapper}>
       {activeTab === "events" && (
-        <button
-          className={style.buttonAdd}
-          onClick={() => onButtonClick({ type: "open-event-modal" })}
-        >
+        <button className={style.buttonAdd} onClick={openEventModal}>
           Создать событие
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -67,45 +94,14 @@ function CardList({ events, onButtonClick, checked, onCheck }) {
       {events.length > 0 && (
         <div className={style.buttonWrapper}>
           <Sorting checked={checked} onCheck={onCheck} />
-          <button
+          <DeleteAllButton
+            currentEvents={events}
             className={style.buttonDeleteAll}
-            onClick={
-              activeTab === "events"
-                ? handleDeleteAllEvents
-                : handleDeleteAllRegistrations
-            }
-          >
-            Очистить все
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="18"
-              height="20"
-              viewBox="0 0 18 20"
-              fill="none"
-            >
-              <path
-                d="M15.4245 7.59003C15.4245 15.6091 16.5788 19.2338 8.81495 19.2338C1.05018 19.2338 2.22828 15.6091 2.22828 7.59003"
-                stroke="black"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M16.9005 4.51574H0.75"
-                stroke="black"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M12.2502 4.51571C12.2502 4.51571 12.7788 0.75 8.82451 0.75C4.87118 0.75 5.39975 4.51571 5.39975 4.51571"
-                stroke="black"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </button>
+            setEventsLoading={setEventsLoading}
+            setRegistrationsLoading={setRegistrationsLoading}
+            setEventsError={setEventsError}
+            setRegistrationsError={setRegistrationsError}
+          />
         </div>
       )}
 
@@ -127,7 +123,6 @@ function CardList({ events, onButtonClick, checked, onCheck }) {
             date={event.date}
             location={event.location}
             capacity={event.capacity}
-            onButtonClick={onButtonClick}
             isEdit={editId === event.id}
             anyEdit={!!editId}
             onEdit={setEditId}

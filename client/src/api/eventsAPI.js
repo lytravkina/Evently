@@ -58,10 +58,5 @@ async function deleteEvent(eventId) {
     return await response.json()
 }
 
-async function updateEventCapacity() {
-
-}
-
-
 export { getEvents, postEvent, updateEvent, deleteEvent }
 
