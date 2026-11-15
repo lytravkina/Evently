@@ -12,27 +12,20 @@
 git clone https://github.com/lytravkina/Evently.git
 ```
 
-### Установка зависимостей 
-Перейдите в папку server в корневой папке проекта
-```bash
-cd [путь к папке server]
-```
-Один раз выполните
+### Установка зависимостей
+Один раз выполните в корне проекта
 ```bash
 npm install
+npm --prefix server install
+npm --prefix client install
 ```
-После выполнения команды автоматически создастся папка ```node_modules```.
 
-### Запуск сервера
-Для запуска JSON Server выполните
+### Запуск
+Сервер и frontend запускаются одной командой из корня проекта
 ```bash
-npm run server
+npm run dev
 ```
-После запуска API будет доступно по адресу:
-```text
-http://localhost:3000
-```
-### Запуск frontend
-Для локального запуска frontend можно использовать расширение **Live Server** в Visual Studio Code.
+- frontend: http://localhost:5173
+- API (JSON Server): http://localhost:3000
 
-Откройте папку ```client/src``` и запустите файл ```index.html``` через **Open with Live Server**
+Остановить оба процесса можно через `Ctrl+C`.

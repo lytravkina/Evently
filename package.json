@@ -1,0 +1,10 @@
+{
+  "name": "evently-root",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently -k -n server,client -c blue,green \"npm --prefix server run server\" \"npm --prefix client run dev\""
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.7"
+  }
+}
