@@ -1,0 +1,49 @@
+.modal {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    justify-items: center;
+    background-color: rgba(31, 32, 36, 0.85);
+    z-index: 1;
+}
+
+.dialog {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 2.5rem;
+    width: 95%;
+    max-width: 720px;
+    border-radius: 1.5rem;
+    background-color: var(--white);
+}
+
+.modalTitle {
+    font-size: 2.5rem;
+}
+
+.closeButton {
+    appearance: none;
+    position: absolute;
+    top: 2.5rem;
+    right: 2.5rem;
+    font-size: 2rem;
+    line-height: 1em;
+    width: 1em;
+    background-color: transparent;
+    color: var(--text-color);
+    border: none;
+    border-radius: .5rem;
+    cursor: pointer;
+    transition: background-color .2s;
+
+    &:hover {
+        background-color: var(--border-color-light);
+    }
+}

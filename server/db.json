@@ -5,16 +5,16 @@
       "title": "JavaScript Meetup",
       "description": "Встреча frontend-разработчиков: JavaScript, браузер и современные подходы к разработке.",
       "category": "tech",
-      "date": "2026-10-30T18:30",
+      "date": "2026-11-08T18:30",
       "location": "Tech Hub",
-      "capacity": 30
+      "capacity": 29
     },
     {
       "id": "2",
       "title": "Art Workshop",
       "description": "Практический мастер-класс по современной живописи.",
       "category": "art",
-      "date": "2026-10-29T15:00",
+      "date": "2026-10-05T15:00:00",
       "location": "Art Space",
       "capacity": 15
     },
@@ -23,7 +23,7 @@
       "title": "Rock Night",
       "description": "Вечер живой музыки с несколькими местными группами.",
       "category": "music",
-      "date": "2026-10-31T19:00",
+      "date": "2026-10-08T19:00:00",
       "location": "Music Hall",
       "capacity": 50
     },
@@ -32,7 +32,7 @@
       "title": "Frontend Breakfast",
       "description": "Неформальная утренняя встреча frontend-разработчиков за кофе.",
       "category": "tech",
-      "date": "2026-10-29T10:00",
+      "date": "2026-10-10T10:00:00",
       "location": "Coffee Point",
       "capacity": 20
     },
@@ -41,7 +41,7 @@
       "title": "Photography Walk",
       "description": "Прогулка по городу для любителей уличной фотографии.",
       "category": "art",
-      "date": "2026-10-31T12:00",
+      "date": "2026-10-12T12:00:00",
       "location": "Central Park",
       "capacity": 25
     },
@@ -71,8 +71,30 @@
       "date": "2026-10-24T11:00:00",
       "location": "Design Center",
       "capacity": 45
+    },
+    {
+      "title": "Началось в колхозе утро",
+      "description": "Все собираемся на детские мероприятия в хуторе Бакланики",
+      "category": "music",
+      "date": "2026-12-03T15:55",
+      "location": "хутор Бакланики",
+      "capacity": 999,
+      "id": "7mFRvYLCziE"
     }
   ],
-  "registrations": [],
+  "registrations": [
+    {
+      "name": "fedsfsa",
+      "email": "lytrvn@gmail.com",
+      "eventId": "7mFRvYLCziE",
+      "id": "Guq8efwjZuE"
+    },
+    {
+      "name": "fedsfsa",
+      "email": "lytrvn@gmail.com",
+      "eventId": "1",
+      "id": "GjrWwZU36mQ"
+    }
+  ],
   "$schema": "./node_modules/json-server/schema.json"
 }

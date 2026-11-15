@@ -1,30 +1,42 @@
-import { useState } from "react";
+import { useContext, useState, useEffect, useRef } from "react";
 import style from "./header.module.css";
+import { PageContext } from "../Context/PageContext";
 
-function Header({ onTabChange }) {
+function Header() {
+  const { setActiveTab } = useContext(PageContext);
+
+  const [themeIsDark, setTheme] = useState(
+    () => JSON.parse(localStorage.getItem("THEME_KEY")) ?? false,
+  );
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = themeIsDark ? "dark" : "light";
+    localStorage.setItem("THEME_KEY", JSON.stringify(themeIsDark));
+  }, [themeIsDark]);
+
   return (
     <header className={`${style.header}`}>
-      <div className={`${style.logo}`} onClick={() => onTabChange("events")}>
+      <div className={`${style.logo}`} onClick={() => setActiveTab("events")}>
         Event<span>ly</span>
       </div>
       <nav className={`${style.menu}`}>
         <button
           className={`${style.menuItem}`}
-          onClick={() => onTabChange("events")}
+          onClick={() => setActiveTab("events")}
         >
           Мероприятия
         </button>
         <button
           className={`${style.menuItem}`}
-          onClick={() => onTabChange("registartions")}
+          onClick={() => setActiveTab("registrations")}
         >
           Мои записи
         </button>
-        <button className={`${style.menuItem}`}>
-          <img
-            className="icon__image"
-            src="./src/assets/icons/theme-button.svg"
-          />
+        <button
+          className={`${style.menuItem}`}
+          onClick={() => setTheme(!themeIsDark)}
+        >
+          <img src="./src/assets/icons/theme-button.svg" />
         </button>
       </nav>
     </header>

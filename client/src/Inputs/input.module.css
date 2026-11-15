@@ -1,0 +1,9 @@
+.formInput {
+    color: var(--border-color-light);
+}
+
+.error {
+    font-size: .75rem;
+    line-height: 2em;
+    color: var(--dark-error);
+}

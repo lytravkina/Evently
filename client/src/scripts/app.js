@@ -380,7 +380,7 @@ async function updatePage() {
 
 
 function initEventListeners() {
-    eventsList.addEventListener('click', handler)
+    // eventsList.addEventListener('click', handler)
 
     modal.addEventListener('click', function () {
         if (event.target.closest('.modal__dialog') && !event.target.closest('.modal__close')) {
@@ -393,7 +393,7 @@ function initEventListeners() {
 
     ['submit', 'input'].forEach(eventType => modal.querySelector('.modal-form').addEventListener(eventType, setFormData))
 
-    document.querySelector('.header').addEventListener('click', setPageState)
+    // document.querySelector('.header').addEventListener('click', setPageState)
 }
 
 async function init() {
