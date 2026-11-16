@@ -12,13 +12,6 @@ export function useFilters(currentEvents) {
         () => JSON.parse(localStorage.getItem("FILTERS_KEY"))?.sorting ?? null,
     );
 
-    const categories = currentEvents.reduce((categories, event) => {
-        if (!categories.includes(event.category)) {
-            categories.push(event.category);
-        }
-        return categories;
-    }, []);
-
     const matchesSearch = currentEvents.filter((event) => {
         return (
             event.title.toLowerCase().includes(search.trim().toLowerCase()) ||
@@ -61,5 +54,5 @@ export function useFilters(currentEvents) {
         );
     }, [search, category, sortingType]);
 
-    return { search, category, sortingType, setSearch, setCategory, setSortingType, categories, sortedEvents }
+    return { search, category, sortingType, setSearch, setCategory, setSortingType, sortedEvents }
 }

@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Input from "../Inputs/Input";
 import Button from "../Button/Button";
 import shared from "../styles/shared.module.css";
@@ -18,12 +18,16 @@ function EventForm() {
   const capacityRef = useRef("");
 
   const [event, setEvent] = useState({
-    title: "",
-    description: "",
-    category: "tech",
-    date: "",
-    location: "",
-    capacity: "",
+    title: JSON.parse(localStorage.getItem("FORM_DRAFT_KEY"))?.title || "",
+    description:
+      JSON.parse(localStorage.getItem("FORM_DRAFT_KEY"))?.description || "",
+    category:
+      JSON.parse(localStorage.getItem("FORM_DRAFT_KEY"))?.category || "tech",
+    date: JSON.parse(localStorage.getItem("FORM_DRAFT_KEY"))?.date || "",
+    location:
+      JSON.parse(localStorage.getItem("FORM_DRAFT_KEY"))?.location || "",
+    capacity:
+      JSON.parse(localStorage.getItem("FORM_DRAFT_KEY"))?.capacity || "",
   });
   const [errors, setErrors] = useState({});
 
@@ -77,6 +81,15 @@ function EventForm() {
     try {
       await postEvent(event);
       setError(null);
+      localStorage.removeItem("FORM_DRAFT_KEY");
+      setEvent({
+        title: "",
+        description: "",
+        category: "tech",
+        date: "",
+        location: "",
+        capacity: "",
+      });
       closeModal();
     } catch (e) {
       setError(
@@ -133,12 +146,17 @@ function EventForm() {
 
   const isNull = event.capacity <= 0;
 
+  useEffect(() => {
+    localStorage.setItem("FORM_DRAFT_KEY", JSON.stringify(event));
+  }, [event]);
+
   return (
     <form className={shared.flexColumn} onSubmit={handleSubmit}>
       <Input
         title={"Название"}
         name={"title"}
         ref={titleRef}
+        value={event.title}
         onChange={handleChange}
         isValid={!errors.title}
         error={errors.title}
@@ -147,6 +165,7 @@ function EventForm() {
         title={"Описание"}
         name={"description"}
         ref={descriptionRef}
+        value={event.description}
         onChange={handleChange}
         isValid={!errors.description}
         error={errors.description}
@@ -168,6 +187,7 @@ function EventForm() {
         title={"Дата и время"}
         name={"date"}
         type={"datetime-local"}
+        value={event.date}
         onChange={handleChange}
         isValid={!errors.date}
         error={errors.date}
@@ -176,6 +196,7 @@ function EventForm() {
         title={"Место проведения"}
         name={"location"}
         ref={locationRef}
+        value={event.location}
         onChange={handleChange}
         isValid={!errors.location}
         error={errors.location}
@@ -185,6 +206,7 @@ function EventForm() {
         name={"capacity"}
         type={"number"}
         ref={capacityRef}
+        value={event.capacity}
         onChange={handleChange}
         isValid={!errors.capacity}
         error={errors.capacity}

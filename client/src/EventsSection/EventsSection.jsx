@@ -18,6 +18,13 @@ function EventsSection() {
 
   const currentEvents = activeTab === "events" ? events : registeredEvents;
 
+  const categories = currentEvents.reduce((categories, event) => {
+    if (!categories.includes(event.category)) {
+      categories.push(event.category);
+    }
+    return categories;
+  }, []);
+
   const {
     search,
     category,
@@ -25,7 +32,6 @@ function EventsSection() {
     setSearch,
     setCategory,
     setSortingType,
-    categories,
     sortedEvents,
   } = useFilters(currentEvents);
 
