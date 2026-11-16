@@ -33,6 +33,13 @@ npm run server
 http://localhost:3000
 ```
 ### Запуск frontend
-Для локального запуска frontend можно использовать расширение **Live Server** в Visual Studio Code.
+Для локального запуска frontend перейдите в папку client в корневой папке проекта
+```bash
+cd [путь к папке client]
+```
+Выполните
+```bash
+npm run dev
+```
 
-Откройте папку ```client/src``` и запустите файл ```index.html``` через **Open with Live Server**
+После запуска Vite выведет локальный адрес приложения (обычно ```http://localhost:5173/```). Откройте его в браузере.
