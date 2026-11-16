@@ -39,8 +39,9 @@ function Header() {
         <button
           className={`${style.menuItem}`}
           onClick={() => setTheme(!themeIsDark)}
+          aria-label="Сменить цветовую тему"
         >
-          <img src="./src/assets/icons/theme-button.svg" />
+          <img aria-hidden="true" src="./src/assets/icons/theme-button.svg" />
         </button>
       </nav>
     </header>

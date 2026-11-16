@@ -107,16 +107,24 @@ function CardContent({ id, props }) {
         {tab === "events" && (
           <>
             <button
+              aria-label="Редактировать мероприятие"
               className={`${style.iconButton} ${style.iconButtonLeft}`}
               onClick={() => onEdit(id)}
             >
-              <img src="./src/assets/icons/edit-button.svg" />
+              <img
+                aria-hidden="true"
+                src="./src/assets/icons/edit-button.svg"
+              />
             </button>
             <button
+              aria-label="Удалить мероприятие"
               className={style.iconButton}
               onClick={() => deleteEvent(id)}
             >
-              <img src="./src/assets/icons/delete-button.svg" />
+              <img
+                aria-hidden="true"
+                src="./src/assets/icons/delete-button.svg"
+              />
             </button>
           </>
         )}
@@ -124,7 +132,7 @@ function CardContent({ id, props }) {
       <div className={`${shared.flexColumn} ${style.cardBottom}`}>
         <div className={style.cardInfo}>
           <div>
-            <img src="./src/assets/icons/icon-date.svg" />
+            <img aria-hidden="true" src="./src/assets/icons/icon-date.svg" />
           </div>
           <span className={isPast ? style.dateInvalid : ""}>
             {formatDate(date)}
@@ -132,7 +140,10 @@ function CardContent({ id, props }) {
         </div>
         <div className={style.cardInfo}>
           <div>
-            <img src="./src/assets/icons/icon-location.svg" />
+            <img
+              aria-hidden="true"
+              src="./src/assets/icons/icon-location.svg"
+            />
           </div>
           <span>{location}</span>
         </div>

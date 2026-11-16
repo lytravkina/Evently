@@ -63,6 +63,7 @@ function CardList({ events, activeTab, checked, onCheck }) {
             height="18"
             viewBox="0 0 17 18"
             fill="none"
+            aria-hidden="true"
           >
             <path
               d="M9.83521 16.0078H16.2122"

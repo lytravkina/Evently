@@ -71,6 +71,7 @@ export function DeleteAllButton({
         height="20"
         viewBox="0 0 18 20"
         fill="none"
+        aria-hidden="true"
       >
         <path
           d="M15.4245 7.59003C15.4245 15.6091 16.5788 19.2338 8.81495 19.2338C1.05018 19.2338 2.22828 15.6091 2.22828 7.59003"

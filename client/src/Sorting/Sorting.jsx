@@ -26,8 +26,16 @@ function Sorting({ checked, onCheck }) {
 
   return (
     <>
-      <button className={style.iconButton} onClick={handleDialog}>
-        <img src="./src/assets/icons/sort-button.svg" onClick={handleDialog} />
+      <button
+        className={style.iconButton}
+        onClick={handleDialog}
+        aria-label="Сортировать список"
+      >
+        <img
+          src="./src/assets/icons/sort-button.svg"
+          onClick={handleDialog}
+          aria-hidden="true"
+        />
       </button>
 
       {dialogShown && (

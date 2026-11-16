@@ -115,40 +115,54 @@ function EditForm({ id, props }) {
           className={`${style.iconButton} ${style.iconButtonLeft}`}
           type="button"
           onClick={onQuit}
+          aria-label="Выйти из режима редактирования"
         >
-          <img src="./src/assets/icons/quit-button.svg" />
+          <img aria-hidden="true" src="./src/assets/icons/quit-button.svg" />
         </button>
-        <button className={style.iconButton} type="button">
-          <img src="./src/assets/icons/delete-button.svg" />
+        <button
+          className={style.iconButton}
+          type="button"
+          aria-label="Удалить мероприятие"
+          disabled
+        >
+          <img aria-hidden="true" src="./src/assets/icons/delete-button.svg" />
         </button>
         <CardInput
           name={"title"}
           value={title}
           placeholder={title}
           onChange={handleChange}
+          ariaLabel="Название мероприятия"
         />
         <CardInput
           name={"description"}
           value={description}
           placeholder={description}
           onChange={handleChange}
+          ariaLabel="Описание мероприятия"
         />
       </div>
       <div className={`${shared.flexColumn} ${style.cardBottom}`}>
         <div className={style.cardInfo}>
           <div>
-            <img src="./src/assets/icons/icon-date.svg" alt="Clock emoji" />
+            <img
+              aria-hidden="true"
+              src="./src/assets/icons/icon-date.svg"
+              alt="Clock emoji"
+            />
           </div>
           <CardInput
             name={"date"}
             value={date}
             type={"datetime-local"}
             onChange={handleChange}
+            ariaLabel="Дата и время проведения"
           />
         </div>
         <div className={style.cardInfo}>
           <div>
             <img
+              aria-hidden="true"
               src="./src/assets/icons/icon-location.svg"
               alt="Location pin emoji"
             />
@@ -158,6 +172,7 @@ function EditForm({ id, props }) {
             value={location}
             placeholder={location}
             onChange={handleChange}
+            ariaLabel="Место проведения"
           />
         </div>
         <div className={style.cardInfo}>
@@ -167,6 +182,7 @@ function EditForm({ id, props }) {
             placeholder={capacity}
             type={"number"}
             onChange={handleChange}
+            ariaLabel="Количество участников"
           />
         </div>
         <Button
@@ -176,12 +192,12 @@ function EditForm({ id, props }) {
         >
           {isLoading ? "Отправка..." : "Завершить редактирование"}
         </Button>
-        {error ? (
+        {error && (
           <p className={shared.warning}>
-            <img src="./src/assets/icons/icon-warning.svg" />
+            <img aria-hidden="true" src="./src/assets/icons/icon-warning.svg" />
             {error}
           </p>
-        ) : null}
+        )}
       </div>
     </form>
   );

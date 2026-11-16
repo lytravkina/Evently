@@ -32,7 +32,11 @@ function Modal({ cardId, onClose }) {
               ? "Оставь контакты, чтобы подтвердить участие"
               : "Заполните данные о мероприятии, чтобы о нем узнало больше людей"}
           </p>
-          <button className={style.closeButton} onClick={(e) => handleClick(e)}>
+          <button
+            className={style.closeButton}
+            onClick={(e) => handleClick(e)}
+            aria-label="Закрыть диалоговое окно"
+          >
             ×
           </button>
         </div>

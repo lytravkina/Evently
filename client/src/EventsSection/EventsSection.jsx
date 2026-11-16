@@ -38,11 +38,13 @@ function EventsSection() {
           value={search}
           className={shared.input}
           onChange={(e) => setSearch(e.target.value)}
+          aria-label="Поиск по названию и описанию"
         />
         <select
           className={shared.select}
           value={category}
           onChange={(e) => setCategory(e.target.value)}
+          aria-label="Фильтр по категории"
         >
           <option value="">Все категории</option>
           {categories.map((category) => (

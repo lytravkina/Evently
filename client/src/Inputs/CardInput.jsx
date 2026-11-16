@@ -1,6 +1,13 @@
 import shared from "../styles/shared.module.css";
 
-function CardInput({ name, value, placeholder, type = "text", onChange }) {
+function CardInput({
+  name,
+  value,
+  placeholder,
+  type = "text",
+  onChange,
+  ariaLabel,
+}) {
   return (
     <input
       className={shared.input}
@@ -9,6 +16,7 @@ function CardInput({ name, value, placeholder, type = "text", onChange }) {
       placeholder={placeholder}
       type={type}
       onChange={onChange}
+      aria-label={ariaLabel}
     />
   );
 }
