@@ -3,13 +3,23 @@ import RegistrationForm from "../Forms/RegistrationForm";
 import shared from "../styles/shared.module.css";
 import style from "./modal.module.css";
 import { useEvents } from "../store/eventsStore";
+import { useNotification } from "../store/notificationStore";
 
 function Modal({ cardId, onClose }) {
   const events = useEvents((state) => state.events);
 
+  const setNotification = useNotification((state) => state.setNotification);
+  const showNotification = useNotification((state) => state.showNotification);
+
   function handleClick(e) {
     if (e.target !== e.currentTarget) {
       return;
+    }
+
+    const formDraft = JSON.parse(localStorage.getItem("FORM_DRAFT_KEY"));
+    if (Object.keys(formDraft).length > 0) {
+      setNotification("Черновик мероприятия сохранен", "success");
+      showNotification();
     }
 
     onClose();
