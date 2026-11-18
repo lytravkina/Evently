@@ -9,6 +9,7 @@ import { deleteEvent as deleteEventRequest } from "../api/eventsAPI";
 import { updateEvent } from "../api/eventsAPI";
 import { deleteRegistration as deleteRegistrationRequest } from "../api/registrationsAPI";
 import { useModal } from "../store/pageStore";
+import { useNotification } from "../store/notificationStore";
 
 export function Card({ id, isEdit, anyEdit, ...props }) {
   return (
@@ -46,6 +47,9 @@ function CardContent({ id, props }) {
   const { events, loadEvents } = useEvents();
   const { registrations, loadRegistrations } = useRegistrations();
 
+  const setNotification = useNotification((state) => state.setNotification);
+  const showNotification = useNotification((state) => state.showNotification);
+
   const [isRegistrationLoading, setRegistrationLoading] = useState(false);
 
   const isPast = new Date(date).getTime() < Date.now();
@@ -56,9 +60,11 @@ function CardContent({ id, props }) {
       try {
         await deleteEventRequest(id);
       } catch (e) {
-        alert(
-          "Произошла непредвиденная ошибка. Пожалуйста, повторите попытку.",
+        setNotification(
+          "Произошла непредвиденная ошибка. Пожалуйста, повторите попытку",
+          "error",
         );
+        showNotification();
       } finally {
         await loadEvents();
       }
@@ -84,12 +90,14 @@ function CardContent({ id, props }) {
           capacity: registeredEvent.capacity + 1,
         });
       } catch {
-        alert(
-          "Произошла непредвиденная ошибка. Пожалуйста, повторите попытку.",
+        setNotification(
+          "Произошла непредвиденная ошибка. Пожалуйста, повторите попытку",
+          "error",
         );
+        showNotification();
       } finally {
-        setRegistrationLoading(false);
         await Promise.all([loadRegistrations(), loadEvents()]);
+        setRegistrationLoading(false);
       }
     }
   }

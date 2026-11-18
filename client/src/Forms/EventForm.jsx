@@ -5,12 +5,15 @@ import shared from "../styles/shared.module.css";
 import { postEvent } from "../api/eventsAPI";
 import { useEvents } from "../store/eventsStore";
 import { useModal } from "../store/pageStore";
+import { useNotification } from "../store/notificationStore";
 
 function EventForm() {
   const { events, loadEvents } = useEvents();
   const closeModal = useModal((state) => state.closeModal);
   const [isLoading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+
+  const setNotification = useNotification((state) => state.setNotification);
+  const showNotification = useNotification((state) => state.showNotification);
 
   const titleRef = useRef("");
   const descriptionRef = useRef("");
@@ -61,18 +64,24 @@ function EventForm() {
     }
 
     if (isExisting) {
-      alert("Мероприятие с таким именем уже существует.");
+      setNotification("Мероприятие с таким именем уже существует", "warning");
+      showNotification();
       titleRef.current.focus();
       return;
     }
 
     if (isPast) {
-      alert("Указанная дата уже прошла. Пожалуйста, выберите другую дату.");
+      setNotification(
+        "Указанная дата уже прошла. Пожалуйста, выберите другую дату",
+        "warning",
+      );
+      showNotification();
       return;
     }
 
     if (isNull) {
-      alert("Количество участников должно быть больше 0.");
+      setNotification("Количество участников должно быть больше 0", "warning");
+      showNotification();
       capacityRef.current.focus();
       return;
     }
@@ -80,7 +89,6 @@ function EventForm() {
     setLoading(true);
     try {
       await postEvent(event);
-      setError(null);
       localStorage.removeItem("FORM_DRAFT_KEY");
       setEvent({
         title: "",
@@ -92,12 +100,14 @@ function EventForm() {
       });
       closeModal();
     } catch (e) {
-      setError(
-        "Не удалось создать мероприятие. Пожалуйста, повторите попытку.",
+      setNotification(
+        "Не удалось создать мероприятие. Пожалуйста, повторите попытку",
+        "error",
       );
+      showNotification();
     } finally {
-      setLoading(false);
       await loadEvents();
+      setLoading(false);
     }
   }
 
@@ -214,12 +224,6 @@ function EventForm() {
       <Button type={"submit"} disabled={isLoading}>
         {isLoading ? "Отправка..." : "Отправить"}
       </Button>
-      {error ? (
-        <p className={shared.warning}>
-          <img src="./src/assets/icons/icon-warning.svg" />
-          {error}
-        </p>
-      ) : null}
     </form>
   );
 }

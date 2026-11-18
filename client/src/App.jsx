@@ -15,7 +15,6 @@ function App() {
   const notificationText = useNotification((state) => state.text);
   const notificationType = useNotification((state) => state.type);
   const notificationActive = useNotification((state) => state.active);
-  const notificationIcon = useNotification((state) => state.icon);
 
   return (
     <>

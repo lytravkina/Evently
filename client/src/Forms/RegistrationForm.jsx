@@ -6,6 +6,7 @@ import { updateEvent } from "../api/eventsAPI";
 import { useEvents } from "../store/eventsStore";
 import { useRegistrations } from "../store/registrationsStore";
 import { useModal } from "../store/pageStore";
+import { useNotification } from "../store/notificationStore";
 import shared from "../styles/shared.module.css";
 
 function RegistrationForm({ eventId }) {
@@ -14,7 +15,9 @@ function RegistrationForm({ eventId }) {
   const { events, loadEvents } = useEvents();
 
   const [isLoading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+
+  const setNotification = useNotification((state) => state.setNotification);
+  const showNotification = useNotification((state) => state.showNotification);
 
   const nameRef = useRef("");
   const emailRef = useRef("");
@@ -49,21 +52,26 @@ function RegistrationForm({ eventId }) {
     }
 
     if (isRegistered) {
-      alert("Вы уже записаны на данное мероприятие.");
+      setNotification("Вы уже записаны на данное мероприятие", "warning");
+      showNotification();
       return;
     }
 
     if (isFull) {
-      alert(
-        "Лимит участников достигнут. Пожалуйста, выберите другое мероприятие.",
+      setNotification(
+        "Лимит участников достигнут. Пожалуйста, выберите другое мероприятие",
+        "warning",
       );
+      showNotification();
       return;
     }
 
     if (isPast) {
-      alert(
-        "Данное мероприятие уже закончилось. Пожалуйста, выберите другое мероприятие.",
+      setNotification(
+        "Данное мероприятие уже закончилось. Пожалуйста, выберите другое мероприятие",
+        "warning",
       );
+      showNotification();
       return;
     }
 
@@ -75,10 +83,13 @@ function RegistrationForm({ eventId }) {
         ...eventToUpdate,
         capacity: eventToUpdate.capacity - 1,
       });
-      setError(null);
       closeModal();
     } catch {
-      setError("Возникла непредвиденная ошибка. Пожалуйста, повторите попытку");
+      setNotification(
+        "Возникла непредвиденная ошибка. Пожалуйста, повторите попытку",
+        "error",
+      );
+      showNotification();
     } finally {
       setLoading(false);
       await Promise.all([loadEvents(), loadRegistrations()]);
@@ -137,12 +148,6 @@ function RegistrationForm({ eventId }) {
       <Button type={"submit"} disabled={isLoading}>
         {isLoading ? "Отправка..." : "Отправить"}
       </Button>
-      {error ? (
-        <p className={shared.warning}>
-          <img src="./src/assets/icons/icon-warning.svg" />
-          {error}
-        </p>
-      ) : null}
     </form>
   );
 }

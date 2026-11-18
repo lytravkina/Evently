@@ -1,6 +1,7 @@
 import shared from "../styles/shared.module.css";
 import style from "../Card/card.module.css";
 import { useEffect, useState } from "react";
+import { useNotification } from "../store/notificationStore";
 import Button from "../Button/Button";
 import CardInput from "../Inputs/CardInput";
 import { updateEvent } from "../api/eventsAPI";
@@ -27,7 +28,9 @@ function EditForm({ id, props }) {
     capacity,
   });
   const [isLoading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+
+  const setNotification = useNotification((state) => state.setNotification);
+  const showNotification = useNotification((state) => state.showNotification);
 
   const { events, loadEvents } = useEvents();
 
@@ -54,29 +57,36 @@ function EditForm({ id, props }) {
     completeEmptyInputs();
 
     if (isExisting) {
-      alert("Мероприятие с таким именем уже существует.");
+      setNotification("Мероприятие с таким именем уже существует", "warning");
+      showNotification();
       return;
     }
 
     if (isPast) {
-      alert("Указанная дата уже прошла. Пожалуйста, выберите другую дату.");
+      setNotification(
+        "Указанная дата уже прошла. Пожалуйста, выберите другую дату",
+        "warning",
+      );
+      showNotification();
       return;
     }
 
     if (isNull) {
-      alert("Количество участников должно быть больше 0.");
+      setNotification("Количество участников должно быть больше 0", "warning");
+      showNotification();
       return;
     }
 
     setLoading(true);
     try {
       await updateEvent(updatedEvent);
-      setError(null);
       onQuit();
     } catch {
-      setError(
-        "Произошла непредвиденная ошибка. Пожалуйста, повторите попытку.",
+      setNotification(
+        "Произошла непредвиденная ошибка. Пожалуйста, повторите попытку",
+        "error",
       );
+      showNotification();
     } finally {
       setLoading(false);
       await loadEvents();
@@ -192,12 +202,6 @@ function EditForm({ id, props }) {
         >
           {isLoading ? "Отправка..." : "Завершить редактирование"}
         </Button>
-        {error && (
-          <p className={shared.warning}>
-            <img aria-hidden="true" src="./src/assets/icons/icon-warning.svg" />
-            {error}
-          </p>
-        )}
       </div>
     </form>
   );

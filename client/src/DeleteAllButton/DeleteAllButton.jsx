@@ -3,18 +3,20 @@ import { useEvents } from "../store/eventsStore";
 import { useRegistrations } from "../store/registrationsStore";
 import { deleteEvent, updateEvent } from "../api/eventsAPI";
 import { deleteRegistration } from "../api/registrationsAPI";
+import { useNotification } from "../store/notificationStore";
 
 export function DeleteAllButton({
   currentEvents,
   className,
   setEventsLoading,
   setRegistrationsLoading,
-  setEventsError,
-  setRegistrationsError,
 }) {
   const activeTab = useTab((state) => state.activeTab);
   const { events, loadEvents } = useEvents();
   const { registrations, loadRegistrations } = useRegistrations();
+
+  const setNotification = useNotification((state) => state.setNotification);
+  const showNotification = useNotification((state) => state.showNotification);
 
   async function deleteAllEvents() {
     const confirmed = confirm(
@@ -24,10 +26,14 @@ export function DeleteAllButton({
       setEventsLoading(true);
       try {
         await Promise.all(events.map((event) => deleteEvent(event.id)));
-        await loadEvents();
       } catch (e) {
-        setEventsError(e.message);
+        setNotification(
+          "Произошла ошибка при удалении мероприятий. Пожалуйста, повторите попытку",
+          "error",
+        );
+        showNotification();
       } finally {
+        await loadEvents();
         setEventsLoading(false);
       }
     }
@@ -48,10 +54,14 @@ export function DeleteAllButton({
             updateEvent({ ...event, capacity: event.capacity + 1 }),
           ),
         );
-        await Promise.all([loadRegistrations(), loadEvents()]);
       } catch (e) {
-        setRegistrationsError(e.message);
+        setNotification(
+          "Произошла ошибка при отмене записей. Пожалуйста, повторите попытку",
+          "error",
+        );
+        showNotification();
       } finally {
+        await Promise.all([loadRegistrations(), loadEvents()]);
         setRegistrationsLoading(false);
       }
     }

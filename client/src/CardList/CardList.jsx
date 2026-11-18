@@ -100,8 +100,6 @@ function CardList({ events, activeTab, checked, onCheck }) {
             className={style.buttonDeleteAll}
             setEventsLoading={setEventsLoading}
             setRegistrationsLoading={setRegistrationsLoading}
-            setEventsError={setEventsError}
-            setRegistrationsError={setRegistrationsError}
           />
         </div>
       )}
