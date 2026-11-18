@@ -17,7 +17,7 @@ function Modal({ cardId, onClose }) {
     }
 
     const formDraft = JSON.parse(localStorage.getItem("FORM_DRAFT_KEY"));
-    if (Object.keys(formDraft).length > 0 && !cardId) {
+    if (formDraft && !cardId) {
       setNotification("Черновик мероприятия сохранен", "success");
       showNotification();
     }

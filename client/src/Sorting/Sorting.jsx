@@ -4,43 +4,66 @@ import shared from "../styles/shared.module.css";
 import Button from "../Button/Button";
 
 function Sorting({ checked, onCheck }) {
+  const [animation, setAnimation] = useState(true);
   const [dialogShown, setDialog] = useState(false);
-  const dialogRef = useRef("");
 
-  function handleDialog(e) {
+  function openDialog() {
+    if (!dialogShown) {
+      setDialog(true);
+      setAnimation(true);
+    }
+  }
+
+  function hideDialog(e) {
     if (e.target !== e.currentTarget) {
       return;
     }
 
-    setTimeout(() => {
-      setDialog(!dialogShown);
-    }, 300);
-
-    if (dialogShown) {
-      dialogRef.current.animate(
-        [{ transform: "translateY(0)" }, { transform: "translateY(100%)" }],
-        350,
-      );
-    }
+    setAnimation(false);
   }
+
+  // function handleDialog(e) {
+  //   if (e.target !== e.currentTarget) {
+  //     return;
+  //   }
+
+  //   setTimeout(() => {
+  //     setDialog(!dialogShown);
+  //   }, 300);
+
+  //   if (dialogShown) {
+  //     dialogRef.current.animate(
+  //       [{ transform: "translateY(0)" }, { transform: "translateY(100%)" }],
+  //       350,
+  //     );
+  //   }
+  // }
 
   return (
     <>
       <button
         className={style.iconButton}
-        onClick={handleDialog}
+        onClick={openDialog}
         aria-label="Сортировать список"
       >
         <img
           src="./src/assets/icons/sort-button.svg"
-          onClick={handleDialog}
+          onClick={openDialog}
           aria-hidden="true"
         />
       </button>
 
       {dialogShown && (
-        <div className={style.outerContainer} onClick={handleDialog}>
-          <div className={style.sidebar} ref={dialogRef}>
+        <div className={style.outerContainer} onClick={hideDialog}>
+          <div
+            className={style.sidebar}
+            data-animation={animation ? "show" : "hide"}
+            onAnimationEnd={() => {
+              if (!animation) {
+                setDialog(false);
+              }
+            }}
+          >
             <p>Сортировать по:</p>
             <div className={style.form}>
               <label>
@@ -98,7 +121,7 @@ function Sorting({ checked, onCheck }) {
                 Меньше свободных мест
               </label>
             </div>
-            <Button type="button" onClick={handleDialog}>
+            <Button type="button" onClick={hideDialog}>
               Показать мероприятия
             </Button>
             <Button

@@ -28,6 +28,16 @@
     }
 }
 
+@keyframes hideDown {
+    0% {
+        transform: translateY(0);
+    }
+
+    100% {
+        transform: translateY(100%);
+    }
+}
+
 .outerContainer {
     display: block;
     position: fixed;
@@ -52,8 +62,6 @@
     background-color: var(--background-color);
     box-shadow: 10px -10px 20px 0px rgba(34, 60, 80, 0.3);
     z-index: 1;
-    animation: showUp;
-    animation-duration: .4s;
 
     button {
         margin: 0;
@@ -61,6 +69,16 @@
 
     p {
         color: var(--title-color);
+    }
+
+    &[data-animation="show"] {
+        animation: showUp;
+        animation-duration: .4s;
+    }
+
+    &[data-animation="hide"] {
+        animation: hideDown;
+        animation-duration: .4s;
     }
 }
 
