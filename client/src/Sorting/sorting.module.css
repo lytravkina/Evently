@@ -74,11 +74,13 @@
     &[data-animation="show"] {
         animation: showUp;
         animation-duration: .4s;
+        animation-fill-mode: forwards;
     }
 
     &[data-animation="hide"] {
         animation: hideDown;
         animation-duration: .4s;
+        animation-fill-mode: forwards;
     }
 }
 

@@ -15,13 +15,21 @@ function App() {
   const notificationText = useNotification((state) => state.text);
   const notificationType = useNotification((state) => state.type);
   const notificationActive = useNotification((state) => state.active);
+  const notificationAnimation = useNotification((state) => state.animation);
+  const hideNotification = useNotification((state) => state.hideNotification);
 
   return (
     <>
       {notificationActive && (
         <Notification
           type={notificationType}
+          animation={notificationAnimation ? "show" : "hide"}
           src={`./src/assets/icons/icon-${notificationType}.svg`}
+          onAnimationEnd={(e) => {
+            if (!notificationAnimation) {
+              hideNotification();
+            }
+          }}
         >
           {notificationText}
         </Notification>

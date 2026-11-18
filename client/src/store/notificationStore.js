@@ -7,6 +7,7 @@ export const useNotification = create((set) => {
         text: "",
         type: "",
         active: false,
+        animation: true,
 
         setNotification: (string, type) => {
             set({ text: string, type: type })
@@ -14,9 +15,10 @@ export const useNotification = create((set) => {
         showNotification: () => {
             clearTimeout(timerId)
 
-            set({ active: true })
+            set({ active: true, animation: true })
 
-            timerId = setTimeout(() => set({ active: false }), 3000)
-        }
+            timerId = setTimeout(() => set({ animation: false }), 3000)
+        },
+        hideNotification: () => set({ active: false })
     })
 })
